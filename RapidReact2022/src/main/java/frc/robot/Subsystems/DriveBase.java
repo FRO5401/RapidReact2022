@@ -1,21 +1,24 @@
 package frc.robot.Subsystems;
 
-import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import frc.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.I2C;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+
 
 /**
  * Add your docs here.
@@ -33,8 +36,8 @@ public class DriveBase extends SubsystemBase {
   private WPI_VictorSPX rightDrive3 = new WPI_VictorSPX(RobotMap.DRIVE_MOTOR_RIGHT_3);
 
   // Configuring Drives
-  private SpeedControllerGroup leftDrives = new SpeedControllerGroup(leftDrive1, leftDrive2, leftDrive3);
-  private SpeedControllerGroup rightDrives = new SpeedControllerGroup(rightDrive1, rightDrive2, rightDrive3);
+  private MotorControllerGroup leftDrives = new MotorControllerGroup(leftDrive1, leftDrive2, leftDrive3);
+  private MotorControllerGroup rightDrives = new MotorControllerGroup(rightDrive1, rightDrive2, rightDrive3);
   private DifferentialDrive ourDrive = new DifferentialDrive(leftDrives, rightDrives);
   private DifferentialDriveOdometry odometry;
 
@@ -47,8 +50,8 @@ public class DriveBase extends SubsystemBase {
 
   private int iaccum = 0;
 
-  // Solenoids
-  private Solenoid gearShifter = new Solenoid(RobotMap.GEAR_SHIFTER);
+  // Solenoids Subject to change PneumaticsModuleType
+  private Solenoid gearShifter = new Solenoid(PneumaticsModuleType.REVPH, RobotMap.GEAR_SHIFTER);
 
   // Sensors
   private Encoder leftEncoder = new Encoder(RobotMap.DRIVE_ENC_LEFT_A, RobotMap.DRIVE_ENC_LEFT_B, true, EncodingType.k4X);
