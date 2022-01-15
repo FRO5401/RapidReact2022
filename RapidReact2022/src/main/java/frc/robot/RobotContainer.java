@@ -9,10 +9,12 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import frc.robot.Autonomous.SetTrajectoryPath;
+import frc.robot.Autonomous.*;
 import frc.robot.Commands.XboxMove;
 import frc.robot.Subsystems.CompressorSubsystem;
 import frc.robot.Subsystems.DriveBase;
@@ -24,6 +26,7 @@ import java.util.List;
 
 public class RobotContainer {
     
+    private final SendableChooser<Command> chooser = new SendableChooser<Command>();
     // The robot's subsystems
     private final DriveBase drivebase = new DriveBase();
     private final Controls controls = new Controls();
@@ -32,7 +35,10 @@ public class RobotContainer {
 
     public RobotContainer() {
         configureButtonBindings();
-
+        chooser.setDefaultOption("Do Nothing", new DoNothing());
+        chooser.addOption("Drive Straight", new DriveStraight());
+        chooser.addOption("Trajectory Test", new SetTrajectoryPath(drivebase, "paths/DriveStraight.wpilib.json")); //REPLACE LATER
+        SmartDashboard.putData("Auto choices", chooser);
         drivebase.setDefaultCommand(new XboxMove(drivebase, controls));
     }
 
@@ -74,7 +80,7 @@ public class RobotContainer {
   
 
     // Run path following command, then stop at the end.
-    return new SetTrajectoryPath(drivebase, "paths/DriveStraight.wpilib.json");
+    return chooser.getSelected();
     }
 
 }

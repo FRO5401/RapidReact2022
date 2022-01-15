@@ -5,15 +5,11 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.Autonomous.DriveStraight;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class Robot extends TimedRobot {
   private Command autoSelected;
-  private final SendableChooser<Command> chooser = new SendableChooser<>();
   private RobotContainer robotContainer;
 
   /**
@@ -22,9 +18,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    chooser.setDefaultOption("Default Auto", new DriveStraight());
-    chooser.addOption("Trajectory Test", new DriveStraight()); //REPLACE LATER
-    SmartDashboard.putData("Auto choices", chooser);
     
     robotContainer = new RobotContainer();
   }
@@ -45,7 +38,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    autoSelected = chooser.getSelected();
+    autoSelected = robotContainer.getAutonomousCommand();
 
     if(autoSelected != null) {
       autoSelected.schedule();

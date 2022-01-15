@@ -1,15 +1,14 @@
 package frc.robot.Autonomous;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Subsystems.DriveBase;
 
-public class DriveStraight extends SequentialCommandGroup {
+public class DoNothing extends SequentialCommandGroup {
   /**
    * Add your docs here.
    */
-  public DriveStraight() {
-    new AutoDrive(200, 0.7, new DriveBase());
+  public DoNothing() {
+    new AutoDrive(0, 0.0, new DriveBase());
 //    addSequential(new AutoDrive(60, 0.6));
     // Add Commands here:
     // e.g. addSequential(new Command1());

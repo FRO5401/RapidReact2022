@@ -112,10 +112,20 @@ public class DriveBase extends SubsystemBase {
     ourDrive.tankDrive(left, right);
   }
 
+  public void autoTurn(double speed, double angle) {
+    double gyroAngle = getGyroAngle();
+    if (gyroAngle > (angle+2))
+      ourDrive.tankDrive(-speed, speed);
+    else if (gyroAngle < (angle-2))
+      ourDrive.tankDrive(speed, -speed);
+    else 
+      ourDrive.tankDrive(0, 0);
+  }
+
    // Sets victors to desired speed giving from XboxMove.
    public void autoDrive(double left, double right, double angle) {
     if (left > 0 && right > 0){ //driving forwards
-      if (angle > 0){ //drifting right
+      if (angle > 0){ //drifting right TODO: turn autospeed adjustment and the additional adjustment into 1
         ourDrive.tankDrive(left, right * RobotMap.AUTO_SPEED_ADJUSTMENT * 1.08);
       }
       else if (angle < 0){ //drifting left
@@ -193,6 +203,10 @@ public class DriveBase extends SubsystemBase {
   // Gets Gyro Angle
   public double getGyroAngle() {
     return navxGyro.getAngle();
+  }
+
+  public void resetGyroAngle() {
+    navxGyro.reset();
   }
 
   // For autonomous driving
