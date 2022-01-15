@@ -1,15 +1,17 @@
 package frc.robot.Autonomous;
 
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.Timer;
-import frc.robot.Robot;
+import frc.robot.RobotContainer;
+import frc.robot.Subsystems.DriveBase;
+import frc.robot.Subsystems.NetworkTables;
 
 /**
  * This command is also used as a "BaselineOnly" command
  */
 
-public class AutoBallInfeed extends Command {
+public class AutoBallInfeed extends CommandBase {
 
     private double desiredDistance;
     private double currentAngle;
@@ -18,19 +20,21 @@ public class AutoBallInfeed extends Command {
 	private double distanceTraveled;
 	private double radius;
 	private double ballLocation;
+	private DriveBase drivebase;
+	private NetworkTables networktables;
     
     private double startTime;
     private double currentTime;
     
     private boolean isCentered;
 
-	public AutoBallInfeed(double SpeedInput) {
+	public AutoBallInfeed(double SpeedInput, DriveBase passedDrivebase, NetworkTables passedNetworkTables) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
-		// requires(Robot.drivebase);
+		// requires(drivebase);
 
 		/*try {
-			desiredDistance = Robot.networktables.getBallDistance();
+			desiredDistance = networktables.getBallDistance();
 		}
 		catch (NullPointerException e)
 		{
@@ -39,20 +43,23 @@ public class AutoBallInfeed extends Command {
 
 		autoDriveSpeed = SpeedInput;
 		distanceTraveled = 0;
+		drivebase = passedDrivebase;
+		networktables = passedNetworkTables;
 	}
 
 	// Called just before this Command runs the first time
 	@Override
-	protected void initialize() {
+	public void initialize() {
 
 		startTime = Timer.getMatchTime();
 		
-		Robot.networktables.resetValues();
-		Robot.drivebase.resetSensors();
-		Robot.drivebase.setDPPHighGear();
-		Robot.drivebase.setDPPLowGear();
+		networktables.resetValues();
+		drivebase.resetEncoders();
+		drivebase.resetGyroAngle();
+		drivebase.setDPPHighGear();
+		drivebase.setDPPLowGear();
 
-		ballLocation = Robot.networktables.getBXValue();
+		ballLocation = networktables.getBXValue();
 
 		doneTraveling = false;
 		isCentered = false;
@@ -61,18 +68,18 @@ public class AutoBallInfeed extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	@Override
-	protected void execute() {
+	public void execute() {
 		currentTime = Timer.getMatchTime();
 		double timeElapsed = startTime - currentTime;
         SmartDashboard.putNumber("Time elapsed", timeElapsed);
 
-		radius = Robot.networktables.getBallRadius();
+		radius = networktables.getBallRadius();
 
 		if(isCentered == false){
-			isCentered = Robot.networktables.checkCentered();
-			currentAngle = Robot.networktables.getBXValue();
+			isCentered = networktables.checkCentered();
+			currentAngle = networktables.getBXValue();
 			try {
-				desiredDistance = Robot.networktables.getBallDistance();
+				desiredDistance = networktables.getBallDistance();
 			}
 			catch (NullPointerException e) {
 				desiredDistance = 0;
@@ -82,40 +89,40 @@ public class AutoBallInfeed extends Command {
 		if(radius == 0){ //If no ball is recognized, scan area
 			isCentered = false;
 			if(timeElapsed >= 3){//If no ball has been found after 3 seconds, go back to original angle and stop
-				if(Robot.drivebase.navxGyro.getAngle() > (Robot.drivebase.navxGyro.getAngle() % 366)){
-					Robot.drivebase.drive(-1 * autoDriveSpeed, autoDriveSpeed);
+				if(drivebase.getGyroAngle() > (drivebase.getGyroAngle() % 366)){
+					drivebase.drive(-1 * autoDriveSpeed, autoDriveSpeed);
 				}
-				else if(Robot.drivebase.navxGyro.getAngle() < (Robot.drivebase.navxGyro.getAngle() % 366)){
-					Robot.drivebase.drive(autoDriveSpeed, -1 * autoDriveSpeed);
+				else if(drivebase.getGyroAngle() < (drivebase.getGyroAngle() % 366)){
+					drivebase.drive(autoDriveSpeed, -1 * autoDriveSpeed);
 				}
 				else{
-					Robot.drivebase.stopMotors();
+					drivebase.drive(0,0);
 					doneTraveling = true;
-					Robot.drivebase.navxGyro.reset();
+					drivebase.resetGyroAngle();
 				}	
 			}
 			else if((timeElapsed) < 3){
-				Robot.drivebase.drive(0.2, (-1 * 0.2));
+				drivebase.drive(0.2, (-1 * 0.2));
 			}
 		}
-		else if(Robot.networktables.radius > 0){ //If ball is recognized drive towards it and infeed
+		else if(networktables.radius > 0){ //If ball is recognized drive towards it and infeed
 		    if(isCentered == true) { //Once recognized ball is straight ahead, drive towards it based off of received distance
-				//Robot.infeed.startMotors();
+				//infeed.startMotors();
 
 				if(radius < 200){
-					Robot.drivebase.autoDrive(autoDriveSpeed, autoDriveSpeed, Robot.drivebase.navxGyro.getAngle());
+					drivebase.autoDrive(autoDriveSpeed, autoDriveSpeed, drivebase.getGyroAngle());
 				}
 				else{
-		    	    Robot.drivebase.stopMotors();
+		    	    drivebase.drive(0,0);
 					doneTraveling = true;
 				}
             }
     	    else { //Turn until the ball that is recognized is straight ahead
 			    if(currentAngle < ballLocation){
-				    Robot.drivebase.drive(autoDriveSpeed, (-1 * autoDriveSpeed));
+				    drivebase.drive(autoDriveSpeed, (-1 * autoDriveSpeed));
 			    }
         	    else if(currentAngle > ballLocation){
-				    Robot.drivebase.drive((-1 * autoDriveSpeed), autoDriveSpeed);
+				    drivebase.drive((-1 * autoDriveSpeed), autoDriveSpeed);
 			    }
             }
         }
@@ -123,24 +130,19 @@ public class AutoBallInfeed extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
-	protected boolean isFinished() {
+	public boolean isFinished() {
 		System.out.print("Should be finished");
 		return doneTraveling;
 	}
 
 	// Called once after isFinished returns true
 	@Override
-	protected void end() {
-		Robot.drivebase.stopMotors();
+	public void end(boolean interrupted) {
+		drivebase.drive(0,0);
 		// System.out.println("Angle when EXITING DriveShift:" +
-		// Robot.drivebase.getGyroAngle());
+		// drivebase.getGyroAngle());
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
-	@Override
-	protected void interrupted() {
-		Robot.drivebase.stopMotors();
-	}
-
 }

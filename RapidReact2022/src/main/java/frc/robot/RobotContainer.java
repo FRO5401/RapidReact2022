@@ -18,7 +18,7 @@ import frc.robot.Autonomous.*;
 import frc.robot.Commands.XboxMove;
 import frc.robot.Subsystems.CompressorSubsystem;
 import frc.robot.Subsystems.DriveBase;
-
+import frc.robot.Subsystems.NetworkTables;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -29,6 +29,7 @@ public class RobotContainer {
     private final SendableChooser<Command> chooser = new SendableChooser<Command>();
     // The robot's subsystems
     private final DriveBase drivebase = new DriveBase();
+    private final NetworkTables networktables = new NetworkTables();
     private final Controls controls = new Controls();
     private final CompressorSubsystem compressor = new CompressorSubsystem();
 

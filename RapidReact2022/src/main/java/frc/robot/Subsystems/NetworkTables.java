@@ -1,7 +1,7 @@
 package frc.robot.Subsystems;
 
-import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -9,7 +9,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 /**
  * An example subsystem. You can replace me with your own Subsystem.
  */
-public class NetworkTables extends Subsystem {
+public class NetworkTables extends SubsystemBase {
   
   NetworkTable ballTable;
   NetworkTableInstance inst;
@@ -17,10 +17,6 @@ public class NetworkTables extends Subsystem {
   private static double ballX, ballY, ballDistance;
   public double radius;
 
-  @Override
-  public void initDefaultCommand() {
-  
-  }
 
   public NetworkTables() {
     ballX = 0;

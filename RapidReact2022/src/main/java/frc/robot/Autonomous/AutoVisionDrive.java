@@ -1,14 +1,16 @@
 
 package frc.robot.Autonomous;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
+import frc.robot.Subsystems.DriveBase;
+import frc.robot.Subsystems.NetworkTables;
 
 /**
  * This command is also used as a "BaselineOnly" command
  */
 
-public class AutoVisionDrive extends Command {
+public class AutoVisionDrive extends CommandBase {
 
     //private int ballCount;
 	private double angle;
@@ -16,12 +18,16 @@ public class AutoVisionDrive extends Command {
 	private double autoDriveSpeed;
 	private boolean doneTraveling;
 	private double distanceTraveled;
+	private DriveBase drivebase;
+	private NetworkTables networktables;
 
-	public AutoVisionDrive(double SpeedInput) {
+	public AutoVisionDrive(double SpeedInput, DriveBase passedDriveBase, NetworkTables passedNetworkTables) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		// requires(Robot.drivebase);
 
+		drivebase = passedDriveBase;
+		networktables = passedNetworkTables;
 		autoDriveSpeed = SpeedInput;
 		doneTraveling = true;
         distanceTraveled = 0;
@@ -30,11 +36,12 @@ public class AutoVisionDrive extends Command {
 
 	// Called just before this Command runs the first time
 	@Override
-	protected void initialize() {
+	public void initialize() {
 
-		Robot.drivebase.resetSensors();
-		Robot.drivebase.setDPPHighGear();
-		Robot.drivebase.setDPPLowGear();
+		drivebase.resetEncoders();
+		drivebase.resetGyroAngle();
+		drivebase.setDPPHighGear();
+		drivebase.setDPPLowGear();
 
 		doneTraveling = false;
 		distanceTraveled = 0;
@@ -43,19 +50,19 @@ public class AutoVisionDrive extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	@Override
-	protected void execute() {
+	public void execute() {
         //Robot.infeed.runMotors();
-        desiredDistance = (Robot.networktables.getBallDistance() - 5);
+        desiredDistance = (networktables.getBallDistance() - 5);
 
 		if ((distanceTraveled) <= (desiredDistance)) {
-			Robot.drivebase.autoDrive(autoDriveSpeed, autoDriveSpeed, angle);
+			drivebase.autoDrive(autoDriveSpeed, autoDriveSpeed, angle);
 			doneTraveling = false;
 		} else if (distanceTraveled >= (desiredDistance)) {
-            Robot.drivebase.autoDrive(autoDriveSpeed, autoDriveSpeed, angle);
+            drivebase.autoDrive(autoDriveSpeed, autoDriveSpeed, angle);
             doneTraveling = false;
 		} else {
             //if(Robot.drummag.getBallCount() > ballCount){
-			    Robot.drivebase.stopMotors();
+			    drivebase.drive(0,0);
                 doneTraveling = true;
             //}
 		}
@@ -63,21 +70,14 @@ public class AutoVisionDrive extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
-	protected boolean isFinished() {
+	public boolean isFinished() {
 		return doneTraveling;
 	}
 
 	// Called once after isFinished returns true
 	@Override
-	protected void end() {
-		Robot.drivebase.stopMotors();
-	}
-
-	// Called when another command which requires one or more of the same
-	// subsystems is scheduled to run
-	@Override
-	protected void interrupted() {
-		Robot.drivebase.stopMotors();
+	public void end(boolean interrupted) {
+		drivebase.drive(0,0);
 	}
 
 }

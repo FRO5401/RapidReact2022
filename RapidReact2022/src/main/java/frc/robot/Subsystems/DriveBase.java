@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
@@ -34,6 +35,8 @@ public class DriveBase extends SubsystemBase {
   private WPI_TalonSRX rightDrive1 = new WPI_TalonSRX(RobotMap.DRIVE_MOTOR_RIGHT_1);
   private WPI_VictorSPX rightDrive2 = new WPI_VictorSPX(RobotMap.DRIVE_MOTOR_RIGHT_2);
   private WPI_VictorSPX rightDrive3 = new WPI_VictorSPX(RobotMap.DRIVE_MOTOR_RIGHT_3);
+
+
 
   // Configuring Drives
   private MotorControllerGroup leftDrives = new MotorControllerGroup(leftDrive1, leftDrive2, leftDrive3);
@@ -82,10 +85,22 @@ public class DriveBase extends SubsystemBase {
     setDPPLowGear();
   }
 
+  /** Shifts from high gear to low gear */
+  public void shiftLowtoHigh() {
+    gearShifter.set(false);
+    setDPPHighGear();
+  }
+
+
   /**Sets the DPP to Low Gear */
   public void setDPPLowGear() {
     leftEncoder.setDistancePerPulse(RobotMap.LOW_GEAR_LEFT_DPP);
     rightEncoder.setDistancePerPulse(RobotMap.LOW_GEAR_RIGHT_DPP);
+  }
+  /**Sets the DPP to Low Gear */
+  public void setDPPHighGear() {
+    leftEncoder.setDistancePerPulse(RobotMap.HIGH_GEAR_LEFT_DPP);
+    rightEncoder.setDistancePerPulse(RobotMap.HIGH_GEAR_RIGHT_DPP);
   }
 
   /**@return the Pose2D */
@@ -121,6 +136,7 @@ public class DriveBase extends SubsystemBase {
     else 
       ourDrive.tankDrive(0, 0);
   }
+  
 
    // Sets victors to desired speed giving from XboxMove.
    public void autoDrive(double left, double right, double angle) {
