@@ -47,14 +47,9 @@ public class RobotMap {
   public static final int XBOX_AXIS_RIGHT_Y = 5;
 
   /*** Motors ***/
-  // DriveBase
-  public static final int DRIVE_MOTOR_RIGHT_1 = 7;
-  public static final int DRIVE_MOTOR_RIGHT_2 = 9;
-  public static final int DRIVE_MOTOR_RIGHT_3 = 11;
-
-  public static final int DRIVE_MOTOR_LEFT_1 = 1;
-  public static final int DRIVE_MOTOR_LEFT_2 = 3;
-  public static final int DRIVE_MOTOR_LEFT_3 = 5;
+  public static final int SMART_MOTOR = 0;
+  public static final int REGULAR_MOTOR_1 = 1;
+  public static final int REGULAR_MOTOR_2 = 2;
 
 
   /*** Solenoids (Single and Double) ***/
@@ -62,9 +57,11 @@ public class RobotMap {
   // Solenoids have just one constant.
   // PCM (Pneumatic Control Module)
   public static final int PCM_ID = 0;
+  public static final int DOUBLE_SOLENOID_1_PORT_1 = 1;
+  public static final int DOUBLE_SOLENOID_1_PORT_2 = 2;
+  public static final int SOLENOID_1 = 3;
+  public static final int SOLENOID_2 = 4; 
 
-  // DriveBase
-  public static final int GEAR_SHIFTER = 0;
 
   /*** Sensors ***/
   // Encoders
