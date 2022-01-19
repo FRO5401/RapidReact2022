@@ -31,14 +31,14 @@ public class RobotContainer {
     private final DriveBase drivebase = new DriveBase();
     private final NetworkTables networktables = new NetworkTables();
     private final Controls controls = new Controls();
-    private final CompressorSubsystem compressor = new CompressorSubsystem();
+    //private final CompressorSubsystem compressor = new CompressorSubsystem();
 
 
     public RobotContainer() {
         configureButtonBindings();
         chooser.setDefaultOption("Do Nothing", new DoNothing());
         chooser.addOption("Drive Straight", new DriveStraight());
-        chooser.addOption("Trajectory Test", new SetTrajectoryPath(drivebase, "paths/DriveStraight.wpilib.json")); //REPLACE LATER
+        //chooser.addOption("Trajectory Test", new SetTrajectoryPath(drivebase, "paths/DriveStraight.wpilib.json")); //REPLACE LATER
         SmartDashboard.putData("Auto choices", chooser);
         drivebase.setDefaultCommand(new XboxMove(drivebase, controls));
     }

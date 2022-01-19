@@ -28,20 +28,20 @@ public class DriveBase extends SubsystemBase {
   private AHRS navxGyro = new AHRS(I2C.Port.kMXP);
 
   // Configuring Motors
-  private WPI_TalonSRX leftDrive1 = new WPI_TalonSRX(RobotMap.DRIVE_MOTOR_LEFT_1);
-  private WPI_VictorSPX leftDrive2 = new WPI_VictorSPX(RobotMap.DRIVE_MOTOR_LEFT_2);
-  private WPI_VictorSPX leftDrive3 = new WPI_VictorSPX(RobotMap.DRIVE_MOTOR_LEFT_3);
+  private WPI_TalonSRX leftDrive1;
+  private WPI_VictorSPX leftDrive2;
+  private WPI_VictorSPX leftDrive3;
 
-  private WPI_TalonSRX rightDrive1 = new WPI_TalonSRX(RobotMap.DRIVE_MOTOR_RIGHT_1);
-  private WPI_VictorSPX rightDrive2 = new WPI_VictorSPX(RobotMap.DRIVE_MOTOR_RIGHT_2);
-  private WPI_VictorSPX rightDrive3 = new WPI_VictorSPX(RobotMap.DRIVE_MOTOR_RIGHT_3);
+  private WPI_TalonSRX rightDrive1;
+  private WPI_VictorSPX rightDrive2;
+  private WPI_VictorSPX rightDrive3;
 
 
 
   // Configuring Drives
-  private MotorControllerGroup leftDrives = new MotorControllerGroup(leftDrive1, leftDrive2, leftDrive3);
-  private MotorControllerGroup rightDrives = new MotorControllerGroup(rightDrive1, rightDrive2, rightDrive3);
-  private DifferentialDrive ourDrive = new DifferentialDrive(leftDrives, rightDrives);
+  private MotorControllerGroup leftDrives;
+  private MotorControllerGroup rightDrives;
+  private DifferentialDrive ourDrive;
   private DifferentialDriveOdometry odometry;
 
   //PID stuff
@@ -54,20 +54,34 @@ public class DriveBase extends SubsystemBase {
   private int iaccum = 0;
 
   // Solenoids Subject to change PneumaticsModuleType
-  private Solenoid gearShifter = new Solenoid(PneumaticsModuleType.REVPH, RobotMap.GEAR_SHIFTER);
+  private Solenoid gearShifter;
 
   // Sensors
-  private Encoder leftEncoder = new Encoder(RobotMap.DRIVE_ENC_LEFT_A, RobotMap.DRIVE_ENC_LEFT_B, true, EncodingType.k4X);
-  private Encoder rightEncoder = new Encoder(RobotMap.DRIVE_ENC_RIGHT_A, RobotMap.DRIVE_ENC_RIGHT_B, false, EncodingType.k4X);
+  private Encoder leftEncoder;
+  private Encoder rightEncoder;
   
 
   public DriveBase() {
 
-    rightDrives.setInverted(true);
-    leftDrives.setInverted(true);
+    navxGyro = new AHRS(I2C.Port.kMXP);
+    leftDrive1 = new WPI_TalonSRX(RobotMap.DRIVE_MOTOR_LEFT_1);
+    leftDrive2 = new WPI_VictorSPX(RobotMap.DRIVE_MOTOR_LEFT_2);
+    leftDrive3 = new WPI_VictorSPX(RobotMap.DRIVE_MOTOR_LEFT_3);
+    rightDrive1 = new WPI_TalonSRX(RobotMap.DRIVE_MOTOR_RIGHT_1);
+    rightDrive2 = new WPI_VictorSPX(RobotMap.DRIVE_MOTOR_RIGHT_2);
+    rightDrive3 = new WPI_VictorSPX(RobotMap.DRIVE_MOTOR_RIGHT_3);
+    leftDrives = new MotorControllerGroup(leftDrive1, leftDrive2, leftDrive3);
+    rightDrives = new MotorControllerGroup(rightDrive1, rightDrive2, rightDrive3);
+    ourDrive = new DifferentialDrive(leftDrives, rightDrives);
+    //gearShifter = new Solenoid(PneumaticsModuleType.CTREPCM, RobotMap.GEAR_SHIFTER);
 
-    leftEncoder.setDistancePerPulse(RobotMap.LOW_GEAR_LEFT_DPP);
-    rightEncoder.setDistancePerPulse(RobotMap.LOW_GEAR_RIGHT_DPP);
+    //leftEncoder = new Encoder(RobotMap.DRIVE_ENC_LEFT_A, RobotMap.DRIVE_ENC_LEFT_B, true, EncodingType.k4X);
+    //rightEncoder = new Encoder(RobotMap.DRIVE_ENC_RIGHT_A, RobotMap.DRIVE_ENC_RIGHT_B, false, EncodingType.k4X);
+
+    rightDrives.setInverted(true);
+
+    //leftEncoder.setDistancePerPulse(RobotMap.LOW_GEAR_LEFT_DPP);
+    //rightEncoder.setDistancePerPulse(RobotMap.LOW_GEAR_RIGHT_DPP);
 
     resetEncoders();
     odometry = new DifferentialDriveOdometry(navxGyro.getRotation2d());
@@ -76,31 +90,31 @@ public class DriveBase extends SubsystemBase {
 
   @Override
   public void periodic() {
-    odometry.update(navxGyro.getRotation2d(), leftEncoder.getDistance(), rightEncoder.getDistance());
+    //odometry.update(navxGyro.getRotation2d(), leftEncoder.getDistance(), rightEncoder.getDistance());
   }
 
   /** Shifts from high gear to low gear */
   public void shiftHighToLow() {
-    gearShifter.set(true);
+    //gearShifter.set(true);
     setDPPLowGear();
   }
 
   /** Shifts from high gear to low gear */
   public void shiftLowtoHigh() {
-    gearShifter.set(false);
+    //gearShifter.set(false);
     setDPPHighGear();
   }
 
 
   /**Sets the DPP to Low Gear */
   public void setDPPLowGear() {
-    leftEncoder.setDistancePerPulse(RobotMap.LOW_GEAR_LEFT_DPP);
-    rightEncoder.setDistancePerPulse(RobotMap.LOW_GEAR_RIGHT_DPP);
+    //leftEncoder.setDistancePerPulse(RobotMap.LOW_GEAR_LEFT_DPP);
+    //rightEncoder.setDistancePerPulse(RobotMap.LOW_GEAR_RIGHT_DPP);
   }
   /**Sets the DPP to Low Gear */
   public void setDPPHighGear() {
-    leftEncoder.setDistancePerPulse(RobotMap.HIGH_GEAR_LEFT_DPP);
-    rightEncoder.setDistancePerPulse(RobotMap.HIGH_GEAR_RIGHT_DPP);
+    //leftEncoder.setDistancePerPulse(RobotMap.HIGH_GEAR_LEFT_DPP);
+    //rightEncoder.setDistancePerPulse(RobotMap.HIGH_GEAR_RIGHT_DPP);
   }
 
   /**@return the Pose2D */
@@ -179,24 +193,24 @@ public class DriveBase extends SubsystemBase {
 
   /*Resets the drive encoders to currently read a position of 0.*/
   public void resetEncoders() {
-    leftEncoder.reset();
-    rightEncoder.reset();
+    //leftEncoder.reset();
+    //rightEncoder.reset();
   }
 
   /** @return the average of the two encoder readings */
-  public double getAverageEncoderDistance() {
-    return (leftEncoder.getDistance() + rightEncoder.getDistance()) / 2.0;
-  }
+  //public double getAverageEncoderDistance() {
+    //return (leftEncoder.getDistance() + rightEncoder.getDistance()) / 2.0;
+  //}
 
   /** @return the left drive encoder */
-  public Encoder getLeftEncoder() {
-    return leftEncoder;
-  }
+  //public Encoder getLeftEncoder() {
+    //return leftEncoder;
+  //}
 
   /** @return the right drive encoder */
-  public Encoder getRightEncoder() {
-    return rightEncoder;
-  }
+  //public Encoder getRightEncoder() {
+    //return rightEncoder;
+  //}
 
 
 
