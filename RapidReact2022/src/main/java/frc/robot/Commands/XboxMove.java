@@ -1,5 +1,6 @@
 package frc.robot.Commands;
 
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Controls;
 import frc.robot.RobotMap;
@@ -41,11 +42,9 @@ public class XboxMove extends CommandBase {
   double sensitivity;
 
   private final DriveBase drivebase;
-  private final Controls controls;
 
-  public XboxMove(DriveBase m_drivebase, Controls m_controls) {
+  public XboxMove(DriveBase m_drivebase) {
     drivebase = m_drivebase;
-    controls = m_controls;
     
     addRequirements(drivebase);
   }
@@ -61,18 +60,18 @@ public class XboxMove extends CommandBase {
   public void execute() {
     /*** Read Inputs ***/
       //Axes
-    turn = controls.xboxAxis(controls.xboxDriver, RobotMap.XBOX_AXIS_LEFT_X);
-    throttle = controls.xboxAxis(controls.xboxDriver, RobotMap.XBOX_AXIS_RIGHT_TRIGGER);
-    reverse = controls.xboxAxis(controls.xboxDriver, RobotMap.XBOX_AXIS_LEFT_TRIGGER);
+    turn = Controls.xboxAxis(Controls.driver, "LS-X");
+    throttle = Controls.xboxAxis(Controls.driver, "RT");
+    reverse = Controls.xboxAxis(Controls.driver, "RT");
     
       //Buttons
-    rotate = controls.xboxButton(controls.xboxDriver, RobotMap.XBOX_BUTTON_L3);
-    brake = controls.xboxButton(controls.xboxDriver, RobotMap.XBOX_BUTTON_LEFT_BUMPER);
-    precision = controls.xboxButton(controls.xboxDriver, RobotMap.XBOX_BUTTON_RIGHT_BUMPER);
-    gearShiftHigh = controls.xboxButton(controls.xboxDriver, RobotMap.XBOX_BUTTON_START);
-    gearShiftLow = controls.xboxButton(controls.xboxDriver, RobotMap.XBOX_BUTTON_BACK);
+    rotate = Controls.xboxButton(Controls.driver, "LS");
+    brake = Controls.xboxButton(Controls.driver, "LB");
+    precision = Controls.xboxButton(Controls.driver, "RB");
+    gearShiftHigh = Controls.xboxButton(Controls.driver, "START");
+    gearShiftLow = Controls.xboxButton(Controls.driver, "BACK");
 
-    resetSensors = controls.xboxButton(controls.xboxOperator, RobotMap.XBOX_BUTTON_START);
+    resetSensors = Controls.xboxButton(Controls.operator, "START");
     
       //TODO: Remove these testing buttons for competition.
     /*resetSensors

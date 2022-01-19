@@ -1,15 +1,21 @@
 package frc.robot.Autonomous;
 
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Subsystems.DriveBase;
+import frc.robot.Subsystems.NetworkTables;
 
-public class DoNothing extends SequentialCommandGroup {
+public class BallCenterTest extends SequentialCommandGroup {
   /**
    * Add your docs here.
    */
-  public DoNothing(DriveBase passedDrivebase) {
-    addCommands(new AutoDrive(0, 0.0, passedDrivebase));
-//    addSequential(new AutoDrive(60, 0.6));
+  public BallCenterTest(double SpeedInput, DriveBase passedDrivebase, NetworkTables passedNetworkTables) {
+    addCommands(
+        new AutoBallInfeed(SpeedInput, passedDrivebase, passedNetworkTables),
+        new WaitCommand(1),
+        new AutoVisionDrive(SpeedInput, passedDrivebase, passedNetworkTables)
+    );
     // Add Commands here:
     // e.g. addSequential(new Command1());
     // addSequential(new Command2());

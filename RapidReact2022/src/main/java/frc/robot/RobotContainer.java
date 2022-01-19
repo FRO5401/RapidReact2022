@@ -28,19 +28,22 @@ public class RobotContainer {
     
     private final SendableChooser<Command> chooser = new SendableChooser<Command>();
     // The robot's subsystems
-    private final DriveBase drivebase = new DriveBase();
-    private final NetworkTables networktables = new NetworkTables();
-    private final Controls controls = new Controls();
+    private final DriveBase drivebase;
+    private final NetworkTables networktables;
     //private final CompressorSubsystem compressor = new CompressorSubsystem();
 
 
     public RobotContainer() {
+        drivebase = new DriveBase();
+        networktables = new NetworkTables();
+
+        drivebase.setDefaultCommand(new XboxMove(drivebase));
+
         configureButtonBindings();
-        chooser.setDefaultOption("Do Nothing", new DoNothing());
-        chooser.addOption("Drive Straight", new DriveStraight());
+        chooser.setDefaultOption("Do Nothing", new DoNothing(drivebase));
+        chooser.addOption("Drive Straight", new DriveStraight(200, 0.7, drivebase));
         //chooser.addOption("Trajectory Test", new SetTrajectoryPath(drivebase, "paths/DriveStraight.wpilib.json")); //REPLACE LATER
         SmartDashboard.putData("Auto choices", chooser);
-        drivebase.setDefaultCommand(new XboxMove(drivebase, controls));
     }
 
     private void configureButtonBindings() {}

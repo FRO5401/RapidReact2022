@@ -1,58 +1,77 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 public class Controls {
       // The driver's controller
-      public XboxController xboxDriver = new XboxController(RobotMap.XBOX_CONTROLLER_DRIVER);
-      public XboxController xboxOperator = new XboxController(RobotMap.XBOX_CONTROLLER_OPERATOR);
-    
-      //Buttons (Driver)
-      JoystickButton xboxA_Driver			  = new JoystickButton(xboxDriver, RobotMap.XBOX_BUTTON_A);
-      JoystickButton xboxB_Driver			  = new JoystickButton(xboxDriver, RobotMap.XBOX_BUTTON_B);
-      JoystickButton xboxX_Driver			  = new JoystickButton(xboxDriver, RobotMap.XBOX_BUTTON_X);
-      JoystickButton xboxY_Driver			  = new JoystickButton(xboxDriver, RobotMap.XBOX_BUTTON_Y);
-      JoystickButton xboxLeftBumper_Driver  = new JoystickButton(xboxDriver, RobotMap.XBOX_BUTTON_LEFT_BUMPER);
-      JoystickButton xboxRightBumper_Driver = new JoystickButton(xboxDriver, RobotMap.XBOX_BUTTON_RIGHT_BUMPER);
-      JoystickButton xboxBack_Driver		  = new JoystickButton(xboxDriver, RobotMap.XBOX_BUTTON_BACK);
-      JoystickButton xboxStart_Driver		  = new JoystickButton(xboxDriver, RobotMap.XBOX_BUTTON_START);
-      JoystickButton xboxL3_Driver		  = new JoystickButton(xboxDriver, RobotMap.XBOX_BUTTON_L3);
-      JoystickButton xboxR3_Driver		  = new JoystickButton(xboxDriver, RobotMap.XBOX_BUTTON_R3);
-      
-        //Buttons (Operator)
-      JoystickButton xboxA_Operator			= new JoystickButton(xboxOperator, RobotMap.XBOX_BUTTON_A);
-      JoystickButton xboxB_Operator			= new JoystickButton(xboxOperator, RobotMap.XBOX_BUTTON_B);
-      JoystickButton xboxX_Operator			= new JoystickButton(xboxOperator, RobotMap.XBOX_BUTTON_X);
-      JoystickButton xboxY_Operator			= new JoystickButton(xboxOperator, RobotMap.XBOX_BUTTON_Y);
-      JoystickButton xboxLeftBumper_Operator  = new JoystickButton(xboxOperator, RobotMap.XBOX_BUTTON_LEFT_BUMPER);
-      JoystickButton xboxRightBumper_Operator = new JoystickButton(xboxOperator, RobotMap.XBOX_BUTTON_RIGHT_BUMPER);
-      JoystickButton xboxBack_Operator		= new JoystickButton(xboxOperator, RobotMap.XBOX_BUTTON_BACK);
-      JoystickButton xboxStart_Operator		= new JoystickButton(xboxOperator, RobotMap.XBOX_BUTTON_START);
-      JoystickButton xboxL3_Operator		  	= new JoystickButton(xboxOperator, RobotMap.XBOX_BUTTON_L3);
-      JoystickButton xboxR3_Operator		  	= new JoystickButton(xboxOperator, RobotMap.XBOX_BUTTON_R3);
-    
-      public double xboxAxis(XboxController xboxController, int xboxAxis){
-        return xboxController.getRawAxis(xboxAxis);
+      public static XboxController driver = new XboxController(RobotMap.XBOX_CONTROLLER_DRIVER);
+      public static XboxController operator = new XboxController(RobotMap.XBOX_CONTROLLER_OPERATOR);
+
+      public static XboxController getXboxController(String controller) {
+        if (controller.toUpperCase().equals("DRIVER"))
+          return driver;
+        return operator;
       }
-    
-      public boolean xboxButton(XboxController xboxController, int xboxButton){
-        return xboxController.getRawButton(xboxButton);
+
+      public static boolean xboxButton(XboxController controller, String button) {
+        boolean output = false;
+        switch(button.toUpperCase()) {
+          case "A":
+            output = controller.getAButton();
+            break;
+          case "B":
+            output = controller.getBButton();
+            break;
+          case "X":
+            output = controller.getXButton();
+            break;
+          case "Y":
+            output = controller.getYButton();   
+            break; 
+          case "LS":
+            output = controller.getLeftStickButton();
+            break;
+          case "RS":  
+            output = controller.getRightStickButton();
+            break;
+          case "START":
+            output = controller.getStartButton();
+            break;
+          case "BACK":
+            output = controller.getBackButton(); 
+            break;
+          default:
+            System.out.println("You are a literally baby man");     
+        }
+        return output;
       }
-    
-      public int xboxAxisAsButton(XboxController xboxController, int xboxAxis){
-        if(xboxController.getRawAxis(xboxAxis) > RobotMap.AXIS_THRESHOLD){
-          return 1;
+
+      public static double xboxAxis(XboxController controller, String axis) {
+        double output = 0;
+        switch(axis.toUpperCase()){
+          case "LS-Y":
+            output = controller.getLeftY();
+            break;
+          case "LS-X":
+            output = controller.getLeftX();
+            break;  
+          case "RS-Y":
+            output = controller.getRightY();
+            break;    
+          case "RS-X":
+            output = controller.getRightX();
+            break;    
+          case "LT":
+            output = controller.getLeftTriggerAxis();
+            break; 
+          case "RT":
+            output = controller.getRightTriggerAxis();
+            break;             
         }
-        else if(xboxController.getRawAxis(xboxAxis) < (-1 * RobotMap.AXIS_THRESHOLD)){
-          return -1;
-        }
-        else{
-          return 0;
-        }
+        return output;
       }
-    
-      public int xboxDPad(XboxController xboxController){
-        return xboxController.getPOV();
+
+      public static int xboxDPad(XboxController controller){
+        return controller.getPOV();
       }
 }

@@ -8,8 +8,8 @@ public class DriveStraight extends SequentialCommandGroup {
   /**
    * Add your docs here.
    */
-  public DriveStraight() {
-    new AutoDrive(200, 0.7, new DriveBase());
+  public DriveStraight(double DistanceInput, double SpeedInput, DriveBase passedDrivebase) {
+    addCommands(new AutoDrive(DistanceInput, SpeedInput, passedDrivebase));
 //    addSequential(new AutoDrive(60, 0.6));
     // Add Commands here:
     // e.g. addSequential(new Command1());
