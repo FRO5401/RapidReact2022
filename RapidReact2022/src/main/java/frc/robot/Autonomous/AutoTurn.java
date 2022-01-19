@@ -27,7 +27,7 @@ public class AutoTurn extends CommandBase {
     public void initialize() {
 
         //drivebase.resetSensors();
-        //drivebase.setDPPHighGear();
+        drivebase.setDPPHighGear();
         drivebase.setDPPLowGear();
         drivebase.resetGyroAngle();
         doneTraveling = false;

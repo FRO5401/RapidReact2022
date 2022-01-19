@@ -73,7 +73,7 @@ public class DriveBase extends SubsystemBase {
     leftDrives = new MotorControllerGroup(leftDrive1, leftDrive2, leftDrive3);
     rightDrives = new MotorControllerGroup(rightDrive1, rightDrive2, rightDrive3);
     ourDrive = new DifferentialDrive(leftDrives, rightDrives);
-    //gearShifter = new Solenoid(PneumaticsModuleType.CTREPCM, RobotMap.GEAR_SHIFTER);
+    gearShifter = new Solenoid(PneumaticsModuleType.CTREPCM, RobotMap.GEAR_SHIFTER);
 
     //leftEncoder = new Encoder(RobotMap.DRIVE_ENC_LEFT_A, RobotMap.DRIVE_ENC_LEFT_B, true, EncodingType.k4X);
     //rightEncoder = new Encoder(RobotMap.DRIVE_ENC_RIGHT_A, RobotMap.DRIVE_ENC_RIGHT_B, false, EncodingType.k4X);
@@ -95,13 +95,13 @@ public class DriveBase extends SubsystemBase {
 
   /** Shifts from high gear to low gear */
   public void shiftHighToLow() {
-    //gearShifter.set(true);
+    gearShifter.set(true);
     setDPPLowGear();
   }
 
   /** Shifts from high gear to low gear */
   public void shiftLowtoHigh() {
-    //gearShifter.set(false);
+    gearShifter.set(false);
     setDPPHighGear();
   }
 

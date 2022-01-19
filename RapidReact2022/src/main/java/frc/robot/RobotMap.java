@@ -64,7 +64,7 @@ public class RobotMap {
   public static final int PCM_ID = 0;
 
   // DriveBase
-  public static final int GEAR_SHIFTER = 1;
+  public static final int GEAR_SHIFTER = 0;
 
   /*** Sensors ***/
   // Encoders

@@ -62,7 +62,7 @@ public class XboxMove extends CommandBase {
       //Axes
     turn = Controls.xboxAxis(Controls.driver, "LS-X");
     throttle = Controls.xboxAxis(Controls.driver, "RT");
-    reverse = Controls.xboxAxis(Controls.driver, "RT");
+    reverse = Controls.xboxAxis(Controls.driver, "LT");
     
       //Buttons
     rotate = Controls.xboxButton(Controls.driver, "LS");
