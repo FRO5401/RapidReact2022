@@ -25,12 +25,20 @@ public class NetworkTables extends SubsystemBase {
     radius = 0;
   }
 
+  @Override
+  public void periodic() {
+    updateValue();
+    reportValues();
+    
+    //odometry.update(navxGyro.getRotation2d(), leftEncoder.getDistance(), rightEncoder.getDistance());
+  }
+
   public void updateValue() {
     inst = NetworkTableInstance.getDefault();
-    ballTable = inst.getTable("BallTable");
+    ballTable = inst.getTable("Ball");
     ballXEntry = ballTable.getEntry("cX");
     ballYEntry = ballTable.getEntry("cY");
-    ballDEntry = ballTable.getEntry("inches");
+    ballDEntry = ballTable.getEntry("distance");
     ballREntry = ballTable.getEntry("radius");
 
 
