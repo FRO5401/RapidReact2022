@@ -41,7 +41,7 @@ public class Robot extends TimedRobot {
     autoSelected = robotContainer.getAutonomousCommand();
 
     if(autoSelected != null) {
-      autoSelected.schedule();
+      CommandScheduler.getInstance().schedule(autoSelected);
     }
   }
 

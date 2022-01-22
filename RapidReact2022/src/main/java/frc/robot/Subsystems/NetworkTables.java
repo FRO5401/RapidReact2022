@@ -19,10 +19,20 @@ public class NetworkTables extends SubsystemBase {
 
 
   public NetworkTables() {
-    ballX = 0;
-    ballY = 0;
-    ballDistance = 0;
-    radius = 0;
+    inst = NetworkTableInstance.getDefault();
+    ballTable = inst.getTable("Ball");
+    ballXEntry = ballTable.getEntry("cX");
+    ballYEntry = ballTable.getEntry("cY");
+    ballDEntry = ballTable.getEntry("distance");
+    ballREntry = ballTable.getEntry("radius");
+    ballX = 0.0;
+    ballY = 0.0;
+    ballDistance = 0.0;
+    radius = 0.0;
+
+
+    inst.startClientTeam(5401); // where TEAM=190, 294, etc, or use inst.
+    inst.startDSClient();
   }
 
   @Override
@@ -34,26 +44,17 @@ public class NetworkTables extends SubsystemBase {
   }
 
   public void updateValue() {
-    inst = NetworkTableInstance.getDefault();
-    ballTable = inst.getTable("Ball");
-    ballXEntry = ballTable.getEntry("cX");
-    ballYEntry = ballTable.getEntry("cY");
-    ballDEntry = ballTable.getEntry("distance");
-    ballREntry = ballTable.getEntry("radius");
+     // recommended if running on DS computer; this gets the robot
 
-
-    inst.startClientTeam(5401); // where TEAM=190, 294, etc, or use inst.
-    inst.startDSClient(); // recommended if running on DS computer; this gets the robot
-
-    ballX = ballXEntry.getDouble(0.0);
-    ballY = ballYEntry.getDouble(0.0);
-    radius = (ballX == 0 && ballY == 0) ? 0 : ballREntry.getDouble(0.0);
-    ballDistance = ballDEntry.getDouble(0.0);
+    ballX = ballXEntry.getDouble((ballX != 0) ? ballX : 0);
+    ballY = ballYEntry.getDouble((ballY != 0) ? ballY : 0);
+    radius = (ballX == 0 && ballY == 0) ? 0 : ballREntry.getDouble((radius != 0) ? radius : 0);
+    ballDistance = ballDEntry.getDouble((ballDistance != 0) ? ballDistance : 0);
     //powerPortX = powerPortXEntry.getDouble(0.0);
     //powerPortY = powerPortYEntry.getDouble(0.0);
-    System.out.println("The Ball coordinates are: " + "X: " + ballX + " Y: " + ballY);
-    System.out.println("The Ball is " + ballDistance + " away");
-    System.out.println("The radius is " + radius);
+    //System.out.println("The Ball coordinates are: " + "X: " + ballX + " Y: " + ballY);
+    //System.out.println("The Ball is " + ballDistance + " away");
+    //System.out.println("The radius is " + radius);
     //System.out.println("The Power Port coordinates are: " + "X: " + powerPortY + " Y: " + powerPortY);
   }
 

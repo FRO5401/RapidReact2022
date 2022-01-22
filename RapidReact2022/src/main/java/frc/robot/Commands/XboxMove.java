@@ -63,7 +63,7 @@ public class XboxMove extends CommandBase {
     turn = Controls.xboxAxis(Controls.driver, "LS-X");
     throttle = Controls.xboxAxis(Controls.driver, "RT");
     reverse = Controls.xboxAxis(Controls.driver, "LT");
-    
+    turn = -turn; //temp
       //Buttons
     rotate = Controls.xboxButton(Controls.driver, "LS");
     brake = Controls.xboxButton(Controls.driver, "LB");
@@ -152,7 +152,7 @@ public class XboxMove extends CommandBase {
           //Turning left
         else if(turn < (-1 * RobotMap.AXIS_THRESHOLD)){
             //Makes right speed up by a factor of how far the axis is pushed. 
-          left = (throttle - reverse) * sensitivity * (1 + turn);
+          left = (throttle - reverse) * sensitivity  * (1 + turn);
           right = (throttle - reverse) * sensitivity;
         }
           //Driving straight 
@@ -165,6 +165,11 @@ public class XboxMove extends CommandBase {
     }
       //After speed manipulation, send to drivebase. 
     drivebase.drive(left, right);
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    drivebase.drive(0,0);
   }
 
   // Make this return true when this Command no longer needs to run execute()

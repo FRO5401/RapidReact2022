@@ -3,6 +3,8 @@ package frc.robot.Subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
@@ -25,7 +27,7 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
  * Add your docs here.
  */
 public class DriveBase extends SubsystemBase {
-  private AHRS navxGyro = new AHRS(I2C.Port.kMXP);
+  private AHRS navxGyro;
 
   // Configuring Motors
   private WPI_TalonSRX leftDrive1;
@@ -63,6 +65,7 @@ public class DriveBase extends SubsystemBase {
 
   public DriveBase() {
 
+    
     navxGyro = new AHRS(I2C.Port.kMXP);
     leftDrive1 = new WPI_TalonSRX(RobotMap.DRIVE_MOTOR_LEFT_1);
     leftDrive2 = new WPI_VictorSPX(RobotMap.DRIVE_MOTOR_LEFT_2);
@@ -79,6 +82,7 @@ public class DriveBase extends SubsystemBase {
     //rightEncoder = new Encoder(RobotMap.DRIVE_ENC_RIGHT_A, RobotMap.DRIVE_ENC_RIGHT_B, false, EncodingType.k4X);
 
     rightDrives.setInverted(true);
+    ourDrive.setExpiration(Robot.kDefaultPeriod);
 
     //leftEncoder.setDistancePerPulse(RobotMap.LOW_GEAR_LEFT_DPP);
     //rightEncoder.setDistancePerPulse(RobotMap.LOW_GEAR_RIGHT_DPP);
@@ -91,6 +95,7 @@ public class DriveBase extends SubsystemBase {
   @Override
   public void periodic() {
     //odometry.update(navxGyro.getRotation2d(), leftEncoder.getDistance(), rightEncoder.getDistance());
+    reportSensors();
   }
 
   /** Shifts from high gear to low gear */
@@ -257,5 +262,9 @@ public class DriveBase extends SubsystemBase {
   /** @return The turn rate of the robot, in degrees per second*/
   public double getTurnRate() {
     return -navxGyro.getRate();
+  }
+
+  public void reportSensors() {
+    SmartDashboard.putNumber("Gyro Angle", getGyroAngle());
   }
 }

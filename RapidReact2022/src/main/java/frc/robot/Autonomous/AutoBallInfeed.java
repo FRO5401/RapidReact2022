@@ -50,7 +50,7 @@ public class AutoBallInfeed extends CommandBase {
 	// Called just before this Command runs the first time
 	@Override
 	public void initialize() {
-
+		
 		startTime = Timer.getMatchTime();
 		
 		networktables.resetValues();
@@ -58,8 +58,6 @@ public class AutoBallInfeed extends CommandBase {
 		drivebase.resetGyroAngle();
 		drivebase.setDPPHighGear();
 		drivebase.setDPPLowGear();
-
-		ballLocation = networktables.getBXValue();
 
 		doneTraveling = false;
 		isCentered = false;
@@ -69,10 +67,11 @@ public class AutoBallInfeed extends CommandBase {
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	public void execute() {
+		ballLocation = networktables.getBXValue();
 		currentTime = Timer.getMatchTime();
 		double timeElapsed = startTime - currentTime;
         SmartDashboard.putNumber("Time elapsed", timeElapsed);
-
+		System.out.println("CRAZY");
 		radius = networktables.getBallRadius();
 
 		if(isCentered == false){
@@ -105,7 +104,7 @@ public class AutoBallInfeed extends CommandBase {
 				drivebase.drive(0.2, (-1 * 0.2));
 			}
 		}
-		else if(networktables.radius > 0){ //If ball is recognized drive towards it and infeed
+		else if(radius > 0){ //If ball is recognized drive towards it and infeed
 		    if(isCentered == true) { //Once recognized ball is straight ahead, drive towards it based off of received distance
 				//infeed.startMotors();
 
@@ -131,7 +130,6 @@ public class AutoBallInfeed extends CommandBase {
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	public boolean isFinished() {
-		System.out.print("Should be finished");
 		return doneTraveling;
 	}
 
