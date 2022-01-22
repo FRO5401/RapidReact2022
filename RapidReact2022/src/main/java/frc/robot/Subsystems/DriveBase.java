@@ -241,6 +241,18 @@ public class DriveBase extends SubsystemBase {
     return navxGyro.getAngle();
   }
 
+  public double getGyroYaw(){
+    return navxGyro.getYaw();
+  }
+
+  public double getGyroPitch(){
+    return navxGyro.getPitch();
+  }
+
+  public double getGyroRoll(){
+    return navxGyro.getRoll();
+  }
+
   public void resetGyroAngle() {
     navxGyro.reset();
   }
@@ -266,8 +278,14 @@ public class DriveBase extends SubsystemBase {
   }
 
   public void reportSensors() {
-    SmartDashboard.putNumber("Gyro Angle", getGyroAngle());
+    SmartDashboard.putNumber("Gyro Rotations", getGyroAngle()/360);
+    SmartDashboard.putNumber("Gyro Yaw", getGyroYaw());
+    SmartDashboard.putNumber("Gyro Pitch", getGyroPitch());
+    SmartDashboard.putNumber("Gyro Roll", getGyroRoll());
+    SmartDashboard.putNumber("Gyro Turn Rate", getTurnRate());
     SmartDashboard.putNumber("Left Motors Speed", leftDrive1.getSelectedSensorVelocity());
     SmartDashboard.putNumber("Right Motors Speed", rightDrive1.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("Left Motor Position", leftDrive1.getSelectedSensorPosition());
+    SmartDashboard.putNumber("Right Motor Position", rightDrive1.getSelectedSensorPosition());
   }
 }
