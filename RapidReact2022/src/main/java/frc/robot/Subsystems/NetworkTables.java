@@ -39,7 +39,6 @@ public class NetworkTables extends SubsystemBase {
   public void periodic() {
     updateValue();
     reportValues();
-    
     //odometry.update(navxGyro.getRotation2d(), leftEncoder.getDistance(), rightEncoder.getDistance());
   }
 

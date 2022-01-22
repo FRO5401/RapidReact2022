@@ -12,9 +12,9 @@ public class Robot extends TimedRobot {
   private Command autoSelected;
   private RobotContainer robotContainer;
 
-  Robot() {
+  /*Robot() {
     super(0.03);
-  }
+  }*/
 
   /**
    * This function is run when the robot is first started up and should be used
