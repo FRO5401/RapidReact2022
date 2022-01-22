@@ -53,4 +53,9 @@ public class AutoTurn extends CommandBase {
     public boolean isFinished() {
         return doneTraveling;
     }
+
+    @Override
+  	public boolean runsWhenDisabled() {
+    	return false;
+  	}
 }

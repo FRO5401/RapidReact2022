@@ -80,4 +80,9 @@ public class AutoVisionDrive extends CommandBase {
 		drivebase.drive(0,0);
 	}
 
+  	@Override
+  	public boolean runsWhenDisabled() {
+    	return false;
+  	}
+
 }

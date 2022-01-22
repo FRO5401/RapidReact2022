@@ -141,6 +141,10 @@ public class AutoBallInfeed extends CommandBase {
 		// drivebase.getGyroAngle());
 	}
 
+	@Override
+  	public boolean runsWhenDisabled() {
+    	return false;
+  	}
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 }

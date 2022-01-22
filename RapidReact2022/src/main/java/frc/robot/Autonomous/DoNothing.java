@@ -4,28 +4,30 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Subsystems.DriveBase;
 
 public class DoNothing extends SequentialCommandGroup {
+  
+  boolean doneCommand;
+  DriveBase drivebase;
   /**
    * Add your docs here.
    */
   public DoNothing(DriveBase passedDrivebase) {
+    drivebase = passedDrivebase;
     addCommands(new AutoDrive(0, 0.0, passedDrivebase));
-//    addSequential(new AutoDrive(60, 0.6));
-    // Add Commands here:
-    // e.g. addSequential(new Command1());
-    // addSequential(new Command2());
-    // these will run in order.
 
-    // To run multiple commands at the same time,
-    // use addParallel()
-    // e.g. addParallel(new Command1());
-    // addSequential(new Command2());
-    // Command1 and Command2 will run in parallel.
+  }
 
-    // A command group will require all of the subsystems that each member
-    // would require.
-    // e.g. if Command1 requires chassis, and Command2 requires arm,
-    // a CommandGroup containing them would require both the chassis and the
-    // arm.
+  @Override
+  public void end(boolean interrupted) {
+    drivebase.drive(0,0);
+  }
+
+  @Override
+  public boolean isFinished(){
+    return doneCommand;
+  }
+
+  @Override
+  public boolean runsWhenDisabled() {
+      return false;
   }
 }
-//kill me

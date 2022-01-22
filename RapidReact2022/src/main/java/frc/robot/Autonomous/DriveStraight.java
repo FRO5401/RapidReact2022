@@ -8,24 +8,28 @@ public class DriveStraight extends SequentialCommandGroup {
   /**
    * Add your docs here.
    */
+  boolean doneCommand;
+  DriveBase drivebase;
+
   public DriveStraight(double DistanceInput, double SpeedInput, DriveBase passedDrivebase) {
     addCommands(new AutoDrive(DistanceInput, SpeedInput, passedDrivebase));
-//    addSequential(new AutoDrive(60, 0.6));
-    // Add Commands here:
-    // e.g. addSequential(new Command1());
-    // addSequential(new Command2());
-    // these will run in order.
+    drivebase = passedDrivebase;
+    doneCommand = true;
 
-    // To run multiple commands at the same time,
-    // use addParallel()
-    // e.g. addParallel(new Command1());
-    // addSequential(new Command2());
-    // Command1 and Command2 will run in parallel.
-
-    // A command group will require all of the subsystems that each member
-    // would require.
-    // e.g. if Command1 requires chassis, and Command2 requires arm,
-    // a CommandGroup containing them would require both the chassis and the
-    // arm.
   }
+
+  @Override
+  public void end(boolean interrupted) {
+    drivebase.drive(0,0);
+  }
+
+  @Override
+  public boolean isFinished(){
+    return doneCommand;
+  }
+
+  @Override
+    public boolean runsWhenDisabled() {
+        return false;
+    }
 }
