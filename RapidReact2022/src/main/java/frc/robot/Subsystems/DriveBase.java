@@ -81,7 +81,7 @@ public class DriveBase extends SubsystemBase {
     //leftEncoder = new Encoder(RobotMap.DRIVE_ENC_LEFT_A, RobotMap.DRIVE_ENC_LEFT_B, true, EncodingType.k4X);
     //rightEncoder = new Encoder(RobotMap.DRIVE_ENC_RIGHT_A, RobotMap.DRIVE_ENC_RIGHT_B, false, EncodingType.k4X);
 
-    rightDrives.setInverted(true);
+    leftDrives.setInverted(true);
     ourDrive.setExpiration(0.1);
     ourDrive.setMaxOutput(1.0);
 
