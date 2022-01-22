@@ -4,8 +4,8 @@ import edu.wpi.first.wpilibj.XboxController;
 
 public class Controls {
   // The driver's controller
-  public static XboxController driver = new XboxController(RobotMap.XBOX_CONTROLLER_DRIVER);
-  public static XboxController operator = new XboxController(RobotMap.XBOX_CONTROLLER_OPERATOR);
+  public static XboxController driver = new XboxController(Constants.ControlConstants.XBOX_CONTROLLER_DRIVER);
+  public static XboxController operator = new XboxController(Constants.ControlConstants.XBOX_CONTROLLER_OPERATOR);
 
   public static XboxController getXboxController(String controller) {
     if (controller.toUpperCase().equals("DRIVER"))

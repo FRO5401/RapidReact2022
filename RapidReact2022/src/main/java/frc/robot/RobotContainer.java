@@ -30,12 +30,14 @@ public class RobotContainer {
     // The robot's subsystems
     private final DriveBase drivebase;
     private final NetworkTables networktables;
+    private static RobotContainer robotContainer;
     //private final CompressorSubsystem compressor = new CompressorSubsystem();
 
 
     public RobotContainer() {
         drivebase = new DriveBase();
         networktables = new NetworkTables();
+        robotContainer = new RobotContainer();
 
         drivebase.setDefaultCommand(new XboxMove(drivebase));
 
@@ -47,6 +49,10 @@ public class RobotContainer {
         SmartDashboard.putData("Auto choices", chooser);
     }
 
+    public static RobotContainer getInstance() {
+        return robotContainer;
+      }
+
     private void configureButtonBindings() {}
 
     public Command getAutonomousCommand(){
@@ -54,19 +60,19 @@ public class RobotContainer {
         var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
             new SimpleMotorFeedforward(
-              RobotMap.ksVolts,
-              RobotMap.kvVoltSecondsPerMeter,
-              RobotMap.kaVoltSecondsSquaredPerMeter),
-            RobotMap.kDriveKinematics,
+              Constants.AutoConstants.ksVolts,
+              Constants.AutoConstants.kvVoltSecondsPerMeter,
+              Constants.AutoConstants.kaVoltSecondsSquaredPerMeter),
+            Constants.AutoConstants.kDriveKinematics,
             10);
 
     // Create config for trajectory
     TrajectoryConfig config =
         new TrajectoryConfig(
-              RobotMap.kMaxSpeedMetersPerSecond,
-              RobotMap.kMaxAccelerationMetersPerSecondSquared)
+              Constants.AutoConstants.kMaxSpeedMetersPerSecond,
+              Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared)
           // Add kinematics to ensure max speed is actually obeyed
-          .setKinematics(RobotMap.kDriveKinematics)
+          .setKinematics(Constants.AutoConstants.kDriveKinematics)
           // Apply the voltage constraint
           .addConstraint(autoVoltageConstraint);
 
@@ -85,7 +91,7 @@ public class RobotContainer {
   
 
     // Run path following command, then stop at the end.
-    return new BallCenterTest(0.3, drivebase, networktables);
+    return chooser.getSelected();
     }
 
 }

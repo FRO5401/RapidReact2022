@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
-import frc.robot.RobotMap;
+import frc.robot.Constants;
 
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -67,12 +67,12 @@ public class DriveBase extends SubsystemBase {
 
     
     navxGyro = new AHRS(I2C.Port.kMXP);
-    leftDrive1 = new WPI_TalonSRX(RobotMap.DRIVE_MOTOR_LEFT_1);
-    leftDrive2 = new WPI_VictorSPX(RobotMap.DRIVE_MOTOR_LEFT_2);
-    leftDrive3 = new WPI_VictorSPX(RobotMap.DRIVE_MOTOR_LEFT_3);
-    rightDrive1 = new WPI_TalonSRX(RobotMap.DRIVE_MOTOR_RIGHT_1);
-    rightDrive2 = new WPI_VictorSPX(RobotMap.DRIVE_MOTOR_RIGHT_2);
-    rightDrive3 = new WPI_VictorSPX(RobotMap.DRIVE_MOTOR_RIGHT_3);
+    leftDrive1 = new WPI_TalonSRX(Constants.DriveConstants.DRIVE_MOTOR_LEFT_1);
+    leftDrive2 = new WPI_VictorSPX(Constants.DriveConstants.DRIVE_MOTOR_LEFT_2);
+    leftDrive3 = new WPI_VictorSPX(Constants.DriveConstants.DRIVE_MOTOR_LEFT_3);
+    rightDrive1 = new WPI_TalonSRX(Constants.DriveConstants.DRIVE_MOTOR_RIGHT_1);
+    rightDrive2 = new WPI_VictorSPX(Constants.DriveConstants.DRIVE_MOTOR_RIGHT_2);
+    rightDrive3 = new WPI_VictorSPX(Constants.DriveConstants.DRIVE_MOTOR_RIGHT_3);
     leftDrives = new MotorControllerGroup(leftDrive1, leftDrive2, leftDrive3);
     rightDrives = new MotorControllerGroup(rightDrive1, rightDrive2, rightDrive3);
     ourDrive = new DifferentialDrive(leftDrives, rightDrives);
@@ -82,7 +82,8 @@ public class DriveBase extends SubsystemBase {
     //rightEncoder = new Encoder(RobotMap.DRIVE_ENC_RIGHT_A, RobotMap.DRIVE_ENC_RIGHT_B, false, EncodingType.k4X);
 
     rightDrives.setInverted(true);
-    ourDrive.setExpiration(Robot.kDefaultPeriod);
+    ourDrive.setExpiration(0.1);
+    ourDrive.setMaxOutput(1.0);
 
     //leftEncoder.setDistancePerPulse(RobotMap.LOW_GEAR_LEFT_DPP);
     //rightEncoder.setDistancePerPulse(RobotMap.LOW_GEAR_RIGHT_DPP);
@@ -161,10 +162,10 @@ public class DriveBase extends SubsystemBase {
    public void autoDrive(double left, double right, double angle) {
     if (left > 0 && right > 0){ //driving forwards
       if (angle > 0){ //drifting right TODO: turn autospeed adjustment and the additional adjustment into 1
-        ourDrive.tankDrive(left, right * RobotMap.AUTO_SPEED_ADJUSTMENT * 1.08);
+        ourDrive.tankDrive(left, right * Constants.AutoConstants.AUTO_SPEED_ADJUSTMENT * 1.08);
       }
       else if (angle < 0){ //drifting left
-        ourDrive.tankDrive(left * RobotMap.AUTO_SPEED_ADJUSTMENT * 1.08, right);
+        ourDrive.tankDrive(left * Constants.AutoConstants.AUTO_SPEED_ADJUSTMENT * 1.08, right);
       } 
       else{
         ourDrive.tankDrive(left, right);
@@ -172,10 +173,10 @@ public class DriveBase extends SubsystemBase {
     }
     else if (left < 0 && right < 0){ //driving backwards
       if (angle > 0){ //drifting right
-        ourDrive.tankDrive(left * RobotMap.AUTO_SPEED_ADJUSTMENT * 1.08, right);
+        ourDrive.tankDrive(left * Constants.AutoConstants.AUTO_SPEED_ADJUSTMENT * 1.08, right);
       }
       else if (angle < 0){ //drifting left
-        ourDrive.tankDrive(left, right * RobotMap.AUTO_SPEED_ADJUSTMENT * 1.08);
+        ourDrive.tankDrive(left, right * Constants.AutoConstants.AUTO_SPEED_ADJUSTMENT * 1.08);
       } 
       else{
         ourDrive.tankDrive(left, right);
@@ -266,5 +267,7 @@ public class DriveBase extends SubsystemBase {
 
   public void reportSensors() {
     SmartDashboard.putNumber("Gyro Angle", getGyroAngle());
+    SmartDashboard.putNumber("Left Motors Speed", leftDrive1.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("Right Motors Speed", rightDrive1.getSelectedSensorVelocity());
   }
 }

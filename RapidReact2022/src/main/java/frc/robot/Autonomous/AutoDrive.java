@@ -1,7 +1,7 @@
 package frc.robot.Autonomous;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotMap;
+import frc.robot.Constants;
 import frc.robot.Subsystems.DriveBase;
 
 public class AutoDrive extends CommandBase {
@@ -43,7 +43,7 @@ public class AutoDrive extends CommandBase {
     @Override
     public void execute() {
         angle = drivebase.getGyroAngle();
-        distanceTraveled = drivebase.getEncoderDistance(2) * RobotMap.LOW_GEAR_RIGHT_DPP;
+        distanceTraveled = drivebase.getEncoderDistance(2) * Constants.DriveConstants.LOW_GEAR_RIGHT_DPP;
         if ((distanceTraveled) <= (desiredDistance) && desiredDistance >= 0) {
             drivebase.autoDrive(autoDriveSpeed, autoDriveSpeed, angle);
             doneTraveling = false;

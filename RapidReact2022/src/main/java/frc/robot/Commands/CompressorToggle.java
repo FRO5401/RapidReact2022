@@ -36,4 +36,9 @@ public class CompressorToggle extends CommandBase {
     public boolean isFinished() {
       return false;
     }
+
+    @Override
+    public boolean runsWhenDisabled() {
+        return false;
+    }
 }

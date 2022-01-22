@@ -3,7 +3,7 @@ package frc.robot.Commands;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Controls;
-import frc.robot.RobotMap;
+import frc.robot.Constants;
 import frc.robot.Subsystems.DriveBase;
 import frc.robot.RobotContainer;
 
@@ -98,11 +98,11 @@ public class XboxMove extends CommandBase {
     /*** Precision ***/
       //Hold for Precision Speed
     if(precision){
-      sensitivity = RobotMap.DRIVE_SENSITIVITY_PRECISION;
+      sensitivity = Constants.ControlConstants.DRIVE_SENSITIVITY_PRECISION;
     }
       //Release for Regular Speed
     else{
-      sensitivity = RobotMap.DRIVE_SENSITIVITY_DEFAULT;
+      sensitivity = Constants.ControlConstants.DRIVE_SENSITIVITY_DEFAULT;
     }
 
     /*** Driving ***/
@@ -130,13 +130,13 @@ public class XboxMove extends CommandBase {
         //Pirouetting (Turn in place). 
       if(rotate){
           //If the joystick is pushed passed the threshold. 
-        if(Math.abs(turn) > RobotMap.AXIS_THRESHOLD){
+        if(Math.abs(turn) > Constants.ControlConstants.AXIS_THRESHOLD){
             //Sets it to spin the desired direction.
-          left = RobotMap.SPIN_SENSITIVITY * turn;
-          right = RobotMap.SPIN_SENSITIVITY * (turn * -1);
+          left = Constants.ControlConstants.SPIN_SENSITIVITY * turn;
+          right = Constants.ControlConstants.SPIN_SENSITIVITY * (turn * -1);
         }
           //If its not past the threshold stop spinning
-        else if(Math.abs(turn) < RobotMap.AXIS_THRESHOLD){
+        else if(Math.abs(turn) < Constants.ControlConstants.AXIS_THRESHOLD){
           left = 0;
           right = 0;
         }
@@ -144,13 +144,13 @@ public class XboxMove extends CommandBase {
         //Not pirouetting (Not turning in place).
       else{
           //Turning right
-        if(turn > RobotMap.AXIS_THRESHOLD){
+        if(turn > Constants.ControlConstants.AXIS_THRESHOLD){
             //Makes left slow down by a factor of how far the axis is pushed. 
           left = (throttle - reverse) * sensitivity;
           right = (throttle - reverse) * sensitivity * (1 - turn);
         }
           //Turning left
-        else if(turn < (-1 * RobotMap.AXIS_THRESHOLD)){
+        else if(turn < (-1 * Constants.ControlConstants.AXIS_THRESHOLD)){
             //Makes right speed up by a factor of how far the axis is pushed. 
           left = (throttle - reverse) * sensitivity  * (1 + turn);
           right = (throttle - reverse) * sensitivity;
@@ -178,4 +178,8 @@ public class XboxMove extends CommandBase {
     return false;
   }
 
+  @Override
+    public boolean runsWhenDisabled() {
+      return false;
+  }
 }
