@@ -3,6 +3,9 @@ package frc.robot.Subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.Constants;
@@ -28,6 +31,8 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
  */
 public class DriveBase extends SubsystemBase {
   private AHRS navxGyro;
+  private ShuffleboardTab competitionTab;
+  private ShuffleboardTab programmerTab;
 
   // Configuring Motors
   private WPI_TalonSRX leftDrive1;
@@ -90,13 +95,15 @@ public class DriveBase extends SubsystemBase {
 
     resetEncoders();
     odometry = new DifferentialDriveOdometry(navxGyro.getRotation2d());
-    
+    competitionTab = Shuffleboard.getTab("Competition");
+    programmerTab = Shuffleboard.getTab("Programming");
   }
 
   @Override
   public void periodic() {
     //odometry.update(navxGyro.getRotation2d(), leftEncoder.getDistance(), rightEncoder.getDistance());
     reportSensors();
+    drivebaseShuffleboard();
   }
 
   /** Shifts from high gear to low gear */
@@ -287,5 +294,13 @@ public class DriveBase extends SubsystemBase {
     SmartDashboard.putNumber("Right Motors Speed", rightDrive1.getSelectedSensorVelocity());
     SmartDashboard.putNumber("Left Motor Position", leftDrive1.getSelectedSensorPosition());
     SmartDashboard.putNumber("Right Motor Position", rightDrive1.getSelectedSensorPosition());
+  }
+
+  public void drivebaseShuffleboard(){
+    competitionTab.add("Robot Speed",(Math.abs(leftDrive1.getSelectedSensorVelocity())+Math.abs(rightDrive1.getSelectedSensorVelocity()))/2);
+    programmerTab.add("Left Motor Speed",leftDrive1.getSelectedSensorVelocity())
+        .withWidget(BuiltInWidgets.kGraph);
+    competitionTab.add("Right Motor Speed",rightDrive1.getSelectedSensorVelocity())
+        .withWidget(BuiltInWidgets.kGraph);   
   }
 }
