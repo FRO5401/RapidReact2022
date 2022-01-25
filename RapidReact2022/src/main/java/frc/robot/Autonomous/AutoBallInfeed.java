@@ -52,7 +52,12 @@ public class AutoBallInfeed extends CommandBase {
 	public void initialize() {
 		
 		startTime = Timer.getMatchTime();
-		
+		System.out.println("Baller");
+		System.out.println("Baller");
+		System.out.println("Baller");
+		System.out.println("Baller");
+		System.out.println("Baller");
+		System.out.println("Baller");
 		networktables.resetValues();
 		drivebase.resetEncoders();
 		drivebase.resetGyroAngle();
@@ -71,14 +76,13 @@ public class AutoBallInfeed extends CommandBase {
 		currentTime = Timer.getMatchTime();
 		double timeElapsed = startTime - currentTime;
         SmartDashboard.putNumber("Time elapsed", timeElapsed);
-		System.out.println("CRAZY");
 		radius = networktables.getBallRadius();
 
 		if(isCentered == false){
 			isCentered = networktables.checkCentered();
-			currentAngle = networktables.getBXValue();
+			currentAngle = drivebase.getGyroAngle();
 			try {
-				desiredDistance = networktables.getBallDistance();
+				desiredDistance = networktables.getBallDistance()*1000;
 			}
 			catch (NullPointerException e) {
 				desiredDistance = 0;
@@ -89,10 +93,10 @@ public class AutoBallInfeed extends CommandBase {
 			isCentered = false;
 			if(timeElapsed >= 3){//If no ball has been found after 3 seconds, go back to original angle and stop
 				if(drivebase.getGyroAngle() > (drivebase.getGyroAngle() % 366)){
-					drivebase.drive(-1 * autoDriveSpeed, autoDriveSpeed);
+					drivebase.drive(autoDriveSpeed, autoDriveSpeed);
 				}
 				else if(drivebase.getGyroAngle() < (drivebase.getGyroAngle() % 366)){
-					drivebase.drive(autoDriveSpeed, -1 * autoDriveSpeed);
+					drivebase.drive(autoDriveSpeed, autoDriveSpeed);
 				}
 				else{
 					drivebase.drive(0,0);
@@ -101,7 +105,7 @@ public class AutoBallInfeed extends CommandBase {
 				}	
 			}
 			else if((timeElapsed) < 3){
-				drivebase.drive(0.2, (-1 * 0.2));
+				drivebase.drive(0.2, 0.2);
 			}
 		}
 		else if(radius > 0){ //If ball is recognized drive towards it and infeed
@@ -117,11 +121,12 @@ public class AutoBallInfeed extends CommandBase {
 				}
             }
     	    else { //Turn until the ball that is recognized is straight ahead
-			    if(currentAngle < ballLocation){
-				    drivebase.drive(autoDriveSpeed, (-1 * autoDriveSpeed));
+			    if(currentAngle+300 < ballLocation){
+				    drivebase.autoDrive(autoDriveSpeed, autoDriveSpeed, drivebase.getGyroAngle());
+					System.out.println("Bangerang");
 			    }
-        	    else if(currentAngle > ballLocation){
-				    drivebase.drive((-1 * autoDriveSpeed), autoDriveSpeed);
+        	    else if(currentAngle > ballLocation){tres
+				    drivebase.autoDrive(autoDriveSpeed, autoDriveSpeed, drivebase.getGyroAngle());
 			    }
             }
         }

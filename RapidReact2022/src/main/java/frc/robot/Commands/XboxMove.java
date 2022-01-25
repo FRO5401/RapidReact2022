@@ -79,10 +79,13 @@ public class XboxMove extends CommandBase {
     speedConstant3 = controls.xboxButton(controls.xboxDriver, RobotMap.XBOX_BUTTON_B);
       //TODO: Remove this testing method for competition.
     */
-   /* if(resetSensors){
-      drivebase.resetSensors();
+    if(resetSensors){
+      drivebase.resetEncoders();
+      drivebase.resetGyroAngle();
+      drivebase.resetTalon(true);
+      drivebase.resetTalon(false); // ;)
       System.out.println("reset sensors");
-    }    */
+    }    
      
     /*** Gear Shifting ***/
       //Press for High Gear

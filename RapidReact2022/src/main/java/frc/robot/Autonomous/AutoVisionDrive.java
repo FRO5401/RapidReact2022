@@ -52,13 +52,14 @@ public class AutoVisionDrive extends CommandBase {
 	@Override
 	public void execute() {
         //Robot.infeed.runMotors();
-        desiredDistance = (networktables.getBallDistance() - 5);
+        desiredDistance = (networktables.getBallDistance());
 
 		if ((distanceTraveled) <= (desiredDistance)) {
 			drivebase.autoDrive(autoDriveSpeed, autoDriveSpeed, angle);
 			doneTraveling = false;
 		} else if (distanceTraveled >= (desiredDistance)) {
-            drivebase.autoDrive(autoDriveSpeed, autoDriveSpeed, angle);
+			//made negatove
+            drivebase.autoDrive(-autoDriveSpeed, -autoDriveSpeed, angle);
             doneTraveling = false;
 		} else {
             //if(Robot.drummag.getBallCount() > ballCount){

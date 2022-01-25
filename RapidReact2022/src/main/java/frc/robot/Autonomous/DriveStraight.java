@@ -18,7 +18,7 @@ public class DriveStraight extends SequentialCommandGroup {
 
   }
 
-  @Override
+  /*@Override
   public void end(boolean interrupted) {
     drivebase.drive(0,0);
   }
@@ -31,5 +31,5 @@ public class DriveStraight extends SequentialCommandGroup {
   @Override
     public boolean runsWhenDisabled() {
         return false;
-    }
+    }*/
 }

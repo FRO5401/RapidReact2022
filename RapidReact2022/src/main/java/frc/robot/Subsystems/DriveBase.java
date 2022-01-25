@@ -9,10 +9,11 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.Constants;
-
+import frc.robot.Controls;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.Solenoid;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
@@ -89,11 +90,16 @@ public class DriveBase extends SubsystemBase {
     leftDrives.setInverted(true);
     ourDrive.setExpiration(0.1);
     ourDrive.setMaxOutput(1.0);
+    leftDrive1.setNeutralMode(NeutralMode.Brake);
+    leftDrive2.setNeutralMode(NeutralMode.Brake);
+    leftDrive3.setNeutralMode(NeutralMode.Brake);
+    rightDrive1.setNeutralMode(NeutralMode.Brake);
+    rightDrive2.setNeutralMode(NeutralMode.Brake);
+    rightDrive3.setNeutralMode(NeutralMode.Brake);
 
     //leftEncoder.setDistancePerPulse(RobotMap.LOW_GEAR_LEFT_DPP);
     //rightEncoder.setDistancePerPulse(RobotMap.LOW_GEAR_RIGHT_DPP);
 
-    resetEncoders();
     odometry = new DifferentialDriveOdometry(navxGyro.getRotation2d());
     competitionTab = Shuffleboard.getTab("Competition");
     programmerTab = Shuffleboard.getTab("Programming");
@@ -103,7 +109,8 @@ public class DriveBase extends SubsystemBase {
   public void periodic() {
     //odometry.update(navxGyro.getRotation2d(), leftEncoder.getDistance(), rightEncoder.getDistance());
     reportSensors();
-    drivebaseShuffleboard();
+    SmartDashboard.putNumber("Axis", Controls.xboxAxis(Controls.driver, "LS-X"));
+   // drivebaseShuffleboard();
   }
 
   /** Shifts from high gear to low gear */
@@ -210,6 +217,11 @@ public class DriveBase extends SubsystemBase {
     //rightEncoder.reset();
   }
 
+  public void resetTalon(boolean input) {
+    leftDrive1.configClearPositionOnQuadIdx(input, 10000);
+    rightDrive1.configClearPositionOnQuadIdx(input, 10000);
+  }
+
   /** @return the average of the two encoder readings */
   //public double getAverageEncoderDistance() {
     //return (leftEncoder.getDistance() + rightEncoder.getDistance()) / 2.0;
@@ -279,6 +291,11 @@ public class DriveBase extends SubsystemBase {
     }
   }
 
+  public double getTalonDistance(){
+
+    return leftDrive1.getSelectedSensorPosition() * Constants.DriveConstants.LOW_GEAR_LEFT_DPP;
+  }
+
   /** @return The turn rate of the robot, in degrees per second*/
   public double getTurnRate() {
     return -navxGyro.getRate();
@@ -286,6 +303,7 @@ public class DriveBase extends SubsystemBase {
 
   public void reportSensors() {
     SmartDashboard.putNumber("Gyro Rotations", getGyroAngle()/360);
+    SmartDashboard.putNumber("Gyro Angle", getGyroAngle()/1);
     SmartDashboard.putNumber("Gyro Yaw", getGyroYaw());
     SmartDashboard.putNumber("Gyro Pitch", getGyroPitch());
     SmartDashboard.putNumber("Gyro Roll", getGyroRoll());
