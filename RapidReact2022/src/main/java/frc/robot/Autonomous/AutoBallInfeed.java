@@ -121,13 +121,20 @@ public class AutoBallInfeed extends CommandBase {
 				}
             }
     	    else { //Turn until the ball that is recognized is straight ahead
-			    if(currentAngle+300 < ballLocation){
-				    drivebase.autoDrive(autoDriveSpeed, autoDriveSpeed, drivebase.getGyroAngle());
-					System.out.println("Bangerang");
+			    if((currentAngle+320) < ballLocation){
+				    drivebase.autoVisionTurn(autoDriveSpeed);
+					System.out.println(isCentered);
+					System.out.println("Bangerang" + ballLocation + "   " + (currentAngle+320));
 			    }
-        	    else if(currentAngle > ballLocation){tres
-				    drivebase.autoDrive(autoDriveSpeed, autoDriveSpeed, drivebase.getGyroAngle());
-			    }
+        	    else if((currentAngle+320) > ballLocation){
+				    drivebase.autoVisionTurn(-autoDriveSpeed);
+					System.out.println(isCentered);
+					System.out.println("AMobg us" + ballLocation + "   " + (currentAngle+320));
+				}
+				else {
+					drivebase.drive(0, 0);
+					System.out.println("Biden, joe");
+				}
             }
         }
 	}

@@ -170,6 +170,11 @@ public class DriveBase extends SubsystemBase {
     else 
       ourDrive.tankDrive(0, 0);
   }
+
+  public void autoVisionTurn(double speed) {
+    drive(speed, -speed);
+    System.out.println("Emmanuel Dolderer" + speed);
+  }
   
 
    // Sets victors to desired speed giving from XboxMove.
