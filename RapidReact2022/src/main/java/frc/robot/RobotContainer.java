@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.Autonomous.*;
 import frc.robot.Commands.XboxMove;
-import frc.robot.Subsystems.CompressorSubsystem;
 import frc.robot.Subsystems.DriveBase;
 import frc.robot.Subsystems.NetworkTables;
 
@@ -28,9 +27,8 @@ public class RobotContainer {
     
     private final SendableChooser<Command> chooser = new SendableChooser<Command>();
     // The robot's subsystems
-    private static RobotContainer robotContainer= new RobotContainer();
-    private final DriveBase drivebase = new DriveBase();
-    private final NetworkTables networktables= new NetworkTables();
+    public final DriveBase drivebase = new DriveBase();
+    public final NetworkTables networktables= new NetworkTables();
     //private final CompressorSubsystem compressor = new CompressorSubsystem();
 
 
@@ -40,17 +38,17 @@ public class RobotContainer {
 
         configureButtonBindings();
         chooser.setDefaultOption("Do Nothing", new DoNothing(drivebase));
-        chooser.addOption("Drive Straight", new DriveStraight(1000000, 0.5, drivebase));
-        chooser.addOption("Ball Center Test", new BallCenterTest(0.5, drivebase, networktables));
+        chooser.addOption("Drive Straight", new DriveStraight(200, 0.3, drivebase));
+        chooser.addOption("Ball Center Test", new BallCenterTest(0.3, drivebase, networktables));
         //chooser.addOption("Trajectory Test", new SetTrajectoryPath(drivebase, "paths/DriveStraight.wpilib.json")); //REPLACE LATER
         SmartDashboard.putData("Auto choices", chooser);
     }
 
-    public static RobotContainer getInstance() {
-        return robotContainer;
-      }
+    private void configureButtonBindings() {
 
-    private void configureButtonBindings() {}
+        
+
+    }
 
     public Command getAutonomousCommand(){
     // Create a voltage constraint to ensure we don't accelerate too fast
