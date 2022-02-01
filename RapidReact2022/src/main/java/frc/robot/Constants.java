@@ -24,6 +24,11 @@ public class Constants {
     public static final int DRIVE_MOTOR_LEFT_1 = 7;
     public static final int DRIVE_MOTOR_LEFT_2 = 9;
     public static final int DRIVE_MOTOR_LEFT_3 = 11;
+
+    ////SUBSYSTEM MOTORS////
+    //Shooter
+    public static final int SHOOTER_MOTOR_1 = 0;
+    public static final int SHOOTER_MOTOR_2 = 0;
   }
 
   public class ControlConstants {
