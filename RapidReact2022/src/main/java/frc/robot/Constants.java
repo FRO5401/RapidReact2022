@@ -41,11 +41,6 @@ public class Constants {
 
     //Solenoids
     public static final int GEAR_SHIFTER = 0;
-    public static final int INFEED_GATE = 0;
-
-    //Motors
-    public static final int INFEED_SPARK_1 = 0;
-    public static final int INFEED_SPARK_2 = 0;
 
     ////Sensors////
     //Encoders
@@ -73,6 +68,15 @@ public class Constants {
     public static final double kRamseteB = 2;
     public static final double kRamseteZeta = 0.7;
     public static final double kPDriveVel = 1.05;
+  }
+
+  public static class SubsystemConstants {
+    //Infeed
+    public static final double INFEED_MOTOR_SPEED = 0;
+    public static final int INFEED_GATE = 0;
+    public static final int INFEED_SPARK_1 = 0;
+    public static final int INFEED_SPARK_2 = 0;
+
   }
      
 }

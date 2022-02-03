@@ -37,12 +37,10 @@ public class Infeed extends SubsystemBase {
     private Spark motor1;
     private Spark motor2;
 
-    private final double INFEED_MOTOR_SPEED = 0;
-
     public Infeed() {
-        gate = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.ControlConstants.INFEED_GATE);
-        motor1 = new Spark(Constants.ControlConstants.INFEED_SPARK_1);
-        motor2 = new Spark(Constants.ControlConstants.INFEED_SPARK_2);
+        gate = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.SubsystemConstants.INFEED_GATE);
+        motor1 = new Spark(Constants.SubsystemConstants.INFEED_SPARK_1);
+        motor2 = new Spark(Constants.SubsystemConstants.INFEED_SPARK_2);
         motor2.setInverted(true);
 
         //something else here maybe
@@ -60,10 +58,21 @@ public class Infeed extends SubsystemBase {
     }
 
     public void infeedIn() {
-        setMotors(INFEED_MOTOR_SPEED);
+        setMotors(Constants.SubsystemConstants.INFEED_MOTOR_SPEED);
     }
 
     public void infeedOut() {
-        setMotors(INFEED_MOTOR_SPEED*-1);
+        setMotors(Constants.SubsystemConstants.INFEED_MOTOR_SPEED*-1);
+    }
+
+    public void reportInfeed() {
+        SmartDashboard.putBoolean("Gate Solenoid", gate.get());
+        SmartDashboard.putNumber("Infeed Motor 1", motor1.get());
+        SmartDashboard.putNumber("Infeed Motor 2", motor2.get());
+    }
+
+    @Override
+    public void periodic() {
+        reportInfeed();        
     }
 }
