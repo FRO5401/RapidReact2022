@@ -31,8 +31,8 @@ public class Shooter extends SubsystemBase{
         shooterMotor1.set(TalonFXControlMode.PercentOutput, 0.0); //for more aesthetics
     }
 
-    public void runMotors(){
-        shooterMotor1.set(TalonFXControlMode.PercentOutput, 0.5);
+    public void runMotors(double speed){
+        shooterMotor1.set(TalonFXControlMode.PercentOutput, speed);
     }
     
     public double getVelocity() {

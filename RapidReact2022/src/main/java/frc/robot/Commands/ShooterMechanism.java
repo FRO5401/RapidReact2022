@@ -21,7 +21,7 @@ public class ShooterMechanism extends CommandBase {
     @Override
     public void execute(){
         shooter.getVelocity();
-        shooter.runMotors();
+        shooter.runMotors(0.5);
 
     }
     
