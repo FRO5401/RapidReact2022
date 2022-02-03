@@ -37,6 +37,9 @@ public class Constants {
     public static final int XBOX_CONTROLLER_DRIVER = 0;
     public static final int XBOX_CONTROLLER_OPERATOR = 1;
 
+    //Buttons
+    public static final int XBOX_BUTTON_A = 1;
+
     //Drive Sensitivities
     public static final double DRIVE_SENSITIVITY_PRECISION = 0.5;
     public static final double DRIVE_SENSITIVITY_DEFAULT = 1;

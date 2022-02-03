@@ -28,7 +28,7 @@ public class XboxMove extends CommandBase {
   boolean precision;
   boolean gearShiftHigh;
   boolean gearShiftLow;
-
+  boolean shoot;
      //Testing Buttons (TODO: Remove for Comp)
   boolean resetSensors;
   /*
@@ -64,6 +64,7 @@ public class XboxMove extends CommandBase {
     throttle = Controls.xboxAxis(Controls.driver, "RT");
     reverse = Controls.xboxAxis(Controls.driver, "LT");
       //Buttons
+    shoot = Controls.xboxButton(Controls.operator, "A");
     rotate = Controls.xboxButton(Controls.driver, "LS");
     brake = Controls.xboxButton(Controls.driver, "LB");
     precision = Controls.xboxButton(Controls.driver, "RB");
@@ -165,6 +166,7 @@ public class XboxMove extends CommandBase {
         }
       }
     }
+    
       //After speed manipulation, send to drivebase. 
     drivebase.drive(left, right);
   }
@@ -179,7 +181,7 @@ public class XboxMove extends CommandBase {
   public boolean isFinished() {
     return false;
   }
-
+ 
   @Override
     public boolean runsWhenDisabled() {
       return false;

@@ -18,7 +18,7 @@ import frc.robot.Autonomous.*;
 import frc.robot.Commands.XboxMove;
 import frc.robot.Subsystems.DriveBase;
 import frc.robot.Subsystems.NetworkTables;
-
+import frc.robot.Subsystems.Shooter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
@@ -29,6 +29,7 @@ public class RobotContainer {
     // The robot's subsystems
     public final DriveBase drivebase = new DriveBase();
     public final NetworkTables networktables= new NetworkTables();
+    public final Shooter shooter = new Shooter();
     //private final CompressorSubsystem compressor = new CompressorSubsystem();
 
 
@@ -46,7 +47,7 @@ public class RobotContainer {
 
     private void configureButtonBindings() {
 
-        
+        //Controls.driver.getAButton();
 
     }
 
