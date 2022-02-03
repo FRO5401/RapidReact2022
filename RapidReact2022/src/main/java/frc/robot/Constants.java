@@ -41,6 +41,11 @@ public class Constants {
 
     //Solenoids
     public static final int GEAR_SHIFTER = 0;
+    public static final int INFEED_GATE = 0;
+
+    //Motors
+    public static final int INFEED_SPARK_1 = 0;
+    public static final int INFEED_SPARK_2 = 0;
 
     ////Sensors////
     //Encoders
