@@ -89,5 +89,13 @@ public class Constants {
     public static final double kRamseteZeta = 0.7;
     public static final double kPDriveVel = 1.05;
   }
+
+  public static class SubsystemConstants{
+    //Climber
+    public static final int TRANS_MOTOR_1 = 0;
+    public static final int TRANS_MOTOR_2 = 0;
+    public static final int ROTATE_MOTOR_1 = 0;
+    public static final int ROTATE_MOTOR_2 = 0;
+  }
      
 }
