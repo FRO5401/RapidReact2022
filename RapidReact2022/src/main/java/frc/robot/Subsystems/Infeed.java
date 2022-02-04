@@ -65,6 +65,10 @@ public class Infeed extends SubsystemBase {
         setMotors(Constants.SubsystemConstants.INFEED_MOTOR_SPEED*-1);
     }
 
+    public void infeedStop() {
+        setMotors(0);
+    }
+
     public void reportInfeed() {
         SmartDashboard.putBoolean("Gate Solenoid", gate.get());
         SmartDashboard.putNumber("Infeed Motor 1", motor1.get());
