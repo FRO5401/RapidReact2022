@@ -3,7 +3,7 @@ package frc.robot.Subsystems;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Commands.ShooterMechanism;
@@ -11,7 +11,7 @@ public class Shooter extends SubsystemBase{
  
     WPI_TalonFX shooterMotor1;
     WPI_TalonFX shooterMotor2;
-
+    double velocity;
     public Shooter() {
         
         shooterMotor1 = new WPI_TalonFX(Constants.DriveConstants.SHOOTER_MOTOR_1);
@@ -36,7 +36,10 @@ public class Shooter extends SubsystemBase{
     }
     
     public double getVelocity() {
-        return shooterMotor1.getSensorCollection().getIntegratedSensorVelocity();
+        velocity =  shooterMotor1.getSensorCollection().getIntegratedSensorVelocity();
+        SmartDashboard.putNumber("ShooterVelocity", velocity);
+
+        return velocity;
     }
 
 }
