@@ -38,7 +38,7 @@ public class InternalMech extends SubsystemBase{
         mechMotor.setNeutralMode(NeutralMode.Coast);
 
     }
-//Reports Internal Mech Motor to Neutral
+//Reports Internal Mech Motor to Smart Dashboard
     public void reportSensors(){
         SmartDashboard.putNumber("Mech Speed", mechMotor.getSelectedSensorVelocity());
     }
