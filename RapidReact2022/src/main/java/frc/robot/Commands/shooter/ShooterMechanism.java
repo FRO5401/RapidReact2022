@@ -2,7 +2,6 @@ package frc.robot.Commands.shooter;
 import frc.robot.Subsystems.Shooter;
 import frc.robot.Controls;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Robot;
 
 public class ShooterMechanism extends CommandBase {
     Shooter shooter;
@@ -18,10 +17,10 @@ public class ShooterMechanism extends CommandBase {
     public void initialize(){
         shooter.init();
     }
-    @Override
-    public void execute(){
+    
+    public void execute(double speed){
         shooter.getVelocity();
-        shooter.runMotors(0.5);
+        shooter.runMotors(speed);
 
     }
     
