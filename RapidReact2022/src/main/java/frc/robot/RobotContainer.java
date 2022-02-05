@@ -57,7 +57,8 @@ public class RobotContainer {
         Controls.xboxButton(Controls.driver, "Back").whenPressed(new GearShiftLow(drivebase));
 
         //driver and operator controls for subsystems
-        //SControls.xboxButton(Controls.operator, "Start").whenPressed(new ClimberRoutine(climber));
+        //Controls.xboxButton(Controls.operator, "Start").whenPressed(new ClimberRoutine(climber));
+        //Controls.xboxButton(Controls.operator, "X").whenPressed(new StopClimber(climber));
         
 
     }
