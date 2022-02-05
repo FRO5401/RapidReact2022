@@ -19,6 +19,11 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.SparkMaxAlternateEncoder.Type;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -34,16 +39,21 @@ public class Infeed extends SubsystemBase {
     //things go here
     private Solenoid gate;
     
-    private Spark motor1;
-    private Spark motor2;
+    private CANSparkMax infeedMotor1;
+    private CANSparkMax infeedMotor2;
+    private RelativeEncoder iM1Encoder;
+    private RelativeEncoder iM2Encoder;
 
     public Infeed() {
         gate = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.SubsystemConstants.INFEED_GATE);
-        motor1 = new Spark(Constants.SubsystemConstants.INFEED_SPARK_1);
-        motor2 = new Spark(Constants.SubsystemConstants.INFEED_SPARK_2);
-        motor2.setInverted(true);
+        infeedMotor1 = new CANSparkMax(Constants.SubsystemConstants.INFEED_SPARK_1, MotorType.kBrushless);
+        infeedMotor2 = new CANSparkMax(Constants.SubsystemConstants.INFEED_SPARK_2, MotorType.kBrushless);
+        infeedMotor2.setInverted(true);
+        
+        //These are the encoders that are on the motors, 4096 is the Counts Per Rev.
+        iM1Encoder = infeedMotor1.getAlternateEncoder(Type.kQuadrature, 4096);
+        iM2Encoder = infeedMotor1.getAlternateEncoder(Type.kQuadrature, 4096);
 
-        //something else here maybe
     }
 
     public void gateDrop() {
@@ -53,8 +63,8 @@ public class Infeed extends SubsystemBase {
 
     public void setMotors(double speed) {
         //This will set the speed of both motors, keep in mind that one motor is inverted.
-        motor1.set(speed);
-        motor2.set(speed);
+        infeedMotor1.set(speed);
+        infeedMotor2.set(speed);
     }
 
     public void infeedIn() {
@@ -65,14 +75,21 @@ public class Infeed extends SubsystemBase {
         setMotors(Constants.SubsystemConstants.INFEED_MOTOR_SPEED*-1);
     }
 
+    public void infeedIdleMode(IdleMode mode){
+        infeedMotor1.setIdleMode(mode);
+        infeedMotor2.setIdleMode(mode);
+    }
+
     public void infeedStop() {
         setMotors(0);
     }
 
     public void reportInfeed() {
         SmartDashboard.putBoolean("Gate Solenoid", gate.get());
-        SmartDashboard.putNumber("Infeed Motor 1", motor1.get());
-        SmartDashboard.putNumber("Infeed Motor 2", motor2.get());
+        SmartDashboard.putNumber("Infeed Motor 1 Velocity", iM1Encoder.getVelocity());
+        SmartDashboard.putNumber("Infeed Motor 2 Velocity", iM2Encoder.getVelocity());
+        SmartDashboard.putNumber("Infeed Motor 1 Input", infeedMotor1.get());
+        SmartDashboard.putNumber("Infeed Motor 2 Input", infeedMotor2.get());
     }
 
     @Override
