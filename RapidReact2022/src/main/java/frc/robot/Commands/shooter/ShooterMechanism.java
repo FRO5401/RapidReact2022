@@ -8,7 +8,7 @@ public class ShooterMechanism extends CommandBase {
     Controls controls;
     boolean runShooter;
 
-    public ShooterMechanism(Shooter m_shooter, Controls m_controls){
+    public ShooterMechanism(Shooter m_shooter){
         shooter = m_shooter;
         addRequirements(shooter);
     }

@@ -57,7 +57,7 @@ public class RobotContainer {
         Controls.xboxButton(Controls.operator, "Back").whenPressed(new ResetSensors(drivebase));
         Controls.xboxButton(Controls.driver, "Start").whenPressed(new GearShiftHigh(drivebase));
         Controls.xboxButton(Controls.driver, "Back").whenPressed(new GearShiftLow(drivebase));
-        Controls.xboxButton(Controls.driver, "A").whenPressed(new ShooterMechanism(shooter, controls));
+        Controls.xboxButton(Controls.driver, "A").whenPressed(new ShooterMechanism(shooter));
 
         //driver and operator controls for subsystems
 
