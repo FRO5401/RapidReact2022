@@ -96,6 +96,8 @@ public class Constants {
     public static final int TRANS_MOTOR_2 = 0;
     public static final int ROTATE_MOTOR_1 = 0;
     public static final int ROTATE_MOTOR_2 = 0;
+    public static final int DIGITAL_INPUT_1 = 0;
+    public static final int DIGITAL_INPUT_2 = 0;
   }
      
 }

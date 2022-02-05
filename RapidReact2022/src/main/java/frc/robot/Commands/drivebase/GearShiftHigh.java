@@ -10,6 +10,7 @@ public class GearShiftHigh extends CommandBase{
   boolean resetSensors;
 
   private final DriveBase drivebase;
+  boolean endCommand=false;
 
   public GearShiftHigh(DriveBase m_drivebase) {
     drivebase = m_drivebase;
@@ -27,6 +28,8 @@ public class GearShiftHigh extends CommandBase{
   @Override
   public void execute() {
     drivebase.shiftLowtoHigh();
+    endCommand = true;
+
   }
 
   @Override
@@ -37,7 +40,7 @@ public class GearShiftHigh extends CommandBase{
   // Make this return true when this Command no longer needs to run execute()
   @Override
   public boolean isFinished() {
-    return false;
+    return endCommand;
   }
 
   @Override

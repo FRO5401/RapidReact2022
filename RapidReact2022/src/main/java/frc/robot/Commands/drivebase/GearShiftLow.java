@@ -6,10 +6,9 @@ import frc.robot.Subsystems.DriveBase;
 public class GearShiftLow extends CommandBase{
      /*** Variables ***/
 
-     //Testing Buttons (TODO: Remove for Comp)
-  boolean resetSensors;
 
   private final DriveBase drivebase;
+  boolean endCommand;
 
   public GearShiftLow(DriveBase m_drivebase) {
     drivebase = m_drivebase;
@@ -27,6 +26,7 @@ public class GearShiftLow extends CommandBase{
   @Override
   public void execute() {
     drivebase.shiftHighToLow();
+    endCommand = true;
   }
 
   @Override
@@ -37,7 +37,7 @@ public class GearShiftLow extends CommandBase{
   // Make this return true when this Command no longer needs to run execute()
   @Override
   public boolean isFinished() {
-    return false;
+    return endCommand;
   }
 
   @Override

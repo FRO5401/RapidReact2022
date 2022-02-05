@@ -325,7 +325,7 @@ public class DriveBase extends SubsystemBase {
   //Report the values
   public void reportSensors() {
     SmartDashboard.putNumber("Gyro Rotations", getGyroAngle()/360);
-    SmartDashboard.putNumber("Gyro Angle", getGyroAngle()/1);
+    SmartDashboard.putNumber("Gyro Angle", getGyroAngle());
     SmartDashboard.putNumber("Gyro Yaw", getGyroYaw());
     SmartDashboard.putNumber("Gyro Pitch", getGyroPitch());
     SmartDashboard.putNumber("Gyro Roll", getGyroRoll());
