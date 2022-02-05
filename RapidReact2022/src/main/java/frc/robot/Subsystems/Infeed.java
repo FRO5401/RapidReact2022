@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 public class Infeed extends SubsystemBase {
     //things go here
     private Solenoid gate;
+    boolean deploy = false;
     
     private CANSparkMax infeedMotor1;
     private CANSparkMax infeedMotor2;
@@ -34,9 +35,9 @@ public class Infeed extends SubsystemBase {
 
     }
 
-    public void gateDrop() {
-        //this will drop gate
-        gate.set(true);
+    public void gateDeploy() {
+        deploy = !deploy;
+        gate.set(deploy);
     }
 
     public void setInfeedMotors(double speed) {
@@ -45,11 +46,11 @@ public class Infeed extends SubsystemBase {
         infeedMotor2.set(speed);
     }
 
-    public void infeedIn() {
+    public void infeedInward() {
         setInfeedMotors(Constants.SubsystemConstants.INFEED_MOTOR_SPEED);
     }
 
-    public void infeedOut() {
+    public void infeedOutward() {
         setInfeedMotors(Constants.SubsystemConstants.INFEED_MOTOR_SPEED*-1);
     }
 
@@ -58,7 +59,7 @@ public class Infeed extends SubsystemBase {
         infeedMotor2.setIdleMode(mode);
     }
 
-    public void infeedStop() {
+    public void infeedMotorsStop() {
         setInfeedMotors(0);
     }
 
