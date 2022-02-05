@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.Autonomous.*;
 import frc.robot.Commands.drivebase.*;
+import frc.robot.Commands.internalmech.RunBelt;
 import frc.robot.Subsystems.*;
 
 import java.io.IOException;
@@ -24,6 +25,7 @@ public class RobotContainer {
     // The robot's subsystems
     public final DriveBase drivebase = new DriveBase();
     public final NetworkTables networktables= new NetworkTables();
+    public final InternalMech internalMech = new InternalMech();
     //private final CompressorSubsystem compressor = new CompressorSubsystem();
 
 
@@ -56,7 +58,10 @@ public class RobotContainer {
         Controls.xboxButton(Controls.driver, "Back").whenPressed(new GearShiftLow(drivebase));
 
         //driver and operator controls for subsystems
-
+        internalMech.setDefaultCommand(
+            new RunBelt(
+                internalMech,
+                ()-> Controls.xboxDPad(Controls.operator)));
         
 
     }
