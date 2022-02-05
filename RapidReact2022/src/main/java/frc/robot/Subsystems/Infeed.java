@@ -61,18 +61,18 @@ public class Infeed extends SubsystemBase {
         gate.set(true);
     }
 
-    public void setMotors(double speed) {
+    public void setInfeedMotors(double speed) {
         //This will set the speed of both motors, keep in mind that one motor is inverted.
         infeedMotor1.set(speed);
         infeedMotor2.set(speed);
     }
 
     public void infeedIn() {
-        setMotors(Constants.SubsystemConstants.INFEED_MOTOR_SPEED);
+        setInfeedMotors(Constants.SubsystemConstants.INFEED_MOTOR_SPEED);
     }
 
     public void infeedOut() {
-        setMotors(Constants.SubsystemConstants.INFEED_MOTOR_SPEED*-1);
+        setInfeedMotors(Constants.SubsystemConstants.INFEED_MOTOR_SPEED*-1);
     }
 
     public void infeedIdleMode(IdleMode mode){
@@ -81,7 +81,7 @@ public class Infeed extends SubsystemBase {
     }
 
     public void infeedStop() {
-        setMotors(0);
+        setInfeedMotors(0);
     }
 
     public void reportInfeed() {
