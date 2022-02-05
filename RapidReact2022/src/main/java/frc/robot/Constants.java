@@ -69,5 +69,11 @@ public class Constants {
     public static final double kRamseteZeta = 0.7;
     public static final double kPDriveVel = 1.05;
   }
+
+  public static class SubsystemConstants{
+
+    public static final int INTERNAL_MECH_MOTOR = 0;
+    public static final double MECH_SPEED = 0;
+  }
      
 }
