@@ -1,4 +1,7 @@
-package frc.robot.Commands;
+package frc.robot.Commands.drivebase;
+
+import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -28,7 +31,7 @@ public class XboxMove extends CommandBase {
   boolean precision;
   boolean gearShiftHigh;
   boolean gearShiftLow;
-  boolean shoot;
+
      //Testing Buttons (TODO: Remove for Comp)
   boolean resetSensors;
   /*
@@ -43,8 +46,15 @@ public class XboxMove extends CommandBase {
 
   private final DriveBase drivebase;
 
-  public XboxMove(DriveBase m_drivebase) {
+  public XboxMove(DriveBase m_drivebase, DoubleSupplier newThrottle, DoubleSupplier newReverse, DoubleSupplier newTurn, BooleanSupplier newRotate, BooleanSupplier newPrecision, BooleanSupplier newBrake) {
     drivebase = m_drivebase;
+    throttle = newThrottle.getAsDouble();
+    reverse = newReverse.getAsDouble();
+    turn = newTurn.getAsDouble();
+    precision = newPrecision.getAsBoolean();
+    brake = newBrake.getAsBoolean();
+    rotate = newRotate.getAsBoolean();
+    
     
     addRequirements(drivebase);
   }
@@ -58,47 +68,9 @@ public class XboxMove extends CommandBase {
   // Called repeatedly when this Command is scheduled to run
   @Override
   public void execute() {
-    /*** Read Inputs ***/
-      //Axes
-    turn = Controls.xboxAxis(Controls.driver, "LS-X");
-    throttle = Controls.xboxAxis(Controls.driver, "RT");
-    reverse = Controls.xboxAxis(Controls.driver, "LT");
-      //Buttons
-    shoot = Controls.xboxButton(Controls.operator, "A");
-    rotate = Controls.xboxButton(Controls.driver, "LS");
-    brake = Controls.xboxButton(Controls.driver, "LB");
-    precision = Controls.xboxButton(Controls.driver, "RB");
-    gearShiftHigh = Controls.xboxButton(Controls.driver, "START");
-    gearShiftLow = Controls.xboxButton(Controls.driver, "BACK");
-
-    resetSensors = Controls.xboxButton(Controls.operator, "START");
     
-      //TODO: Remove these testing buttons for competition.
-    /*resetSensors
-    speedConstant1 = controls.xboxButton(controls.xboxDriver, RobotMap.XBOX_BUTTON_X);
-    speedConstant2 = controls.xboxButton(controls.xboxDriver, RobotMap.XBOX_BUTTON_A);
-    speedConstant3 = controls.xboxButton(controls.xboxDriver, RobotMap.XBOX_BUTTON_B);
-      //TODO: Remove this testing method for competition.
-    */
-    if(resetSensors){
-      drivebase.resetEncoders();
-      drivebase.resetGyroAngle();
-      drivebase.resetTalon(true);
-      drivebase.resetTalon(false); // ;)
-      System.out.println("reset sensors");
-    }    
-     
-    /*** Gear Shifting ***/
-      //Press for High Gear
-    /*if(gearShiftHigh){
-        drivebase.shiftLowToHigh();
-    }
-      //Press for Low Gear
-    else */if(gearShiftLow){
-        drivebase.shiftHighToLow();
-    }
-
-    /*** Precision ***/
+      //Braking
+       /*** Precision ***/
       //Hold for Precision Speed
     if(precision){
       sensitivity = Constants.ControlConstants.DRIVE_SENSITIVITY_PRECISION;
@@ -114,22 +86,7 @@ public class XboxMove extends CommandBase {
       //Robot.drivebase.stopMotors();
       left = 0;
       right = 0;
-    }/* 
-      //TODO: Remove these testing conditionals for competition. 
-    else if(speedConstant1){
-      left = (1.0 / 3);
-      right = (1.0 / 3);
-    }
-    else if(speedConstant2){
-      left = (2.0 / 3);
-      right = (2.0 / 3);
-    }
-    else if(speedConstant3){
-      left = (1.0);
-      right = (1.0);
-    } */
-      //Not Braking
-    else{
+    }   
         //Pirouetting (Turn in place). 
       if(rotate){
           //If the joystick is pushed passed the threshold. 
@@ -165,7 +122,6 @@ public class XboxMove extends CommandBase {
           right = (throttle - reverse) * sensitivity;
         }
       }
-    }
     
       //After speed manipulation, send to drivebase. 
     drivebase.drive(left, right);
@@ -181,7 +137,7 @@ public class XboxMove extends CommandBase {
   public boolean isFinished() {
     return false;
   }
- 
+
   @Override
     public boolean runsWhenDisabled() {
       return false;

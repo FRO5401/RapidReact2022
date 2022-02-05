@@ -71,7 +71,7 @@ public class DriveBase extends SubsystemBase {
 
   public DriveBase() {
 
-    
+    //Instaniate some drivebase stuff
     navxGyro = new AHRS(I2C.Port.kMXP);
     leftDrive1 = new WPI_TalonSRX(Constants.DriveConstants.DRIVE_MOTOR_LEFT_1);
     leftDrive2 = new WPI_VictorSPX(Constants.DriveConstants.DRIVE_MOTOR_LEFT_2);
@@ -82,10 +82,9 @@ public class DriveBase extends SubsystemBase {
     leftDrives = new MotorControllerGroup(leftDrive1, leftDrive2, leftDrive3);
     rightDrives = new MotorControllerGroup(rightDrive1, rightDrive2, rightDrive3);
     ourDrive = new DifferentialDrive(leftDrives, rightDrives);
-    //gearShifter = new Solenoid(PneumaticsModuleType.CTREPCM, 0);
-
-    //leftEncoder = new Encoder(RobotMap.DRIVE_ENC_LEFT_A, RobotMap.DRIVE_ENC_LEFT_B, true, EncodingType.k4X);
-    //rightEncoder = new Encoder(RobotMap.DRIVE_ENC_RIGHT_A, RobotMap.DRIVE_ENC_RIGHT_B, false, EncodingType.k4X);
+    gearShifter = new Solenoid(PneumaticsModuleType.CTREPCM, 0);
+    leftEncoder = new Encoder(Constants.ControlConstants.DRIVE_ENC_LEFT_A, Constants.ControlConstants.DRIVE_ENC_LEFT_B, true, EncodingType.k4X);
+    rightEncoder = new Encoder(Constants.ControlConstants.DRIVE_ENC_RIGHT_A, Constants.ControlConstants.DRIVE_ENC_RIGHT_B, false, EncodingType.k4X);
 
     leftDrives.setInverted(true);
     ourDrive.setExpiration(0.1);
@@ -96,9 +95,8 @@ public class DriveBase extends SubsystemBase {
     rightDrive1.setNeutralMode(NeutralMode.Brake);
     rightDrive2.setNeutralMode(NeutralMode.Brake);
     rightDrive3.setNeutralMode(NeutralMode.Brake);
-
-    //leftEncoder.setDistancePerPulse(RobotMap.LOW_GEAR_LEFT_DPP);
-    //rightEncoder.setDistancePerPulse(RobotMap.LOW_GEAR_RIGHT_DPP);
+    leftEncoder.setDistancePerPulse(Constants.DriveConstants.LOW_GEAR_LEFT_DPP);
+    rightEncoder.setDistancePerPulse(Constants.DriveConstants.LOW_GEAR_RIGHT_DPP);
 
     odometry = new DifferentialDriveOdometry(navxGyro.getRotation2d());
     competitionTab = Shuffleboard.getTab("Competition");
@@ -107,60 +105,58 @@ public class DriveBase extends SubsystemBase {
 
   @Override
   public void periodic() {
-    //odometry.update(navxGyro.getRotation2d(), leftEncoder.getDistance(), rightEncoder.getDistance());
+    odometry.update(navxGyro.getRotation2d(), leftEncoder.getDistance(), rightEncoder.getDistance());
     reportSensors();
     SmartDashboard.putNumber("Axis", Controls.xboxAxis(Controls.driver, "LS-X"));
    // drivebaseShuffleboard();
   }
 
-  /** Shifts from high gear to low gear */
+  //Shift from high gear to low gear
   public void shiftHighToLow() {
     //gearShifter.set(true);
     setDPPLowGear();
   }
 
-  /** Shifts from high gear to low gear */
+  //Shift from low gear to high gear
   public void shiftLowtoHigh() {
-   // gearShifter.set(false);
+    gearShifter.set(false);
     setDPPHighGear();
   }
 
 
-  /**Sets the DPP to Low Gear */
+  //Set the DPP to low gear
   public void setDPPLowGear() {
-    //leftEncoder.setDistancePerPulse(RobotMap.LOW_GEAR_LEFT_DPP);
-    //rightEncoder.setDistancePerPulse(RobotMap.LOW_GEAR_RIGHT_DPP);
+    leftEncoder.setDistancePerPulse(Constants.DriveConstants.LOW_GEAR_LEFT_DPP);
+    rightEncoder.setDistancePerPulse(Constants.DriveConstants.LOW_GEAR_RIGHT_DPP);
   }
-  /**Sets the DPP to Low Gear */
+  //Set the DPP to high gear
   public void setDPPHighGear() {
-    //leftEncoder.setDistancePerPulse(RobotMap.HIGH_GEAR_LEFT_DPP);
-    //rightEncoder.setDistancePerPulse(RobotMap.HIGH_GEAR_RIGHT_DPP);
+    leftEncoder.setDistancePerPulse(Constants.DriveConstants.HIGH_GEAR_LEFT_DPP);
+    rightEncoder.setDistancePerPulse(Constants.DriveConstants.HIGH_GEAR_RIGHT_DPP);
   }
 
-  /**@return the Pose2D */
+  //Get the 2D position
   public Pose2d getPose() {
     return odometry.getPoseMeters();
   }
 
-  /**@return The current wheel speeds.*/
+  //Get the wheel speeds returned by the differential drive
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
     return new DifferentialDriveWheelSpeeds(leftEncoder.getRate(), rightEncoder.getRate());
   }
 
-  /**Resets the odometry to the specified pose.
-   * @param pose The pose to which to set the odometry.*/
+  //Odometry reseter
   public void resetOdometry(Pose2d pose) {
     resetEncoders();
     odometry.resetPosition(pose, navxGyro.getRotation2d());
   }
 
-  /**Drives the robot
-   * @param left the commanded left movement
-   * @param right the commanded right movement*/
+  //Separate method to call the generic tank drive method
   public void drive(double left, double right) {
     ourDrive.tankDrive(left, right);
   }
 
+  //Automatic turning method
   public void autoTurn(double speed, double angle) {
     double gyroAngle = getGyroAngle();
     if (gyroAngle > (angle+2))
@@ -171,13 +167,14 @@ public class DriveBase extends SubsystemBase {
       ourDrive.tankDrive(0, 0);
   }
 
+  //Experimental turning method
   public void autoVisionTurn(double speed) {
     drive(speed, -speed);
-    System.out.println("Emmanuel Dolderer" + speed);
+    System.out.println(speed);
   }
   
 
-   // Sets victors to desired speed giving from XboxMove.
+   //For driving automatically
    public void autoDrive(double left, double right, double angle) {
     if (left > 0 && right > 0){ //driving forwards
       if (angle > 0){ //drifting right TODO: turn autospeed adjustment and the additional adjustment into 1
@@ -227,35 +224,34 @@ public class DriveBase extends SubsystemBase {
     rightDrive1.configClearPositionOnQuadIdx(input, 10000);
   }
 
-  /** @return the average of the two encoder readings */
-  //public double getAverageEncoderDistance() {
-    //return (leftEncoder.getDistance() + rightEncoder.getDistance()) / 2.0;
-  //}
+  //Get the average encoder distance
+  public double getAverageEncoderDistance() {
+    return (leftEncoder.getDistance() + rightEncoder.getDistance()) / 2.0;
+  }
 
-  /** @return the left drive encoder */
-  //public Encoder getLeftEncoder() {
-    //return leftEncoder;
-  //}
+  //Get the left encoder's value
+  public Encoder getLeftEncoder() {
+    return leftEncoder;
+  }
 
-  /** @return the right drive encoder */
-  //public Encoder getRightEncoder() {
-    //return rightEncoder;
-  //}
+  //Get the right encoder's value
+  public Encoder getRightEncoder() {
+    return rightEncoder;
+  }
 
 
 
-  /**Sets the max output of the drive.  Useful for scaling the drive to drive more slowly.
-   * @param maxOutput the maximum output to which the drive will be constrained*/
+  //Set the max voltage output
   public void setMaxOutput(double maxOutput) {
     ourDrive.setMaxOutput(maxOutput);
   }
 
-  /**Zeroes the heading of the robot.*/
+  //resets the gyro
   public void zeroHeading() {
     navxGyro.reset();
   }
 
-  /** @return the robot's heading in degrees, from -180 to 180*/
+  //Get the 2D positioning for the gyro
   public double getHeading() {
     return -navxGyro.getRotation2d().getDegrees();
   }
@@ -301,26 +297,48 @@ public class DriveBase extends SubsystemBase {
     return leftDrive1.getSelectedSensorPosition() * Constants.DriveConstants.LOW_GEAR_LEFT_DPP;
   }
 
-  /** @return The turn rate of the robot, in degrees per second*/
+  //Get the turn rate/angle per second of the gyro
   public double getTurnRate() {
     return -navxGyro.getRate();
   }
 
+  public double getAverageMotorVelocity(){
+    return (Math.abs(leftDrive1.getSelectedSensorVelocity())+Math.abs(rightDrive1.getSelectedSensorVelocity()))/2;
+  }
+
+  public double getLeftVelocity() {
+    return leftDrive1.getSelectedSensorVelocity();
+  }
+
+  public double getRightVelocity() {
+    return rightDrive1.getSelectedSensorVelocity();
+  }
+
+  public double getLeftPosition(){
+    return leftDrive1.getSelectedSensorPosition();
+  }
+
+  public double getRightPosition(){
+    return rightDrive1.getSelectedSensorPosition();
+  }
+
+  //Report the values
   public void reportSensors() {
     SmartDashboard.putNumber("Gyro Rotations", getGyroAngle()/360);
-    SmartDashboard.putNumber("Gyro Angle", getGyroAngle()/1);
+    SmartDashboard.putNumber("Gyro Angle", getGyroAngle());
     SmartDashboard.putNumber("Gyro Yaw", getGyroYaw());
     SmartDashboard.putNumber("Gyro Pitch", getGyroPitch());
     SmartDashboard.putNumber("Gyro Roll", getGyroRoll());
     SmartDashboard.putNumber("Gyro Turn Rate", getTurnRate());
-    SmartDashboard.putNumber("Left Motors Speed", leftDrive1.getSelectedSensorVelocity());
-    SmartDashboard.putNumber("Right Motors Speed", rightDrive1.getSelectedSensorVelocity());
-    SmartDashboard.putNumber("Left Motor Position", leftDrive1.getSelectedSensorPosition());
-    SmartDashboard.putNumber("Right Motor Position", rightDrive1.getSelectedSensorPosition());
+    SmartDashboard.putNumber("Left Motors Speed", getLeftVelocity());
+    SmartDashboard.putNumber("Right Motors Speed", getRightVelocity());
+    SmartDashboard.putNumber("Left Motor Position", getLeftPosition());
+    SmartDashboard.putNumber("Right Motor Position", getRightPosition());
   }
 
+  //Thing that does not work TODO: make work
   public void drivebaseShuffleboard(){
-    competitionTab.add("Robot Speed",(Math.abs(leftDrive1.getSelectedSensorVelocity())+Math.abs(rightDrive1.getSelectedSensorVelocity()))/2);
+    competitionTab.add("Robot Speed",getAverageMotorVelocity());
     programmerTab.add("Left Motor Speed",leftDrive1.getSelectedSensorVelocity())
         .withWidget(BuiltInWidgets.kGraph);
     competitionTab.add("Right Motor Speed",rightDrive1.getSelectedSensorVelocity())
