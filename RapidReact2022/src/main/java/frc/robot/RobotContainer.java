@@ -24,6 +24,7 @@ public class RobotContainer {
     // The robot's subsystems
     public final DriveBase drivebase = new DriveBase();
     public final NetworkTables networktables= new NetworkTables();
+    public final Climber climber = new Climber();
     //private final CompressorSubsystem compressor = new CompressorSubsystem();
 
 
@@ -56,7 +57,7 @@ public class RobotContainer {
         Controls.xboxButton(Controls.driver, "Back").whenPressed(new GearShiftLow(drivebase));
 
         //driver and operator controls for subsystems
-
+        //SControls.xboxButton(Controls.operator, "Start").whenPressed(new ClimberRoutine(climber));
         
 
     }

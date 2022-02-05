@@ -4,11 +4,9 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Subsystems.DriveBase;
 
 public class GearShiftLow extends CommandBase{
-     /*** Variables ***/
-
 
   private final DriveBase drivebase;
-  boolean endCommand;
+  boolean endCommand = false;
 
   public GearShiftLow(DriveBase m_drivebase) {
     drivebase = m_drivebase;

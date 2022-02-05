@@ -77,6 +77,16 @@ public class Climber extends SubsystemBase{
         return limit2.get();
     }
 
+    public void setClimberNeutralMode(String type, NeutralMode mode){
+        if(type.toUpperCase().contains("TRANS")){
+            transMotor1.setNeutralMode(mode);
+            transMotor2.setNeutralMode(mode);
+        } else if (type.toUpperCase().contains("ROT")) {
+            rotateMotor1.setNeutralMode(mode);
+            rotateMotor2.setNeutralMode(mode);
+        }
+    }
+
     //Reports the climber sensors periodically
     @Override
     public void periodic() {

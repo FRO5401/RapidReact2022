@@ -4,10 +4,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Subsystems.DriveBase;
 
 public class ResetSensors extends CommandBase{
-     /*** Variables ***/
 
-     boolean endCommand;
-
+  boolean endCommand;
   private final DriveBase drivebase;
 
   public ResetSensors(DriveBase m_drivebase) {

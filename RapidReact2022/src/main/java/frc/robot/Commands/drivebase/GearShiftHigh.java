@@ -4,11 +4,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Subsystems.DriveBase;
 
 public class GearShiftHigh extends CommandBase{
-     /*** Variables ***/
-
-     //Testing Buttons (TODO: Remove for Comp)
-  boolean resetSensors;
-
+  
   private final DriveBase drivebase;
   boolean endCommand=false;
 
