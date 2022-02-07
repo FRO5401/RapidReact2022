@@ -19,7 +19,7 @@ public class StopShooter extends CommandBase {
     
     @Override
     public void execute(){
-        shooter.run("STOP");
+        shooter.setState(Shooter.RunMode.STOP);
         endCommand = true;
     }
     

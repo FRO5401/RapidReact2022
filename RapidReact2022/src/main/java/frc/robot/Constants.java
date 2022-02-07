@@ -104,6 +104,7 @@ public class Constants {
     //Shooter
     public static final int SHOOTER_MOTOR_1 = 0;
     public static final int SHOOTER_MOTOR_2 = 0;
+    public static final int BALL_LOADER = 0;
     public static final double SHOOTER_SPEED = 0;
     public static final double LOADER_SPEED = 0;
 
