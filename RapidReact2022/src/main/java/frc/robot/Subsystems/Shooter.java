@@ -17,6 +17,7 @@ public class Shooter extends SubsystemBase{
         
         shooterMotor1 = new WPI_TalonFX(Constants.SubsystemConstants.SHOOTER_MOTOR_1);
         shooterMotor2 = new WPI_TalonFX(Constants.SubsystemConstants.SHOOTER_MOTOR_2);
+        ballLoader = new WPI_TalonFX(Constants.SubsystemConstants.BALL_LOADER);
 
         shooterMotor2.follow(shooterMotor1);
         
@@ -26,13 +27,14 @@ public class Shooter extends SubsystemBase{
     }
 
     public void load(String mode) {
-        if(mode.toUpperCase().equals("LOAD")){
+        if(mode.toUpperCase().equals("LOAD"))
             ballLoader.set(-Constants.SubsystemConstants.LOADER_SPEED);
-        } else if(mode.toUpperCase().equals("UNLOAD")){
-            ballLoader.set(Constants.SubsystemConstants.LOADER_SPEED);
-        } else { //Call this variable when sending a string
+        else if(mode.toUpperCase().equals("UNLOAD"))
+            ballLoader.set(Constants.SubsystemConstants.LOADER_SPEED);    
+        else if (mode.toUpperCase().equals("STOP")) 
+            ballLoader.set(0);   
+        else //Call this variable when sending a string
             ballLoader.set(Double.parseDouble(mode));
-        }
     }
 
     public void run(String mode) {
