@@ -23,7 +23,7 @@ public class InfeedIn extends CommandBase{
   // Called repeatedly when this Command is scheduled to run
   @Override
   public void execute() {
-    infeed.infeedInward();
+    infeed.run("INFEED");
     endCommand = true;
 
   }

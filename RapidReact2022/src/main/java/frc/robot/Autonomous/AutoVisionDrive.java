@@ -2,7 +2,6 @@
 package frc.robot.Autonomous;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Robot;
 import frc.robot.Subsystems.DriveBase;
 import frc.robot.Subsystems.NetworkTables;
 
@@ -40,8 +39,8 @@ public class AutoVisionDrive extends CommandBase {
 
 		drivebase.resetEncoders();
 		drivebase.resetGyroAngle();
-		drivebase.setDPPHighGear();
-		drivebase.setDPPLowGear();
+		drivebase.DPPShifter("HIGH");
+		drivebase.DPPShifter("LOW");
 
 		doneTraveling = false;
 		distanceTraveled = 0;

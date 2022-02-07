@@ -31,8 +31,8 @@ public class AutoDrive extends CommandBase {
     public void initialize() {
 
         //drivebase.resetSensors();
-        drivebase.setDPPHighGear();
-        drivebase.setDPPLowGear();
+        drivebase.DPPShifter("HIGH");
+		drivebase.DPPShifter("LOW");
 
         doneTraveling = false;
         distanceTraveled = 0;
@@ -43,7 +43,7 @@ public class AutoDrive extends CommandBase {
     @Override
     public void execute() {
         angle = drivebase.getGyroAngle();
-        distanceTraveled = drivebase.getEncoderDistance(2) * Constants.DriveConstants.LOW_GEAR_RIGHT_DPP;
+        distanceTraveled = drivebase.getRightEncoder().getDistance() * Constants.DriveConstants.LOW_GEAR_RIGHT_DPP;
         if ((distanceTraveled) <= (desiredDistance) && desiredDistance >= 0) {
             drivebase.autoDrive(autoDriveSpeed, autoDriveSpeed, angle);
             doneTraveling = false;

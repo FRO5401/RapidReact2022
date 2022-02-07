@@ -33,24 +33,24 @@ public class Constants {
     public static final int XBOX_CONTROLLER_OPERATOR = 1;
 
      // Buttons
-  public static final int XBOX_BUTTON_A = 1;
-  public static final int XBOX_BUTTON_B = 2;
-  public static final int XBOX_BUTTON_X = 3;
-  public static final int XBOX_BUTTON_Y = 4;
-  public static final int XBOX_BUTTON_LEFT_BUMPER = 5;
-  public static final int XBOX_BUTTON_RIGHT_BUMPER = 6;
-  public static final int XBOX_BUTTON_BACK = 7;
-  public static final int XBOX_BUTTON_START = 8;
-  public static final int XBOX_BUTTON_L3 = 9;
-  public static final int XBOX_BUTTON_R3 = 10;
+    public static final int XBOX_BUTTON_A = 1;
+    public static final int XBOX_BUTTON_B = 2;
+    public static final int XBOX_BUTTON_X = 3;
+    public static final int XBOX_BUTTON_Y = 4;
+    public static final int XBOX_BUTTON_LEFT_BUMPER = 5;
+    public static final int XBOX_BUTTON_RIGHT_BUMPER = 6;
+    public static final int XBOX_BUTTON_BACK = 7;
+    public static final int XBOX_BUTTON_START = 8;
+    public static final int XBOX_BUTTON_L3 = 9;
+    public static final int XBOX_BUTTON_R3 = 10;
 
-  // Axes
-  public static final int XBOX_AXIS_LEFT_X = 0;
-  public static final int XBOX_AXIS_LEFT_Y = 1;
-  public static final int XBOX_AXIS_LEFT_TRIGGER = 2;
-  public static final int XBOX_AXIS_RIGHT_TRIGGER = 3;
-  public static final int XBOX_AXIS_RIGHT_X = 4;
-  public static final int XBOX_AXIS_RIGHT_Y = 5;
+    // Axes
+    public static final int XBOX_AXIS_LEFT_X = 0;
+    public static final int XBOX_AXIS_LEFT_Y = 1;
+    public static final int XBOX_AXIS_LEFT_TRIGGER = 2;
+    public static final int XBOX_AXIS_RIGHT_TRIGGER = 3;
+    public static final int XBOX_AXIS_RIGHT_X = 4;
+    public static final int XBOX_AXIS_RIGHT_Y = 5;
 
     //Drive Sensitivities
     public static final double DRIVE_SENSITIVITY_PRECISION = 0.5;
@@ -96,6 +96,16 @@ public class Constants {
     public static final int INFEED_GATE = 0;
     public static final int INFEED_SPARK_1 = 0;
     public static final int INFEED_SPARK_2 = 0;
+
+    //Internal Mechanism
+    public static final int INTERNAL_MECH_MOTOR = 0;
+    public static final double MECH_SPEED = 0;
+
+    //Shooter
+    public static final int SHOOTER_MOTOR_1 = 0;
+    public static final int SHOOTER_MOTOR_2 = 0;
+    public static final double SHOOTER_SPEED = 0;
+    public static final double LOADER_SPEED = 0;
 
   }
      

@@ -1,7 +1,6 @@
 package frc.robot.Autonomous;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.Subsystems.DriveBase;
 
 public class AutoTurn extends CommandBase {
@@ -27,8 +26,8 @@ public class AutoTurn extends CommandBase {
     public void initialize() {
 
         //drivebase.resetSensors();
-        drivebase.setDPPHighGear();
-        drivebase.setDPPLowGear();
+        drivebase.DPPShifter("HIGH");
+		drivebase.DPPShifter("LOW");
         drivebase.resetGyroAngle();
         doneTraveling = false;
 

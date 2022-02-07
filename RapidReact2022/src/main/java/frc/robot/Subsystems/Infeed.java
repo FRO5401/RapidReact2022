@@ -28,6 +28,8 @@ public class Infeed extends SubsystemBase {
         infeedMotor1 = new CANSparkMax(Constants.SubsystemConstants.INFEED_SPARK_1, MotorType.kBrushless);
         infeedMotor2 = new CANSparkMax(Constants.SubsystemConstants.INFEED_SPARK_2, MotorType.kBrushless);
         infeedMotor2.setInverted(true);
+
+        infeedMotor2.follow(infeedMotor1);
         
         //These are the encoders that are on the motors, 4096 is the Counts Per Rev.
         iM1Encoder = infeedMotor1.getAlternateEncoder(Type.kQuadrature, 4096);
@@ -35,33 +37,29 @@ public class Infeed extends SubsystemBase {
 
     }
 
-    public void gateDeploy() {
+    public void toggleGate() {
         deploy = !deploy;
         gate.set(deploy);
     }
 
-    public void setInfeedMotors(double speed) {
-        //This will set the speed of both motors, keep in mind that one motor is inverted.
-        infeedMotor1.set(speed);
-        infeedMotor2.set(speed);
+    public void run(String mode) {
+        if(mode.toUpperCase().contains("IN")) {
+            infeedMotor1.set(Constants.SubsystemConstants.INFEED_MOTOR_SPEED);
+        } else if(mode.toUpperCase().contains("OUT")) {
+            infeedMotor1.set(-Constants.SubsystemConstants.INFEED_MOTOR_SPEED);
+        } else if (mode.toUpperCase().equals("STOP")) {
+            infeedMotor1.set(0);
+        }
+        else { //Call this variable when sending a string
+            infeedMotor1.set(Double.parseDouble(mode));
+        }
     }
 
-    public void infeedInward() {
-        setInfeedMotors(Constants.SubsystemConstants.INFEED_MOTOR_SPEED);
-    }
-
-    public void infeedOutward() {
-        setInfeedMotors(Constants.SubsystemConstants.INFEED_MOTOR_SPEED*-1);
-    }
-
-    public void infeedIdleMode(IdleMode mode){
+    public void setInfeedIdleMode(IdleMode mode){
         infeedMotor1.setIdleMode(mode);
         infeedMotor2.setIdleMode(mode);
     }
 
-    public void infeedMotorsStop() {
-        setInfeedMotors(0);
-    }
 
     public void reportInfeed() {
         SmartDashboard.putBoolean("Gate Solenoid", gate.get());

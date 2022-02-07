@@ -6,7 +6,6 @@ import frc.robot.Subsystems.DriveBase;
 public class GearShiftHigh extends CommandBase{
      /*** Variables ***/
 
-     //Testing Buttons (TODO: Remove for Comp)
   boolean resetSensors;
 
   private final DriveBase drivebase;
@@ -27,7 +26,7 @@ public class GearShiftHigh extends CommandBase{
   // Called repeatedly when this Command is scheduled to run
   @Override
   public void execute() {
-    drivebase.shiftLowtoHigh();
+    drivebase.shift("HIGH");
     endCommand = true;
 
   }

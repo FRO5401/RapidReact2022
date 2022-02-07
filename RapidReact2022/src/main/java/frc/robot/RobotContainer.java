@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.Autonomous.*;
 import frc.robot.Commands.drivebase.*;
 import frc.robot.Commands.infeed.*;
+import frc.robot.Commands.internal_mech.*;
+import frc.robot.Commands.shooter.*;
 import frc.robot.Subsystems.*;
 
 import java.io.IOException;
@@ -23,9 +25,11 @@ public class RobotContainer {
     
     private final SendableChooser<Command> chooser = new SendableChooser<Command>();
     // The robot's subsystems
-    public final DriveBase drivebase = new DriveBase();
-    public final NetworkTables networktables= new NetworkTables();
-    public final Infeed infeed = new Infeed();
+    private final DriveBase drivebase = new DriveBase();
+    private final NetworkTables networktables= new NetworkTables();
+    private final Infeed infeed = new Infeed();
+    private final InternalMech internalMech = new InternalMech();
+    private final Shooter shooter = new Shooter();
     //private final CompressorSubsystem compressor = new CompressorSubsystem();
 
 
@@ -52,17 +56,26 @@ public class RobotContainer {
                 () -> Controls.xboxButton(Controls.driver, "RB").get(),
                 () -> Controls.xboxButton(Controls.driver, "LB").get()));
 
-        //driver and operator controls for drivebase        
+        //Drivebase Controls      
         Controls.xboxButton(Controls.operator, "Back").whenPressed(new ResetSensors(drivebase));
         Controls.xboxButton(Controls.driver, "Start").whenPressed(new GearShiftHigh(drivebase));
         Controls.xboxButton(Controls.driver, "Back").whenPressed(new GearShiftLow(drivebase));
 
-        //driver and operator controls for subsystems
+        //Subsystem Controls
         //infeed
         Controls.xboxButton(Controls.operator, "RB").whenHeld(new InfeedIn(infeed)).whenReleased(new InfeedStop(infeed));
         Controls.xboxButton(Controls.operator, "LB").whenHeld(new InfeedOut(infeed)).whenReleased(new InfeedStop(infeed));
         Controls.xboxButton(Controls.operator, "B").whenPressed(new GateToggle(infeed));
+
+        //internal mechanism
+        internalMech.setDefaultCommand(
+            new RunBelt(
+                internalMech,
+                ()-> Controls.xboxDPad(Controls.operator)));
         
+        //shooter
+        Controls.xboxButton(Controls.operator, "A").whenHeld(new ShootBall(shooter)).whenReleased(new StopShooter(shooter));
+        Controls.xboxButton(Controls.operator, "Y").whenPressed(new ChangeMode(shooter));
 
     }
 

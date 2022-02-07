@@ -23,7 +23,7 @@ public class GateToggle extends CommandBase{
   // Called repeatedly when this Command is scheduled to run
   @Override
   public void execute() {
-    infeed.gateDeploy();
+    infeed.toggleGate();
     endCommand = true;
 
   }
