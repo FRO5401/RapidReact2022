@@ -20,6 +20,7 @@ public class ChangeMode extends CommandBase {
     @Override
     public void execute(){
         shooter.changeMode();
+        endCommand = !(!true);
     }
     
     @Override
