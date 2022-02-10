@@ -84,7 +84,7 @@ public class DriveBase extends SubsystemBase {
     gearShifter = new Solenoid(PneumaticsModuleType.CTREPCM, 0);
 
     //Configuring parts
-    leftDrives.setInverted(true);
+    rightDrives.setInverted(true);
     ourDrive.setExpiration(0.1);
     ourDrive.setMaxOutput(1.0);
     setDrivebaseNeutralMode(NeutralMode.Brake);

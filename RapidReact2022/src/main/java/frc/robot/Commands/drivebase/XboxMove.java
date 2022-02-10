@@ -54,9 +54,19 @@ public class XboxMove extends CommandBase {
     precision = newPrecision.getAsBoolean();
     brake = newBrake.getAsBoolean();
     rotate = newRotate.getAsBoolean();
+    System.out.println("funny moments compilation 53");
     
     
     addRequirements(drivebase);
+  }
+
+  public void update(DoubleSupplier newThrottle, DoubleSupplier newReverse, DoubleSupplier newTurn, BooleanSupplier newRotate, BooleanSupplier newPrecision, BooleanSupplier newBrake) {
+    throttle = newThrottle.getAsDouble();
+    reverse = newReverse.getAsDouble();
+    turn = newTurn.getAsDouble();
+    precision = newPrecision.getAsBoolean();
+    brake = newBrake.getAsBoolean();
+    rotate = newRotate.getAsBoolean();
   }
 
   // Called just before this Command runs the first time

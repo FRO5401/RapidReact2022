@@ -66,7 +66,14 @@ public class Robot extends TimedRobot {
    * This function is called periodically during operator control.
    */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    robotContainer.getXboxInstance().update(() -> Controls.xboxAxis(Controls.driver, "LT"),
+    () -> Controls.xboxAxis(Controls.driver, "RT"),
+    () -> Controls.xboxAxis(Controls.driver, "LS-X"),
+    () -> Controls.xboxButton(Controls.driver, "LS").get(),
+    () -> Controls.xboxButton(Controls.driver, "RB").get(),
+    () -> Controls.xboxButton(Controls.driver, "LB").get());
+  }
   
   @Override
   public void disabledPeriodic() {}

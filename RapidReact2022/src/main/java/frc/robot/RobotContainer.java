@@ -27,6 +27,15 @@ public class RobotContainer {
     private final NetworkTables networktables= new NetworkTables();
     //private final CompressorSubsystem compressor = new CompressorSubsystem();
 
+    private final XboxMove xboxmove = 
+    new XboxMove(
+        drivebase,
+        () -> Controls.xboxAxis(Controls.driver, "LT"),
+        () -> Controls.xboxAxis(Controls.driver, "RT"),
+        () -> Controls.xboxAxis(Controls.driver, "LS-X"),
+        () -> Controls.xboxButton(Controls.driver, "LS").get(),
+        () -> Controls.xboxButton(Controls.driver, "RB").get(),
+        () -> Controls.xboxButton(Controls.driver, "LB").get());
 
     public RobotContainer() {
         
@@ -38,18 +47,14 @@ public class RobotContainer {
         SmartDashboard.putData("Auto choices", chooser);
     }
 
+    public XboxMove getXboxInstance(){
+      return xboxmove;
+    }
+
     private void configureButtonBindings() {
 
         //Sets the default command of drivebase to an array of things needed to drive normally
-        drivebase.setDefaultCommand(
-            new XboxMove(
-                drivebase,
-                () -> Controls.xboxAxis(Controls.driver, "LT"),
-                () -> Controls.xboxAxis(Controls.driver, "RT"),
-                () -> Controls.xboxAxis(Controls.driver, "LS-X"),
-                () -> Controls.xboxButton(Controls.driver, "LS").get(),
-                () -> Controls.xboxButton(Controls.driver, "RB").get(),
-                () -> Controls.xboxButton(Controls.driver, "LB").get()));
+        drivebase.setDefaultCommand(xboxmove);
 
         //Drivebase Controls      
         Controls.xboxButton(Controls.operator, "Back").whenPressed(new ResetSensors(drivebase));
