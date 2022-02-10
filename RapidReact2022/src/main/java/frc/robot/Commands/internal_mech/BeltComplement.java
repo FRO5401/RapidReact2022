@@ -1,43 +1,39 @@
-package frc.robot.Commands.drivebase;
+package frc.robot.Commands.internal_mech;
+
+import java.util.function.IntSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Subsystems.DriveBase;
+import frc.robot.Subsystems.InternalMech;
 
-public class ResetSensors extends CommandBase{
+public class BeltComplement extends CommandBase{
      /*** Variables ***/
 
-     boolean endCommand = false;
+  InternalMech internalMech;   
+  boolean endCommand;
+  String mode;
 
-  private final DriveBase drivebase;
+  public BeltComplement(InternalMech m_internalMech, String mode) {
+    internalMech = m_internalMech;
+    this.mode = mode;
 
-  public ResetSensors(DriveBase m_drivebase) {
-    drivebase = m_drivebase;
-    
-    addRequirements(drivebase);
+    addRequirements(internalMech);
   }
 
   // Called just before this Command runs the first time
   @Override
   public void initialize() {
-    drivebase.shift("LOW");
+    
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   public void execute() {
-    
-      drivebase.resetEncoders();
-      drivebase.resetGyroAngle();
-      drivebase.resetSparkEncoders();
-      drivebase.resetSparkEncoders(); // ;)
-      System.out.println("reset sensors");
-      endCommand = true;
-    
+    internalMech.run(mode);
+    endCommand = true;
   }
 
   @Override
   public void end(boolean interrupted) {
-    
   }
 
   // Make this return true when this Command no longer needs to run execute()

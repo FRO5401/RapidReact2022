@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Autonomous.*;
 import frc.robot.Commands.drivebase.*;
 import frc.robot.Commands.infeed.*;
@@ -63,8 +64,22 @@ public class RobotContainer {
 
         //Subsystem Controls
         //infeed
-        Controls.xboxButton(Controls.operator, "RB").whenHeld(new InfeedIn(infeed)).whenReleased(new InfeedStop(infeed));
-        Controls.xboxButton(Controls.operator, "LB").whenHeld(new InfeedOut(infeed)).whenReleased(new InfeedStop(infeed));
+        Controls.xboxButton(Controls.operator, "RB").whenHeld(new SequentialCommandGroup(
+            new InfeedIn(infeed), 
+            new BeltComplement(internalMech, "PULL"), 
+            new LoadBall(shooter, "LOAD")))
+        .whenReleased(new SequentialCommandGroup(
+            new InfeedStop(infeed),
+            new BeltComplement(internalMech, "STOP"),
+            new LoadBall(shooter, "STOP")));
+        Controls.xboxButton(Controls.operator, "LB").whenHeld(new SequentialCommandGroup(
+            new InfeedOut(infeed),
+            new BeltComplement(internalMech, "PUSH"),
+            new LoadBall(shooter, "UNLOAD")))
+        .whenReleased(new SequentialCommandGroup(
+            new InfeedStop(infeed),
+            new BeltComplement(internalMech, "STOP"),
+            new LoadBall(shooter, "STOP")));
         Controls.xboxButton(Controls.operator, "B").whenPressed(new GateToggle(infeed));
 
         //internal mechanism
@@ -74,7 +89,14 @@ public class RobotContainer {
                 ()-> Controls.xboxDPad(Controls.operator)));
         
         //shooter
-        Controls.xboxButton(Controls.operator, "A").whenHeld(new ShootBall(shooter)).whenReleased(new StopShooter(shooter));
+        Controls.xboxButton(Controls.operator, "A").whenHeld(new SequentialCommandGroup(
+            new ShootBall(shooter),
+            new BeltComplement(internalMech, "PULL"),
+            new LoadBall(shooter, "UNLOAD")))
+        .whenReleased(new SequentialCommandGroup(
+            new ShootBall(shooter),
+            new BeltComplement(internalMech, "STOP"),
+            new LoadBall(shooter, "STOP")));
         Controls.xboxButton(Controls.operator, "Y").whenPressed(new ChangeMode(shooter));
 
     }
