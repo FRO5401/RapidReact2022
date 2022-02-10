@@ -7,21 +7,17 @@ import frc.robot.Subsystems.DriveBase;
 public class AutoDrive extends CommandBase {
 
     private DriveBase drivebase;
-	private double angle;
-	private double desiredDistance;
-	private double autoDriveSpeed;
+	private double angle, desiredDistance, autoDriveSpeed, distanceTraveled; //Can declare variables next to each other
 	private boolean doneTraveling;
-	private double distanceTraveled;
 
 	public AutoDrive(double DistanceInput, double SpeedInput, DriveBase passedDrivebase) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		// requires(drivebase);
-
+        doneTraveling = false;
         drivebase = passedDrivebase;
 		desiredDistance = DistanceInput;
 		autoDriveSpeed = SpeedInput;
-		doneTraveling = true;
         distanceTraveled = 0;
         addRequirements(drivebase);
 	}
@@ -33,11 +29,9 @@ public class AutoDrive extends CommandBase {
         //drivebase.resetSensors();
         drivebase.DPPShifter("HIGH");
 		drivebase.DPPShifter("LOW");
-
-        doneTraveling = false;
         distanceTraveled = 0;
 
-    }
+    } 
 
 	// Called repeatedly when this Command is scheduled to run
     @Override

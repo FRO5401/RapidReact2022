@@ -148,11 +148,11 @@ public class DriveBase extends SubsystemBase {
   public void autoTurn(double speed, double angle) {
     double gyroAngle = getGyroAngle();
     if (gyroAngle > (angle+2))
-      ourDrive.tankDrive(-speed, speed);
+      drive(-speed, speed);
     else if (gyroAngle < (angle-2))
-      ourDrive.tankDrive(speed, -speed);
+      drive(speed, -speed);
     else 
-      ourDrive.tankDrive(0, 0);
+      drive(0, 0);
   }
 
   //Experimental turning method
@@ -165,26 +165,16 @@ public class DriveBase extends SubsystemBase {
    //For driving automatically
    public void autoDrive(double left, double right, double angle) {
     if (left > 0 && right > 0){ //driving forwards
-      if (angle > 0){ //drifting right TODO: turn autospeed adjustment and the additional adjustment into 1
-        ourDrive.tankDrive(left, right * Constants.AutoConstants.AUTO_SPEED_ADJUSTMENT * 1.08);
-      }
-      else if (angle < 0){ //drifting left
-        ourDrive.tankDrive(left * Constants.AutoConstants.AUTO_SPEED_ADJUSTMENT * 1.08, right);
-      } 
-      else{
-        ourDrive.tankDrive(left, right);
-      }
+      drive(
+        angle < 0 ? left : left * Constants.AutoConstants.AUTO_SPEED_ADJUSTMENT * 1.08,
+        angle > 0 ? right : right * Constants.AutoConstants.AUTO_SPEED_ADJUSTMENT * 1.08
+      );
     }
     else if (left < 0 && right < 0){ //driving backwards
-      if (angle > 0){ //drifting right
-        ourDrive.tankDrive(left * Constants.AutoConstants.AUTO_SPEED_ADJUSTMENT * 1.08, right);
-      }
-      else if (angle < 0){ //drifting left
-        ourDrive.tankDrive(left, right * Constants.AutoConstants.AUTO_SPEED_ADJUSTMENT * 1.08);
-      } 
-      else{
-        ourDrive.tankDrive(left, right);
-      }
+      drive(
+        angle > 0 ? left : left * Constants.AutoConstants.AUTO_SPEED_ADJUSTMENT * 1.08,
+        angle < 0 ? right : right * Constants.AutoConstants.AUTO_SPEED_ADJUSTMENT * 1.08
+      );
     }
     else{ //When leftDrive1 and rightDrive1 are zero
       drive(0,0);      

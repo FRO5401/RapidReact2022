@@ -28,7 +28,6 @@ public class ResetSensors extends CommandBase{
     
       drivebase.resetEncoders();
       drivebase.resetGyroAngle();
-      drivebase.resetSparkEncoders();
       drivebase.resetSparkEncoders(); // ;)
       System.out.println("reset sensors");
       endCommand = true;
