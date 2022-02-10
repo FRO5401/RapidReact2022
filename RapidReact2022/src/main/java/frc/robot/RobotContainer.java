@@ -1,23 +1,19 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Autonomous.*;
-import frc.robot.Commands.XboxMove;
-import frc.robot.Subsystems.DriveBase;
-import frc.robot.Subsystems.NetworkTables;
+import frc.robot.Commands.drivebase.*;
+import frc.robot.Subsystems.*;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -27,15 +23,13 @@ public class RobotContainer {
     
     private final SendableChooser<Command> chooser = new SendableChooser<Command>();
     // The robot's subsystems
-    public final DriveBase drivebase = new DriveBase();
-    public final NetworkTables networktables= new NetworkTables();
+    private final DriveBase drivebase = new DriveBase();
+    private final NetworkTables networktables= new NetworkTables();
     //private final CompressorSubsystem compressor = new CompressorSubsystem();
 
 
     public RobotContainer() {
-
-        drivebase.setDefaultCommand(new XboxMove(drivebase));
-
+        
         configureButtonBindings();
         chooser.setDefaultOption("Do Nothing", new DoNothing(drivebase));
         chooser.addOption("Drive Straight", new DriveStraight(200, 0.3, drivebase));
@@ -46,7 +40,21 @@ public class RobotContainer {
 
     private void configureButtonBindings() {
 
-        
+        //Sets the default command of drivebase to an array of things needed to drive normally
+        drivebase.setDefaultCommand(
+            new XboxMove(
+                drivebase,
+                () -> Controls.xboxAxis(Controls.driver, "LT"),
+                () -> Controls.xboxAxis(Controls.driver, "RT"),
+                () -> Controls.xboxAxis(Controls.driver, "LS-X"),
+                () -> Controls.xboxButton(Controls.driver, "LS").get(),
+                () -> Controls.xboxButton(Controls.driver, "RB").get(),
+                () -> Controls.xboxButton(Controls.driver, "LB").get()));
+
+        //Drivebase Controls      
+        Controls.xboxButton(Controls.operator, "Back").whenPressed(new ResetSensors(drivebase));
+        Controls.xboxButton(Controls.driver, "Start").whenPressed(new GearShiftHigh(drivebase));
+        Controls.xboxButton(Controls.driver, "Back").whenPressed(new GearShiftLow(drivebase));
 
     }
 

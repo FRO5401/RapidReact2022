@@ -1,45 +1,101 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 public class Controls {
   // The driver's controller
   public static XboxController driver = new XboxController(Constants.ControlConstants.XBOX_CONTROLLER_DRIVER);
   public static XboxController operator = new XboxController(Constants.ControlConstants.XBOX_CONTROLLER_OPERATOR);
 
-  public static XboxController getXboxController(String controller) {
-    if (controller.toUpperCase().equals("DRIVER"))
-      return driver;
-    return operator;
-  }
+   //Buttons (Driver)
+   static JoystickButton xboxA_Driver = new JoystickButton(driver, Constants.ControlConstants.XBOX_BUTTON_A);
+   static JoystickButton xboxB_Driver			  = new JoystickButton(driver, Constants.ControlConstants.XBOX_BUTTON_B);
+   static JoystickButton xboxX_Driver			  = new JoystickButton(driver, Constants.ControlConstants.XBOX_BUTTON_X);
+   static JoystickButton xboxY_Driver			  = new JoystickButton(driver, Constants.ControlConstants.XBOX_BUTTON_Y);
+   static JoystickButton xboxLeftBumper_Driver  = new JoystickButton(driver, Constants.ControlConstants.XBOX_BUTTON_LEFT_BUMPER);
+   static JoystickButton xboxRightBumper_Driver = new JoystickButton(driver, Constants.ControlConstants.XBOX_BUTTON_RIGHT_BUMPER);
+   static JoystickButton xboxBack_Driver		  = new JoystickButton(driver, Constants.ControlConstants.XBOX_BUTTON_BACK);
+   static JoystickButton xboxStart_Driver		  = new JoystickButton(driver, Constants.ControlConstants.XBOX_BUTTON_START);
+   static JoystickButton xboxL3_Driver		  = new JoystickButton(driver, Constants.ControlConstants.XBOX_BUTTON_L3);
+   static JoystickButton xboxR3_Driver		  = new JoystickButton(driver, Constants.ControlConstants.XBOX_BUTTON_R3);
+   
+   //Buttons (Operator)
+   static JoystickButton xboxA_Operator			= new JoystickButton(operator, Constants.ControlConstants.XBOX_BUTTON_A);
+   static JoystickButton xboxB_Operator			= new JoystickButton(operator, Constants.ControlConstants.XBOX_BUTTON_B);
+   static JoystickButton xboxX_Operator			= new JoystickButton(operator, Constants.ControlConstants.XBOX_BUTTON_X);
+   static JoystickButton xboxY_Operator			= new JoystickButton(operator, Constants.ControlConstants.XBOX_BUTTON_Y);
+   static JoystickButton xboxLeftBumper_Operator  = new JoystickButton(operator, Constants.ControlConstants.XBOX_BUTTON_LEFT_BUMPER);
+   static JoystickButton xboxRightBumper_Operator = new JoystickButton(operator, Constants.ControlConstants.XBOX_BUTTON_RIGHT_BUMPER);
+   static JoystickButton xboxBack_Operator		= new JoystickButton(operator, Constants.ControlConstants.XBOX_BUTTON_BACK);
+   static JoystickButton xboxStart_Operator		= new JoystickButton(operator, Constants.ControlConstants.XBOX_BUTTON_START);
+   static JoystickButton xboxL3_Operator		  	= new JoystickButton(operator, Constants.ControlConstants.XBOX_BUTTON_L3);
+   static JoystickButton xboxR3_Operator		  	= new JoystickButton(operator, Constants.ControlConstants.XBOX_BUTTON_R3);
 
-  public static boolean xboxButton(XboxController controller, String button) {
-    boolean output = false;
-    switch (button.toUpperCase()) {
-      case "A":
-        output = controller.getAButton();
-        break;
-      case "B":
-        output = controller.getBButton();
-        break;
-      case "X":
-        output = controller.getXButton();
-        break;
-      case "Y":
-        output = controller.getYButton();
-        break;
-      case "LS":
-        output = controller.getLeftStickButton();
-        break;
-      case "RS":
-        output = controller.getRightStickButton();
-        break;
-      case "START":
-        output = controller.getStartButton();
-        break;
-      case "BACK":
-        output = controller.getBackButton();
-        break;
+   
+
+   public static JoystickButton xboxButton(XboxController controller, String button) {
+    JoystickButton output;
+    if(controller == driver) {
+      switch (button.toUpperCase()) {
+        case "A":
+          output = xboxA_Driver;
+          break;
+        case "B":
+          output = xboxB_Driver;
+          break;
+        case "X":
+          output = xboxX_Driver;
+          break;
+        case "Y":
+          output = xboxY_Driver;
+          break;
+        case "LS":
+          output = xboxL3_Driver;
+          break;
+        case "RS":
+          output = xboxR3_Driver;
+          break;
+        case "START":
+          output = xboxStart_Driver;
+          break;
+        case "BACK":
+          output = xboxBack_Driver;
+          break;
+        default:
+          output = xboxA_Driver;  
+      }
+    }
+    else
+    {
+      switch (button.toUpperCase()) {
+        case "A":
+          output = xboxA_Operator;
+          break;
+        case "B":
+          output = xboxB_Operator;
+          break;
+        case "X":
+          output = xboxX_Operator;
+          break;
+        case "Y":
+          output = xboxY_Operator;
+          break;
+        case "LS":
+          output = xboxL3_Operator;
+          break;
+        case "RS":
+          output = xboxL3_Operator;
+          break;
+        case "START":
+          output = xboxStart_Operator;
+          break;
+        case "BACK":
+          output = xboxBack_Operator;
+          break;
+        default:
+          output = xboxBack_Operator;  
+      }
     }
     return output;
   }
@@ -73,3 +129,5 @@ public class Controls {
     return controller.getPOV();
   }
 }
+  
+  

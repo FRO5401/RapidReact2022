@@ -7,21 +7,17 @@ import frc.robot.Subsystems.DriveBase;
 public class AutoDrive extends CommandBase {
 
     private DriveBase drivebase;
-	private double angle;
-	private double desiredDistance;
-	private double autoDriveSpeed;
+	private double angle, desiredDistance, autoDriveSpeed, distanceTraveled; //Can declare variables next to each other
 	private boolean doneTraveling;
-	private double distanceTraveled;
 
 	public AutoDrive(double DistanceInput, double SpeedInput, DriveBase passedDrivebase) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		// requires(drivebase);
-
+        doneTraveling = false;
         drivebase = passedDrivebase;
 		desiredDistance = DistanceInput;
 		autoDriveSpeed = SpeedInput;
-		doneTraveling = true;
         distanceTraveled = 0;
         addRequirements(drivebase);
 	}
@@ -31,19 +27,17 @@ public class AutoDrive extends CommandBase {
     public void initialize() {
 
         //drivebase.resetSensors();
-        drivebase.setDPPHighGear();
-        drivebase.setDPPLowGear();
-
-        doneTraveling = false;
+        drivebase.DPPShifter("HIGH");
+		drivebase.DPPShifter("LOW");
         distanceTraveled = 0;
 
-    }
+    } 
 
 	// Called repeatedly when this Command is scheduled to run
     @Override
     public void execute() {
         angle = drivebase.getGyroAngle();
-        distanceTraveled = drivebase.getEncoderDistance(2) * Constants.DriveConstants.LOW_GEAR_RIGHT_DPP;
+        distanceTraveled = drivebase.getRightEncoder().getDistance() * Constants.DriveConstants.LOW_GEAR_RIGHT_DPP;
         if ((distanceTraveled) <= (desiredDistance) && desiredDistance >= 0) {
             drivebase.autoDrive(autoDriveSpeed, autoDriveSpeed, angle);
             doneTraveling = false;

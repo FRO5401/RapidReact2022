@@ -3,7 +3,6 @@ package frc.robot.Autonomous;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.Timer;
-import frc.robot.RobotContainer;
 import frc.robot.Subsystems.DriveBase;
 import frc.robot.Subsystems.NetworkTables;
 
@@ -61,8 +60,8 @@ public class AutoBallInfeed extends CommandBase {
 		networktables.resetValues();
 		drivebase.resetEncoders();
 		drivebase.resetGyroAngle();
-		drivebase.setDPPHighGear();
-		drivebase.setDPPLowGear();
+		drivebase.DPPShifter("HIGH");
+		drivebase.DPPShifter("LOW");
 
 		doneTraveling = false;
 		isCentered = false;

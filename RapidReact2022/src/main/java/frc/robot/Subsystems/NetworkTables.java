@@ -6,9 +6,6 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
-/**
- * An example subsystem. You can replace me with your own Subsystem.
- */
 public class NetworkTables extends SubsystemBase {
   
   NetworkTable ballTable;
