@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.Utilities.JoystickAxis;
 
 public class Controls {
   // The driver's controller
@@ -32,7 +33,22 @@ public class Controls {
    static JoystickButton xboxL3_Operator		  	= new JoystickButton(operator, Constants.ControlConstants.XBOX_BUTTON_L3);
    static JoystickButton xboxR3_Operator		  	= new JoystickButton(operator, Constants.ControlConstants.XBOX_BUTTON_R3);
 
-   
+   //Axis (Driver)
+  static JoystickAxis xboxRT_Driver = new JoystickAxis(driver, Constants.ControlConstants.XBOX_AXIS_RIGHT_TRIGGER);
+  static JoystickAxis xboxLT_Driver = new JoystickAxis(driver, Constants.ControlConstants.XBOX_AXIS_LEFT_TRIGGER);
+  static JoystickAxis xboxLX_Driver = new JoystickAxis(driver, Constants.ControlConstants.XBOX_AXIS_RIGHT_X);
+  static JoystickAxis xboxRX_Driver = new JoystickAxis(driver, Constants.ControlConstants.XBOX_AXIS_LEFT_X);
+  static JoystickAxis xboxLY_Driver = new JoystickAxis(driver, Constants.ControlConstants.XBOX_AXIS_RIGHT_Y);
+  static JoystickAxis xboxRY_Driver = new JoystickAxis(driver, Constants.ControlConstants.XBOX_AXIS_LEFT_Y);
+
+   //Axis (Operator)
+  static JoystickAxis xboxRT_Operator = new JoystickAxis(operator, Constants.ControlConstants.XBOX_AXIS_RIGHT_TRIGGER);
+  static JoystickAxis xboxLT_Operator = new JoystickAxis(operator, Constants.ControlConstants.XBOX_AXIS_LEFT_TRIGGER);
+  static JoystickAxis xboxLX_Operator = new JoystickAxis(operator, Constants.ControlConstants.XBOX_AXIS_RIGHT_X);
+  static JoystickAxis xboxRX_Operator= new JoystickAxis(operator, Constants.ControlConstants.XBOX_AXIS_LEFT_X);
+  static JoystickAxis xboxLY_Operator = new JoystickAxis(operator, Constants.ControlConstants.XBOX_AXIS_RIGHT_Y);
+  static JoystickAxis xboxRY_Operator = new JoystickAxis(operator, Constants.ControlConstants.XBOX_AXIS_LEFT_Y);
+
 
    public static JoystickButton xboxButton(XboxController controller, String button) {
     JoystickButton output;
@@ -100,27 +116,54 @@ public class Controls {
     return output;
   }
 
-  public static double xboxAxis(XboxController controller, String axis) {
-    double output = 0;
-    switch (axis.toUpperCase()) {
-      case "LS-Y":
-        output = controller.getLeftY();
-        break;
-      case "LS-X":
-        output = controller.getLeftX();
-        break;
-      case "RS-Y":
-        output = controller.getRightY();
-        break;
-      case "RS-X":
-        output = controller.getRightX();
-        break;
-      case "LT":
-        output = controller.getLeftTriggerAxis();
-        break;
-      case "RT":
-        output = controller.getRightTriggerAxis();
-        break;
+  public static JoystickAxis xboxAxis(XboxController controller, String axis) {
+    JoystickAxis output;
+    if(controller == driver) {
+      switch (axis.toUpperCase()) {
+        case "LT":
+          output = xboxLT_Driver;
+          break;
+        case "RT":
+          output = xboxRT_Driver;
+          break;
+        case "LS-X":
+          output = xboxLX_Driver;
+          break;
+        case "LS-Y":
+          output = xboxLY_Driver;
+          break;
+        case "RS-X":
+          output = xboxRX_Driver;
+          break;
+        case "RS-Y":
+          output = xboxRY_Driver;
+        default:
+          output = xboxRX_Driver;  
+      }
+    }
+    else
+    {
+      switch (axis.toUpperCase()) {
+        case "LT":
+          output = xboxLT_Operator;
+          break;
+        case "RT":
+          output = xboxRT_Operator;
+          break;
+        case "LS-X":
+          output = xboxLX_Operator;
+          break;
+        case "LS-Y":
+          output = xboxLY_Operator;
+          break;
+        case "RS-X":
+          output = xboxRX_Operator;
+          break;
+        case "RS-Y":
+          output = xboxRY_Operator;
+        default:
+          output = xboxRX_Operator;    
+      }
     }
     return output;
   }

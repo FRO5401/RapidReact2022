@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Autonomous.*;
 import frc.robot.Commands.drivebase.*;
 import frc.robot.Subsystems.*;
+import frc.robot.Utilities.MultipleInputGroup;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -25,17 +26,10 @@ public class RobotContainer {
     // The robot's subsystems
     private final DriveBase drivebase = new DriveBase();
     private final NetworkTables networktables= new NetworkTables();
+
+    private final MultipleInputGroup drivetrain = new MultipleInputGroup();
     //private final CompressorSubsystem compressor = new CompressorSubsystem();
 
-    private final XboxMove xboxmove = 
-    new XboxMove(
-        drivebase,
-        () -> Controls.xboxAxis(Controls.driver, "LT"),
-        () -> Controls.xboxAxis(Controls.driver, "RT"),
-        () -> Controls.xboxAxis(Controls.driver, "LS-X"),
-        () -> Controls.xboxButton(Controls.driver, "LS").get(),
-        () -> Controls.xboxButton(Controls.driver, "RB").get(),
-        () -> Controls.xboxButton(Controls.driver, "LB").get());
 
     public RobotContainer() {
         
@@ -47,20 +41,22 @@ public class RobotContainer {
         SmartDashboard.putData("Auto choices", chooser);
     }
 
-    public XboxMove getXboxInstance(){
-      return xboxmove;
-    }
-
     private void configureButtonBindings() {
-
-        //Sets the default command of drivebase to an array of things needed to drive normally
-        drivebase.setDefaultCommand(xboxmove);
 
         //Drivebase Controls      
         Controls.xboxButton(Controls.operator, "Back").whenPressed(new ResetSensors(drivebase));
         Controls.xboxButton(Controls.driver, "Start").whenPressed(new GearShiftHigh(drivebase));
         Controls.xboxButton(Controls.driver, "Back").whenPressed(new GearShiftLow(drivebase));
+        drivetrain.whenAnyActive(new XboxMove(drivebase));
+    }
 
+    private void configureInputGroups(){
+        drivetrain.addAxis(Controls.xboxLT_Driver);
+        drivetrain.addAxis(Controls.xboxRT_Driver);
+        drivetrain.addAxis(Controls.xboxLX_Driver);
+        drivetrain.addButton(Controls.xboxRightBumper_Driver);
+        drivetrain.addButton(Controls.xboxLeftBumper_Driver);
+        drivetrain.addButton(Controls.xboxL3_Driver);
     }
 
     public Command getAutonomousCommand(){

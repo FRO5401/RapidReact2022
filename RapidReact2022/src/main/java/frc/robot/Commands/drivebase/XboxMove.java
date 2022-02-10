@@ -46,27 +46,13 @@ public class XboxMove extends CommandBase {
 
   private final DriveBase drivebase;
 
-  public XboxMove(DriveBase m_drivebase, DoubleSupplier newThrottle, DoubleSupplier newReverse, DoubleSupplier newTurn, BooleanSupplier newRotate, BooleanSupplier newPrecision, BooleanSupplier newBrake) {
+  public XboxMove(DriveBase m_drivebase) {
     drivebase = m_drivebase;
-    throttle = newThrottle.getAsDouble();
-    reverse = newReverse.getAsDouble();
-    turn = newTurn.getAsDouble();
-    precision = newPrecision.getAsBoolean();
-    brake = newBrake.getAsBoolean();
-    rotate = newRotate.getAsBoolean();
+    
     System.out.println("funny moments compilation 53");
     
     
     addRequirements(drivebase);
-  }
-
-  public void update(DoubleSupplier newThrottle, DoubleSupplier newReverse, DoubleSupplier newTurn, BooleanSupplier newRotate, BooleanSupplier newPrecision, BooleanSupplier newBrake) {
-    throttle = newThrottle.getAsDouble();
-    reverse = newReverse.getAsDouble();
-    turn = newTurn.getAsDouble();
-    precision = newPrecision.getAsBoolean();
-    brake = newBrake.getAsBoolean();
-    rotate = newRotate.getAsBoolean();
   }
 
   // Called just before this Command runs the first time
@@ -78,7 +64,12 @@ public class XboxMove extends CommandBase {
   // Called repeatedly when this Command is scheduled to run
   @Override
   public void execute() {
-    
+    throttle = Controls.xboxAxis(Controls.driver, "RT").getAxis();
+    reverse = Controls.xboxAxis(Controls.driver, "LT").getAxis();
+    turn = Controls.xboxAxis(Controls.driver, "LS-X").getAxis();
+    precision = Controls.xboxButton(Controls.driver, "RB").get();
+    brake = Controls.xboxButton(Controls.driver, "LB").get();
+    rotate = Controls.xboxButton(Controls.driver, "LS").get();
       //Braking
        /*** Precision ***/
       //Hold for Precision Speed

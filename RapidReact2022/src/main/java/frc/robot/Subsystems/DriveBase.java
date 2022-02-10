@@ -84,7 +84,7 @@ public class DriveBase extends SubsystemBase {
     gearShifter = new Solenoid(PneumaticsModuleType.CTREPCM, 0);
 
     //Configuring parts
-    rightDrives.setInverted(true);
+    leftDrives.setInverted(true);
     ourDrive.setExpiration(0.1);
     ourDrive.setMaxOutput(1.0);
     setDrivebaseNeutralMode(NeutralMode.Brake);
@@ -104,7 +104,7 @@ public class DriveBase extends SubsystemBase {
     reportSensors();
 
     //Purely for testing purposes
-    SmartDashboard.putNumber("Axis", Controls.xboxAxis(Controls.driver, "LS-X"));
+    SmartDashboard.putNumber("Axis", Controls.xboxAxis(Controls.driver, "LS-X").getAxis());
    // drivebaseShuffleboard();
   }
 
