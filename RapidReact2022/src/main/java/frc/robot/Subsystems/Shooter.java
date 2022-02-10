@@ -3,6 +3,9 @@ package frc.robot.Subsystems;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+
+import edu.wpi.first.math.controller.BangBangController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -12,11 +15,14 @@ public class Shooter extends SubsystemBase{
     private WPI_TalonFX shooterMotor2;
     private WPI_TalonFX ballLoader;
     private boolean shooterMode = true; //True means high shooting, false means low shooting
-
+    private BangBangController bangbangController;
+    private SimpleMotorFeedforward feedforwardController;
     public Shooter() {
         
         shooterMotor1 = new WPI_TalonFX(Constants.SubsystemConstants.SHOOTER_MOTOR_1);
         shooterMotor2 = new WPI_TalonFX(Constants.SubsystemConstants.SHOOTER_MOTOR_2);
+        bangbangController = new BangBangController();
+        feedforwardController = new SimpleMotorFeedforward(Constants.SubsystemConstants.kS, Constants.SubsystemConstants.kS, Constants.SubsystemConstants.kS);
 
         shooterMotor2.follow(shooterMotor1);
         
@@ -35,13 +41,23 @@ public class Shooter extends SubsystemBase{
         }
     }
 
-    public void run(String mode) {
+    public void run(String mode, boolean shooterMode) {
         if(mode.toUpperCase().equals("START")){
             ballLoader.set(Constants.SubsystemConstants.SHOOTER_SPEED);
         } else if(mode.toUpperCase().equals("STOP")){
             ballLoader.set(0);
         } else { //Call this variable when sending a string
             ballLoader.set(Double.parseDouble(mode));
+        }
+
+        if(shooterMode){
+            shooterMotor1.set(bangbangController.calculate(getVelocity(),Constants.SubsystemConstants.shootHighSpeed) 
+            + Constants.SubsystemConstants.feedFordwardConstant * feedforwardController.calculate(Constants.SubsystemConstants.shootHighSpeed));
+            //Set shooter speed based off BangBangController and FeedFordwardController (Calibrated with SysID)
+        }
+        else{
+            shooterMotor1.set(bangbangController.calculate(getVelocity(),Constants.SubsystemConstants.shootLowSpeed) 
+            + Constants.SubsystemConstants.feedFordwardConstant * feedforwardController.calculate(Constants.SubsystemConstants.shootLowSpeed));
         }
     }
     
@@ -56,6 +72,7 @@ public class Shooter extends SubsystemBase{
     public void setShooterNeutralMode(NeutralMode mode){
         shooterMotor1.setNeutralMode(mode);
     }
+
 
     @Override
     public void periodic(){

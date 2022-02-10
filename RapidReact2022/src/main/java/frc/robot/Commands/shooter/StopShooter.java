@@ -14,12 +14,11 @@ public class StopShooter extends CommandBase {
 
     @Override
     public void initialize(){
-        //shooter.init();
     }
     
     @Override
     public void execute(){
-        shooter.run("STOP");
+        shooter.run("STOP", true);
         endCommand = true;
     }
     

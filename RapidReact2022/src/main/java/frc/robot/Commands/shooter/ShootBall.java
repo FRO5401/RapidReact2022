@@ -14,12 +14,11 @@ public class ShootBall extends CommandBase {
 
     @Override
     public void initialize(){
-        //shooter.init();
     }
     
     @Override
     public void execute(){
-        shooter.run("START");
+        shooter.run("START", true);
         endCommand = true;
     }
     

@@ -14,7 +14,6 @@ public class ChangeMode extends CommandBase {
 
     @Override
     public void initialize(){
-        //shooter.init();
     }
     
     @Override
