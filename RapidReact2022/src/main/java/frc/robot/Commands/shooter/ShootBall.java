@@ -18,13 +18,12 @@ public class ShootBall extends CommandBase {
     
     @Override
     public void execute(){
-        shooter.run("START", true);
+        shooter.run("START");
         endCommand = true;
     }
     
     @Override
     public void end(boolean interrupted){
-        
     }
     @Override
     public boolean isFinished() {

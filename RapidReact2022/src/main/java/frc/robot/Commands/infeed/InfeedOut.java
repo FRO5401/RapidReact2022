@@ -6,7 +6,6 @@ import frc.robot.Subsystems.Infeed;
 public class InfeedOut extends CommandBase{
      /*** Variables ***/
   private final Infeed infeed;
-  boolean endCommand=false;
 
   public InfeedOut(Infeed m_infeed) {
     infeed = m_infeed;
@@ -24,19 +23,17 @@ public class InfeedOut extends CommandBase{
   @Override
   public void execute() {
     infeed.run("OUTFEED");
-    endCommand = true;
-
   }
 
   @Override
   public void end(boolean interrupted) {
-    
+    infeed.run("STOP");
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   public boolean isFinished() {
-    return endCommand;
+    return false;
   }
 
   @Override

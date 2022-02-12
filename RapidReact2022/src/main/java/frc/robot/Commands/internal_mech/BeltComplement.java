@@ -9,7 +9,6 @@ public class BeltComplement extends CommandBase{
      /*** Variables ***/
 
   InternalMech internalMech;   
-  boolean endCommand;
   String mode;
 
   public BeltComplement(InternalMech m_internalMech, String mode) {
@@ -29,7 +28,6 @@ public class BeltComplement extends CommandBase{
   @Override
   public void execute() {
     internalMech.run(mode);
-    endCommand = true;
   }
 
   @Override
@@ -40,7 +38,7 @@ public class BeltComplement extends CommandBase{
   // Make this return true when this Command no longer needs to run execute()
   @Override
   public boolean isFinished() {
-    return endCommand;
+    return false;
   }
 
   @Override

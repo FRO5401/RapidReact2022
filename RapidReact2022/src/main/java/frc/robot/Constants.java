@@ -107,14 +107,16 @@ public class Constants {
     public static final double SHOOTER_SPEED = 0;
     public static final double LOADER_SPEED = 0;
 	  public static final int BALL_LOADER = 0;
-    //Shooter PID Constants
-     
+    public static final double SHOOTER_WAIT_TIME = 0;
+
+    //Shooter PID Constants 
     public static final double kS = 0.0;
     public static final double kV = 0.0; 
     public static final double kA = 0.0;
     public static final double shootLowSpeed = 0.0;
     public static final double shootHighSpeed = 0.0;
     public static final double feedFordwardConstant = 0.0;
+
   }
      
 }

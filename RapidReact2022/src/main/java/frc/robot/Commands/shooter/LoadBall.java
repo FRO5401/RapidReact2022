@@ -5,7 +5,6 @@ import frc.robot.Subsystems.Shooter;
 
 public class LoadBall extends CommandBase {
     Shooter shooter;
-    boolean endCommand = false;
     String mode;
 
     public LoadBall(Shooter m_shooter, String mode){
@@ -22,15 +21,14 @@ public class LoadBall extends CommandBase {
     @Override
     public void execute(){
         shooter.load(mode);
-        endCommand = true;
     }
     
     @Override
     public void end(boolean interrupted){
-        
+        shooter.load("STOP");
     }
     @Override
     public boolean isFinished() {
-      return endCommand;
+      return false;
     }
 }

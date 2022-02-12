@@ -6,12 +6,19 @@ import frc.robot.Constants;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.SparkMaxAlternateEncoder.Type;
 
 public class InternalMech extends SubsystemBase{ 
-    private WPI_TalonSRX mechMotor; 
+    private CANSparkMax mechMotor; 
+    private RelativeEncoder mechEncoder;
     
     public InternalMech(){
-        mechMotor = new WPI_TalonSRX(Constants.SubsystemConstants.INTERNAL_MECH_MOTOR);
+        mechMotor = new CANSparkMax(Constants.SubsystemConstants.INTERNAL_MECH_MOTOR, MotorType.kBrushless);
+        mechEncoder = mechMotor.getAlternateEncoder(Type.kQuadrature, 4096);
     }
 
     public void run(String mode) {
@@ -26,13 +33,17 @@ public class InternalMech extends SubsystemBase{
     }
     
     //Set Motor Neutral
-    public void setMechNeutralMode(){
-        mechMotor.setNeutralMode(NeutralMode.Coast);
-
+    public void setMechIdleMode(IdleMode mode){
+        mechMotor.setIdleMode(mode);
     }
+
+    public double getVelocity(){
+        return mechEncoder.getVelocity();
+    }
+
     //Reports Internal Mech Motor to Smart Dashboard
     public void reportSensors(){
-        SmartDashboard.putNumber("Mech Speed", mechMotor.getSelectedSensorVelocity());
+        SmartDashboard.putNumber("Mech Speed", getVelocity());
     }
 
     //Runs methods periodically
