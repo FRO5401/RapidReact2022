@@ -17,6 +17,7 @@ import frc.robot.Commands.infeed.*;
 import frc.robot.Commands.internal_mech.*;
 import frc.robot.Commands.shooter.*;
 import frc.robot.Subsystems.*;
+import frc.robot.Utilities.MultipleInputGroup;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -33,9 +34,10 @@ public class RobotContainer {
     private final Shooter shooter = new Shooter();
     //private final CompressorSubsystem compressor = new CompressorSubsystem();
 
+    private final MultipleInputGroup drivetrain = new MultipleInputGroup();
 
     public RobotContainer() {
-        
+        configureInputGroups();
         configureButtonBindings();
         chooser.setDefaultOption("Do Nothing", new DoNothing(drivebase));
         chooser.addOption("Drive Straight", new DriveStraight(200, 0.3, drivebase));
@@ -44,18 +46,28 @@ public class RobotContainer {
         SmartDashboard.putData("Auto choices", chooser);
     }
 
+    public boolean updateDrivetrain(){
+        return drivetrain.get();
+    }
+
+    public DriveBase getDriveBase(){
+        return drivebase;
+    }
+
+
+    private void configureInputGroups(){
+        drivetrain.addAxis(Controls.xboxLT_Driver);
+        drivetrain.addAxis(Controls.xboxRT_Driver);
+        drivetrain.addAxis(Controls.xboxLX_Driver);
+        drivetrain.addButton(Controls.xboxRightBumper_Driver);
+        drivetrain.addButton(Controls.xboxLeftBumper_Driver);
+        drivetrain.addButton(Controls.xboxL3_Driver);
+    }
+
     private void configureButtonBindings() {
 
         //Sets the default command of drivebase to an array of things needed to drive normally
-        drivebase.setDefaultCommand(
-            new XboxMove(
-                drivebase,
-                () -> Controls.xboxAxis(Controls.driver, "LT"),
-                () -> Controls.xboxAxis(Controls.driver, "RT"),
-                () -> Controls.xboxAxis(Controls.driver, "LS-X"),
-                () -> Controls.xboxButton(Controls.driver, "LS").get(),
-                () -> Controls.xboxButton(Controls.driver, "RB").get(),
-                () -> Controls.xboxButton(Controls.driver, "LB").get()));
+        drivetrain.whenAnyActive(new XboxMove(drivebase));
 
         //Drivebase Controls      
         Controls.xboxButton(Controls.operator, "Back").whenPressed(new ResetSensors(drivebase));

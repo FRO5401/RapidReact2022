@@ -73,34 +73,30 @@ public class DriveBase extends SubsystemBase {
     navxGyro = new AHRS(I2C.Port.kMXP);
     leftDrive1 = new CANSparkMax(Constants.DriveConstants.DRIVE_MOTOR_LEFT_1, MotorType.kBrushless);
     leftDrive2 = new CANSparkMax(Constants.DriveConstants.DRIVE_MOTOR_LEFT_2, MotorType.kBrushless);
-    leftDrive3 = new CANSparkMax(Constants.DriveConstants.DRIVE_MOTOR_LEFT_3, MotorType.kBrushless);
     rightDrive1 = new CANSparkMax(Constants.DriveConstants.DRIVE_MOTOR_RIGHT_1, MotorType.kBrushless);
     rightDrive2 = new CANSparkMax(Constants.DriveConstants.DRIVE_MOTOR_RIGHT_2, MotorType.kBrushless);
-    rightDrive3 = new CANSparkMax(Constants.DriveConstants.DRIVE_MOTOR_RIGHT_3, MotorType.kBrushless);
-    leftEncoder = new Encoder(Constants.ControlConstants.DRIVE_ENC_LEFT_A, Constants.ControlConstants.DRIVE_ENC_LEFT_B, true, EncodingType.k4X);
-    rightEncoder = new Encoder(Constants.ControlConstants.DRIVE_ENC_RIGHT_A, Constants.ControlConstants.DRIVE_ENC_RIGHT_B, false, EncodingType.k4X);
-    leftEncoders = new RelativeEncoder[3];
-    rightEncoders = new RelativeEncoder[3];
+    //leftEncoder = new Encoder(Constants.ControlConstants.DRIVE_ENC_LEFT_A, Constants.ControlConstants.DRIVE_ENC_LEFT_B, true, EncodingType.k4X);
+    //rightEncoder = new Encoder(Constants.ControlConstants.DRIVE_ENC_RIGHT_A, Constants.ControlConstants.DRIVE_ENC_RIGHT_B, false, EncodingType.k4X);
+    leftEncoders = new RelativeEncoder[2];
+    rightEncoders = new RelativeEncoder[2];
     leftEncoders[0] = leftDrive1.getAlternateEncoder(Type.kQuadrature, 4096);
     leftEncoders[1] = leftDrive2.getAlternateEncoder(Type.kQuadrature, 4096);
-    leftEncoders[2] = leftDrive3.getAlternateEncoder(Type.kQuadrature, 4096);
     rightEncoders[0] = rightDrive1.getAlternateEncoder(Type.kQuadrature, 4096);
     rightEncoders[1] = rightDrive2.getAlternateEncoder(Type.kQuadrature, 4096);
-    rightEncoders[2] = rightDrive3.getAlternateEncoder(Type.kQuadrature, 4096);
 
     //Organization of those physical parts
-    leftDrives = new MotorControllerGroup(leftDrive1, leftDrive2, leftDrive3);
-    rightDrives = new MotorControllerGroup(rightDrive1, rightDrive2, rightDrive3);
+    leftDrives = new MotorControllerGroup(leftDrive1, leftDrive2);
+    rightDrives = new MotorControllerGroup(rightDrive1, rightDrive2);
     ourDrive = new DifferentialDrive(leftDrives, rightDrives);
-    gearShifter = new Solenoid(PneumaticsModuleType.CTREPCM, 0);
+    //gearShifter = new Solenoid(PneumaticsModuleType.CTREPCM, 0);
 
     //Configuring parts
     leftDrives.setInverted(true);
     ourDrive.setExpiration(0.1);
     ourDrive.setMaxOutput(1.0);
     setDrivebaseIdleMode(IdleMode.kBrake);
-    leftEncoder.setDistancePerPulse(Constants.DriveConstants.LOW_GEAR_LEFT_DPP);
-    rightEncoder.setDistancePerPulse(Constants.DriveConstants.LOW_GEAR_RIGHT_DPP);
+    //leftEncoder.setDistancePerPulse(Constants.DriveConstants.LOW_GEAR_LEFT_DPP);
+    //rightEncoder.setDistancePerPulse(Constants.DriveConstants.LOW_GEAR_RIGHT_DPP);
 
     //Shuffleboard and Path Planning
     odometry = new DifferentialDriveOdometry(navxGyro.getRotation2d());
@@ -111,31 +107,31 @@ public class DriveBase extends SubsystemBase {
   //Report sensors whenever
   @Override
   public void periodic() {
-    odometry.update(navxGyro.getRotation2d(), leftEncoder.getDistance(), rightEncoder.getDistance());
+   // odometry.update(navxGyro.getRotation2d(), leftEncoder.getDistance(), rightEncoder.getDistance());
     reportSensors();
 
     //Purely for testing purposes
-    SmartDashboard.putNumber("Axis", Controls.xboxAxis(Controls.driver, "LS-X"));
+    SmartDashboard.putNumber("Axis", Controls.xboxAxis(Controls.driver, "LS-X").getAxis());
    // drivebaseShuffleboard();
   }
 
   //Shift gears
   public void shift(String gear) {
-    if(gear.toUpperCase().equals("LOW")) 
-      gearShifter.set(true);
-    else if(gear.toUpperCase().equals("HIGH")) 
-      gearShifter.set(false);
-    DPPShifter(gear);  
+   // if(gear.toUpperCase().equals("LOW")) 
+    //  gearShifter.set(true);
+  //  else if(gear.toUpperCase().equals("HIGH")) 
+      //gearShifter.set(false);
+    //DPPShifter(gear);  
   }  
 
   //Update DPP to be compliant with gears
   public void DPPShifter(String gear) {
     if(gear.toUpperCase().equals("LOW")) {
-      leftEncoder.setDistancePerPulse(Constants.DriveConstants.LOW_GEAR_LEFT_DPP);
-      rightEncoder.setDistancePerPulse(Constants.DriveConstants.LOW_GEAR_RIGHT_DPP);
+     // leftEncoder.setDistancePerPulse(Constants.DriveConstants.LOW_GEAR_LEFT_DPP);
+     // rightEncoder.setDistancePerPulse(Constants.DriveConstants.LOW_GEAR_RIGHT_DPP);
     } else if(gear.toUpperCase().equals("HIGH")) {
-      leftEncoder.setDistancePerPulse(Constants.DriveConstants.HIGH_GEAR_LEFT_DPP);
-      rightEncoder.setDistancePerPulse(Constants.DriveConstants.HIGH_GEAR_RIGHT_DPP);
+     // leftEncoder.setDistancePerPulse(Constants.DriveConstants.HIGH_GEAR_LEFT_DPP);
+     // rightEncoder.setDistancePerPulse(Constants.DriveConstants.HIGH_GEAR_RIGHT_DPP);
     }
   } 
 
@@ -185,10 +181,8 @@ public class DriveBase extends SubsystemBase {
   public void setDrivebaseIdleMode(IdleMode mode){
     leftDrive1.setIdleMode(mode);
     leftDrive2.setIdleMode(mode);
-    leftDrive3.setIdleMode(mode);
     rightDrive1.setIdleMode(mode);
     rightDrive2.setIdleMode(mode);
-    rightDrive3.setIdleMode(mode);
   }
 
   //Get the 2D position
@@ -224,7 +218,7 @@ public class DriveBase extends SubsystemBase {
   public void resetSparkEncoders() {
     for (int i = 0; i < leftEncoders.length; i++) {
       leftEncoders[i].setPosition(0);
-      rightEncoders[i].setPosition(0);
+     rightEncoders[i].setPosition(0);
     }
   }
 
