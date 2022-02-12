@@ -1,4 +1,4 @@
-package frc.robot.Utilities;
+package frc.robot.Utilities.controllers;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -36,6 +36,6 @@ public class JoystickAxis extends Axis {
 
   @Override
   public boolean get(){
-        return (getAxis()<-Constants.ControlConstants.AXIS_THRESHOLD||getAxis()>Constants.ControlConstants.AXIS_THRESHOLD);
+    return (getAxis()<-Constants.ControlConstants.AXIS_THRESHOLD||getAxis()>Constants.ControlConstants.AXIS_THRESHOLD);
   }
 }

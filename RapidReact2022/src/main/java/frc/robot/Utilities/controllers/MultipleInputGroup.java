@@ -1,4 +1,4 @@
-package frc.robot.Utilities;
+package frc.robot.Utilities.controllers;
 
 import java.util.ArrayList;
 
@@ -9,10 +9,12 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class MultipleInputGroup extends Trigger{
     public ArrayList<JoystickAxis> joystickInputs;
     public ArrayList<JoystickButton> joystickButtonInputs;
+    public ArrayList<JoystickDPad> joystickPOVs;
 
     public MultipleInputGroup(){
         joystickInputs = new ArrayList<JoystickAxis>();
         joystickButtonInputs = new ArrayList<JoystickButton>();
+        joystickPOVs = new ArrayList<JoystickDPad>();
     }
 
     public void addAxis(JoystickAxis axis){
@@ -21,6 +23,10 @@ public class MultipleInputGroup extends Trigger{
 
     public void addButton(JoystickButton button){
         joystickButtonInputs.add(button);
+    }
+
+    public void addPOV(JoystickDPad dpad){
+        joystickPOVs.add(dpad);
     }
 
     public void whenAnyActive(Command command){
@@ -42,6 +48,12 @@ public class MultipleInputGroup extends Trigger{
         }
         for (JoystickAxis axis : joystickInputs){
             if(axis.get()==true){
+                anyPressed = true;
+                return anyPressed;
+            }
+        }
+        for (JoystickDPad pov : joystickPOVs){
+            if(pov.get()==true){
                 anyPressed = true;
                 return anyPressed;
             }

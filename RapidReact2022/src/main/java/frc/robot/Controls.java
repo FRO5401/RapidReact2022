@@ -2,7 +2,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.Utilities.JoystickAxis;
+import frc.robot.Utilities.controllers.JoystickAxis;
+import frc.robot.Utilities.controllers.JoystickDPad;
 
 public class Controls {
   // The driver's controller
@@ -49,6 +50,25 @@ public class Controls {
   static JoystickAxis xboxLY_Operator = new JoystickAxis(operator, Constants.ControlConstants.XBOX_AXIS_RIGHT_Y);
   static JoystickAxis xboxRY_Operator = new JoystickAxis(operator, Constants.ControlConstants.XBOX_AXIS_LEFT_Y);
 
+  //DPad (Driver)
+  static JoystickDPad xboxDPad0_Driver = new JoystickDPad(driver, 0);
+  static JoystickDPad xboxDPad45_Driver = new JoystickDPad(driver, 45);
+  static JoystickDPad xboxDPad90_Driver = new JoystickDPad(driver, 90);
+  static JoystickDPad xboxDPad135_Driver = new JoystickDPad(driver, 135);
+  static JoystickDPad xboxDPad180_Driver = new JoystickDPad(driver, 180);
+  static JoystickDPad xboxDPad225_Driver = new JoystickDPad(driver, 225);
+  static JoystickDPad xboxDPad270_Driver = new JoystickDPad(driver, 270);
+  static JoystickDPad xboxDPad315_Driver = new JoystickDPad(driver, 315);
+
+  //DPad (Driver)
+  static JoystickDPad xboxDPad0_Operator = new JoystickDPad(operator, 0);
+  static JoystickDPad xboxDPad45_Operator = new JoystickDPad(operator, 45);
+  static JoystickDPad xboxDPad90_Operator = new JoystickDPad(operator, 90);
+  static JoystickDPad xboxDPad135_Operator = new JoystickDPad(operator, 135);
+  static JoystickDPad xboxDPad180_Operator= new JoystickDPad(operator, 180);
+  static JoystickDPad xboxDPad225_Operator = new JoystickDPad(operator, 225);
+  static JoystickDPad xboxDPad270_Operator = new JoystickDPad(operator, 270);
+  static JoystickDPad xboxDPad315_Operator = new JoystickDPad(operator, 315);
 
    public static JoystickButton xboxButton(XboxController controller, String button) {
     JoystickButton output;
@@ -137,6 +157,7 @@ public class Controls {
           break;
         case "RS-Y":
           output = xboxRY_Driver;
+          break;
         default:
           output = xboxRX_Driver;  
       }
@@ -161,6 +182,7 @@ public class Controls {
           break;
         case "RS-Y":
           output = xboxRY_Operator;
+          break;
         default:
           output = xboxRX_Operator;    
       }
@@ -168,8 +190,70 @@ public class Controls {
     return output;
   }
 
-  public static int xboxDPad(XboxController controller) {
-    return controller.getPOV();
+  public static JoystickDPad xboxDPad(XboxController controller, int pov) {
+    JoystickDPad output;
+    if(controller == driver) {
+      switch (pov) {
+        case 0:
+          output = xboxDPad0_Driver;
+          break;
+        case 45:
+          output = xboxDPad45_Driver;
+          break;
+        case 90:
+          output = xboxDPad90_Driver;
+          break;
+        case 135:
+          output = xboxDPad135_Driver;
+          break;
+        case 180:
+          output = xboxDPad180_Driver;
+          break;
+        case 225:
+          output = xboxDPad225_Driver;
+          break;
+        case 270:
+          output = xboxDPad270_Driver;  
+          break;
+        case 315:
+          output = xboxDPad315_Driver;  
+          break;
+        default:
+          output = xboxDPad315_Driver;  
+      }
+    }
+    else
+    {
+      switch (pov) {
+        case 0:
+          output = xboxDPad0_Operator;
+          break;
+        case 45:
+          output = xboxDPad45_Operator;
+          break;
+        case 90:
+          output = xboxDPad90_Operator;
+          break;
+        case 135:
+          output = xboxDPad135_Operator;
+          break;
+        case 180:
+          output = xboxDPad180_Operator;
+          break;
+        case 225:
+          output = xboxDPad225_Operator;
+          break;
+        case 270:
+          output = xboxDPad270_Operator;  
+          break;
+        case 315:
+          output = xboxDPad315_Operator;  
+          break;
+        default:
+          output = xboxDPad315_Operator;  
+      }
+    }
+    return output;
   }
 }
   

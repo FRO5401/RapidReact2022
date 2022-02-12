@@ -17,7 +17,7 @@ import frc.robot.Commands.infeed.*;
 import frc.robot.Commands.internal_mech.*;
 import frc.robot.Commands.shooter.*;
 import frc.robot.Subsystems.*;
-import frc.robot.Utilities.MultipleInputGroup;
+import frc.robot.Utilities.controllers.MultipleInputGroup;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -95,10 +95,8 @@ public class RobotContainer {
         Controls.xboxButton(Controls.operator, "B").whenPressed(new GateToggle(infeed));
 
         //internal mechanism
-        internalMech.setDefaultCommand(
-            new RunBelt(
-                internalMech,
-                ()-> Controls.xboxDPad(Controls.operator)));
+        Controls.xboxDPad(Controls.operator, 0).whenHeld(new BeltComplement(internalMech, "PULL"));
+        Controls.xboxDPad(Controls.operator, 0).whenHeld(new BeltComplement(internalMech, "PUSH"));
         
         //shooter
         Controls.xboxButton(Controls.operator, "A").whenHeld(new SequentialCommandGroup(

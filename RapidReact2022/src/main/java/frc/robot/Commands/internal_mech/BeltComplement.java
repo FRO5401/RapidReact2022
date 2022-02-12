@@ -34,6 +34,7 @@ public class BeltComplement extends CommandBase{
 
   @Override
   public void end(boolean interrupted) {
+    internalMech.run("STOP");
   }
 
   // Make this return true when this Command no longer needs to run execute()
