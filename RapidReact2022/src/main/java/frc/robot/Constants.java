@@ -18,12 +18,10 @@ public class Constants {
    //Right Motors
     public static final int DRIVE_MOTOR_RIGHT_1 = 1;
     public static final int DRIVE_MOTOR_RIGHT_2 = 3;
-    public static final int DRIVE_MOTOR_RIGHT_3 = 5;
 
     //Left Motors
-    public static final int DRIVE_MOTOR_LEFT_1 = 7;
-    public static final int DRIVE_MOTOR_LEFT_2 = 9;
-    public static final int DRIVE_MOTOR_LEFT_3 = 11;
+    public static final int DRIVE_MOTOR_LEFT_1 = 2;
+    public static final int DRIVE_MOTOR_LEFT_2 = 4;
   }
 
   public class ControlConstants {
