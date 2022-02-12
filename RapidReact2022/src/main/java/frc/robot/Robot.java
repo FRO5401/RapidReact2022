@@ -67,7 +67,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-   
+    if(!robotContainer.updateDrivetrain())
+      robotContainer.getDriveBase().drive(0, 0);
+    
   }
   
   @Override

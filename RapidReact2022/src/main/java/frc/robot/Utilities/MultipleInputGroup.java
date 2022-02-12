@@ -7,11 +7,12 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class MultipleInputGroup extends Trigger{
-    ArrayList<JoystickAxis> joystickInputs;
-    ArrayList<JoystickButton> joystickButtonInputs;
+    public ArrayList<JoystickAxis> joystickInputs;
+    public ArrayList<JoystickButton> joystickButtonInputs;
 
     public MultipleInputGroup(){
-
+        joystickInputs = new ArrayList<JoystickAxis>();
+        joystickButtonInputs = new ArrayList<JoystickButton>();
     }
 
     public void addAxis(JoystickAxis axis){

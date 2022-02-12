@@ -36,10 +36,10 @@ public class Controls {
    //Axis (Driver)
   static JoystickAxis xboxRT_Driver = new JoystickAxis(driver, Constants.ControlConstants.XBOX_AXIS_RIGHT_TRIGGER);
   static JoystickAxis xboxLT_Driver = new JoystickAxis(driver, Constants.ControlConstants.XBOX_AXIS_LEFT_TRIGGER);
-  static JoystickAxis xboxLX_Driver = new JoystickAxis(driver, Constants.ControlConstants.XBOX_AXIS_RIGHT_X);
-  static JoystickAxis xboxRX_Driver = new JoystickAxis(driver, Constants.ControlConstants.XBOX_AXIS_LEFT_X);
-  static JoystickAxis xboxLY_Driver = new JoystickAxis(driver, Constants.ControlConstants.XBOX_AXIS_RIGHT_Y);
-  static JoystickAxis xboxRY_Driver = new JoystickAxis(driver, Constants.ControlConstants.XBOX_AXIS_LEFT_Y);
+  static JoystickAxis xboxLX_Driver = new JoystickAxis(driver, Constants.ControlConstants.XBOX_AXIS_LEFT_X);
+  static JoystickAxis xboxRX_Driver = new JoystickAxis(driver, Constants.ControlConstants.XBOX_AXIS_RIGHT_X);
+  static JoystickAxis xboxLY_Driver = new JoystickAxis(driver, Constants.ControlConstants.XBOX_AXIS_LEFT_Y);
+  static JoystickAxis xboxRY_Driver = new JoystickAxis(driver, Constants.ControlConstants.XBOX_AXIS_RIGHT_Y);
 
    //Axis (Operator)
   static JoystickAxis xboxRT_Operator = new JoystickAxis(operator, Constants.ControlConstants.XBOX_AXIS_RIGHT_TRIGGER);
