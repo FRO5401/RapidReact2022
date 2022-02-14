@@ -234,12 +234,12 @@ public class DriveBase extends SubsystemBase {
 
   //Report the values
   public void reportSensors() {
-    SmartDashboard.putNumber("Gyro Rotations", getGyroAngle()/360);
-    SmartDashboard.putNumber("Gyro Angle", getGyroAngle());
-    SmartDashboard.putNumber("Gyro Yaw", getGyroYaw());
-    SmartDashboard.putNumber("Gyro Pitch", getGyroPitch());
-    SmartDashboard.putNumber("Gyro Roll", getGyroRoll());
-    SmartDashboard.putNumber("Gyro Turn Rate", getTurnRate());
+    Shuffleboard.getTab("SmartDashboard").add("Gyro Rotations", getGyroAngle()/360);
+    Shuffleboard.getTab("SmartDashboard").add("Gyro Angle", getGyroAngle()).withWidget(BuiltInWidgets.kDial);
+    Shuffleboard.getTab("SmartDashboard").add("Gyro Yaw", getGyroYaw());
+    Shuffleboard.getTab("SmartDashboard").add("Gyro Pitch", getGyroPitch());
+    Shuffleboard.getTab("SmartDashboard").add("Gyro Roll", getGyroRoll());
+    Shuffleboard.getTab("SmartDashboard").add("Gyro Turn Rate", getTurnRate());
   }
 
   //Thing that does not work TODO: make work

@@ -5,6 +5,8 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -39,7 +41,7 @@ public class RobotContainer {
         chooser.addOption("Drive Straight", new DriveStraight(200, 0.3, drivebase));
         chooser.addOption("Ball Center Test", new BallCenterTest(0.3, drivebase, networktables));
         //chooser.addOption("Trajectory Test", new SetTrajectoryPath(drivebase, "paths/DriveStraight.wpilib.json")); //REPLACE LATER
-        SmartDashboard.putData("Auto choices", chooser);
+        Shuffleboard.getTab("SmartDashboard").add("Auto choices", chooser).withWidget(BuiltInWidgets.kComboBoxChooser);
     }
 
     public boolean updateDrivetrain(){
