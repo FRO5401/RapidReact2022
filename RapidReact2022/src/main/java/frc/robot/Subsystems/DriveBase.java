@@ -22,6 +22,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -64,6 +65,12 @@ public class DriveBase extends SubsystemBase {
   private Encoder leftEncoder;
   private Encoder rightEncoder;
 
+  //Shuffleboard
+  private NetworkTableEntry axisSB;
+  private NetworkTableEntry pitchSB, yawSB, rollSB;
+  private NetworkTableEntry angleSB, rotationsSB, turnRateSB;
+  private ShuffleboardTab smartDashboard;
+
   public DriveBase() {
 
     //Instantating the physical parts on the drivebase
@@ -95,6 +102,17 @@ public class DriveBase extends SubsystemBase {
     odometry = new DifferentialDriveOdometry(navxGyro.getRotation2d());
     competitionTab = Shuffleboard.getTab("Competition");
     programmerTab = Shuffleboard.getTab("Programming");
+
+    smartDashboard = Shuffleboard.getTab("SmartDashboard");
+
+    rotationsSB = smartDashboard.add("Gyro Rotations", getGyroAngle()/360).getEntry();
+    angleSB = smartDashboard.add("Gyro Angle", getGyroAngle()).withWidget(BuiltInWidgets.kDial).getEntry();
+    yawSB = smartDashboard.add("Gyro Yaw", getGyroYaw()).getEntry();
+    pitchSB = smartDashboard.add("Gyro Pitch", getGyroPitch()).getEntry();
+    rollSB = smartDashboard.add("Gyro Roll", getGyroRoll()).getEntry();
+    turnRateSB = smartDashboard.add("Gyro Turn Rate", getTurnRate()).getEntry();
+    axisSB = smartDashboard.add("Axis", Controls.xboxAxis(Controls.driver, "LS-X").getAxis()).getEntry();
+    
   }
 
   //Report sensors whenever
@@ -102,9 +120,8 @@ public class DriveBase extends SubsystemBase {
   public void periodic() {
     odometry.update(navxGyro.getRotation2d(), leftEncoder.getDistance(), rightEncoder.getDistance());
     reportSensors();
-
     //Purely for testing purposes
-    SmartDashboard.putNumber("Axis", Controls.xboxAxis(Controls.driver, "LS-X").getAxis());
+    
    // drivebaseShuffleboard();
   }
 
@@ -223,7 +240,7 @@ public class DriveBase extends SubsystemBase {
   public double getGyroAngle() { return navxGyro.getAngle(); }
   public double getGyroYaw(){ return navxGyro.getYaw(); }
   public double getGyroPitch(){ return navxGyro.getPitch(); }
-  public double getGyroRoll(){ return navxGyro.getRoll(); }
+  public double getGyroRoll(){  return navxGyro.getRoll(); }
   public void resetGyroAngle() { navxGyro.reset(); }
   
   //For path planning
@@ -234,16 +251,12 @@ public class DriveBase extends SubsystemBase {
 
   //Report the values
   public void reportSensors() {
-    Shuffleboard.getTab("SmartDashboard").add("Gyro Rotations", getGyroAngle()/360);
-    Shuffleboard.getTab("SmartDashboard").add("Gyro Angle", getGyroAngle()).withWidget(BuiltInWidgets.kDial);
-    Shuffleboard.getTab("SmartDashboard").add("Gyro Yaw", getGyroYaw());
-    Shuffleboard.getTab("SmartDashboard").add("Gyro Pitch", getGyroPitch());
-    Shuffleboard.getTab("SmartDashboard").add("Gyro Roll", getGyroRoll());
-    Shuffleboard.getTab("SmartDashboard").add("Gyro Turn Rate", getTurnRate());
-  }
-
-  //Thing that does not work TODO: make work
-  public void drivebaseShuffleboard(){
-      
+    axisSB.setDouble(Controls.xboxAxis(Controls.driver, "LS-X").getAxis());
+    rotationsSB.setDouble(getGyroAngle()/360);
+    angleSB.setDouble(getGyroAngle());
+    yawSB.setDouble(getGyroYaw());
+    pitchSB.setDouble(getGyroPitch());
+    rollSB.setDouble(getGyroRoll());
+    turnRateSB.setDouble(getTurnRate());
   }
 }

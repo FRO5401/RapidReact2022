@@ -1,5 +1,7 @@
 package frc.robot.Subsystems;
 
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.networktables.NetworkTable;
@@ -30,6 +32,11 @@ public class NetworkTables extends SubsystemBase {
 
     inst.startClientTeam(5401); // where TEAM=190, 294, etc, or use inst.
     inst.startDSClient();
+
+    Shuffleboard.getTab("SmartDashboard").add("Current Ball X", getBXValue()).withWidget(BuiltInWidgets.kGraph);
+    Shuffleboard.getTab("SmartDashboard").add("Current Ball Y", getBYValue()).withWidget(BuiltInWidgets.kGraph);
+    Shuffleboard.getTab("SmartDashboard").add("Current Ball radius", getBallRadius()).withWidget(BuiltInWidgets.kGraph);
+    Shuffleboard.getTab("SmartDashboard").add("Ball Distance", getBallDistance()).withWidget(BuiltInWidgets.kGraph);
   }
 
   @Override
@@ -93,9 +100,6 @@ public class NetworkTables extends SubsystemBase {
 
   public void reportValues()
   {
-    SmartDashboard.putNumber("Current Ball X", getBXValue());
-    SmartDashboard.putNumber("Current Ball Y", getBYValue());
-    SmartDashboard.putNumber("Current Ball radius", getBallRadius());
-    SmartDashboard.putNumber("Ball Distance", getBallDistance());
+   
   }
 }

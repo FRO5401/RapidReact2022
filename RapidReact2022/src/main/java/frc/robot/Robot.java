@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -12,9 +13,9 @@ public class Robot extends TimedRobot {
   private Command autoSelected;
   private RobotContainer robotContainer;
 
-  Robot() {
-    super(0.05);
-  }
+//  Robot() {
+  //  super(0.05);
+ // }
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -38,6 +39,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
+    Shuffleboard.update();
   }
 
   @Override
