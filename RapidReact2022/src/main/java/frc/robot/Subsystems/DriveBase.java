@@ -26,6 +26,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.SPI;
 
 //TODO: Fix Drivebase encoder logic and auto logic
 public class DriveBase extends SubsystemBase {
@@ -69,12 +70,13 @@ public class DriveBase extends SubsystemBase {
   private NetworkTableEntry axisSB;
   private NetworkTableEntry pitchSB, yawSB, rollSB;
   private NetworkTableEntry angleSB, rotationsSB, turnRateSB;
+  private NetworkTableEntry leftSB, rightSB;
   private ShuffleboardTab smartDashboard;
 
   public DriveBase() {
 
     //Instantating the physical parts on the drivebase
-    navxGyro = new AHRS(I2C.Port.kMXP);
+    navxGyro = new AHRS(SPI.Port.kMXP);
     leftDrive1 = new WPI_TalonSRX(Constants.DriveConstants.DRIVE_MOTOR_LEFT_1);
     leftDrive2 = new WPI_VictorSPX(Constants.DriveConstants.DRIVE_MOTOR_LEFT_2);
     leftDrive3 = new WPI_VictorSPX(Constants.DriveConstants.DRIVE_MOTOR_LEFT_3);
@@ -112,7 +114,9 @@ public class DriveBase extends SubsystemBase {
     rollSB = smartDashboard.add("Gyro Roll", getGyroRoll()).getEntry();
     turnRateSB = smartDashboard.add("Gyro Turn Rate", getTurnRate()).getEntry();
     axisSB = smartDashboard.add("Axis", Controls.xboxAxis(Controls.driver, "LS-X").getAxis()).getEntry();
-    
+    rightSB = smartDashboard.add("Right", rightDrive1.getSensorCollection().getQuadraturePosition()).getEntry();
+    leftSB = smartDashboard.add("Left", leftDrive1.getSensorCollection().getQuadraturePosition()).getEntry();
+
   }
 
   //Report sensors whenever
@@ -224,6 +228,10 @@ public class DriveBase extends SubsystemBase {
   public void resetEncoders() {
     leftEncoder.reset();
     rightEncoder.reset();
+    leftDrive1.configClearPositionOnQuadIdx(true,1);
+    leftDrive1.configClearPositionOnQuadIdx(false,1);
+    rightDrive1.configClearPositionOnQuadIdx(true,1);
+    rightDrive1.configClearPositionOnQuadIdx(false,1);
   }
 
 
@@ -258,5 +266,8 @@ public class DriveBase extends SubsystemBase {
     pitchSB.setDouble(getGyroPitch());
     rollSB.setDouble(getGyroRoll());
     turnRateSB.setDouble(getTurnRate());
+    rightSB.setDouble(rightDrive1.getSensorCollection().getQuadraturePosition());
+    leftSB.setDouble(-leftDrive1.getSensorCollection().getQuadraturePosition());
+    
   }
 }
