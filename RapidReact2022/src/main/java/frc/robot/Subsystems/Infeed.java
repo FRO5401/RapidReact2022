@@ -2,6 +2,8 @@ package frc.robot.Subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.Solenoid;
 import com.revrobotics.RelativeEncoder;
@@ -9,6 +11,8 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxAlternateEncoder.Type;
+
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
 
@@ -23,6 +27,13 @@ public class Infeed extends SubsystemBase {
     private RelativeEncoder iM1Encoder;
     private RelativeEncoder iM2Encoder;
 
+    //Shuffleboard
+    ShuffleboardTab smartDashboard = Shuffleboard.getTab("SmartDashboard");
+    private NetworkTableEntry velocityMotor1SB;
+    private NetworkTableEntry velocityMotor2SB;
+    private NetworkTableEntry motor1SB;
+    private NetworkTableEntry motor2SB;
+
     public Infeed() {
         gate = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.SubsystemConstants.INFEED_GATE);
         infeedMotor1 = new CANSparkMax(Constants.SubsystemConstants.INFEED_SPARK_1, MotorType.kBrushless);
@@ -33,6 +44,12 @@ public class Infeed extends SubsystemBase {
         iM1Encoder = infeedMotor1.getAlternateEncoder(Type.kQuadrature, 4096);
         iM2Encoder = infeedMotor1.getAlternateEncoder(Type.kQuadrature, 4096);
 
+        //Shuffleboard
+        // Widgets not decided yet
+        velocityMotor1SB = smartDashboard.add("Infeed Motor 1 Velocity", iM1Encoder.getVelocity()).getEntry();
+        velocityMotor2SB = smartDashboard.add("Infeed Motor 2 Velocity", iM2Encoder.getVelocity()).getEntry();
+        motor1SB = smartDashboard.add("Infeed Motor 1 Input", infeedMotor1.get()).getEntry();
+        motor2SB = smartDashboard.add("Infeed Motor 2 Input", infeedMotor2.get()).getEntry();
     }
 
     public void gateDeploy() {
@@ -64,11 +81,10 @@ public class Infeed extends SubsystemBase {
     }
 
     public void reportInfeed() {
-        SmartDashboard.putBoolean("Gate Solenoid", gate.get());
-        SmartDashboard.putNumber("Infeed Motor 1 Velocity", iM1Encoder.getVelocity());
-        SmartDashboard.putNumber("Infeed Motor 2 Velocity", iM2Encoder.getVelocity());
-        SmartDashboard.putNumber("Infeed Motor 1 Input", infeedMotor1.get());
-        SmartDashboard.putNumber("Infeed Motor 2 Input", infeedMotor2.get());
+        velocityMotor1SB.setDouble(iM1Encoder.getVelocity());
+        velocityMotor2SB.setDouble(iM2Encoder.getVelocity());
+        motor1SB.setDouble(infeedMotor1.get());
+        motor2SB.setDouble(infeedMotor2.get());
     }
 
     @Override
