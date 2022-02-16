@@ -156,34 +156,27 @@ public class DriveBase extends SubsystemBase {
 
   //Automatic turning method
   public void autoTurn(double speed, double angle) {
-    double gyroAngle = getGyroAngle();
-    if (gyroAngle > (angle+2))
+    double gyroAngle = getGyroYaw();
+    if (gyroAngle > (angle+Constants.AutoConstants.ANGULAR_THRESHOLD))
       drive(-speed, speed);
-    else if (gyroAngle < (angle-2))
+    else if (gyroAngle < (angle-Constants.AutoConstants.ANGULAR_THRESHOLD))
       drive(speed, -speed);
     else 
       drive(0, 0);
   }
-
-  //Experimental turning method
-  public void autoVisionTurn(double speed) {
-    drive(speed, -speed);
-    System.out.println(speed);
-  }
   
-
    //For driving automatically
    public void autoDrive(double left, double right, double angle) {
     if (left > 0 && right > 0){ //driving forwards
       drive(
-        angle < 0 ? left : left * Constants.AutoConstants.AUTO_SPEED_ADJUSTMENT * 1.08,
-        angle > 0 ? right : right * Constants.AutoConstants.AUTO_SPEED_ADJUSTMENT * 1.08
+        angle < 0 ? left * Constants.AutoConstants.AUTO_SPEED_ADJUSTMENT * 1.08 : left,
+        angle > 0 ? right * Constants.AutoConstants.AUTO_SPEED_ADJUSTMENT * 1.08 : right
       );
     }
     else if (left < 0 && right < 0){ //driving backwards
       drive(
-        angle > 0 ? left : left * Constants.AutoConstants.AUTO_SPEED_ADJUSTMENT * 1.08,
-        angle < 0 ? right : right * Constants.AutoConstants.AUTO_SPEED_ADJUSTMENT * 1.08
+        angle > 0 ? left * Constants.AutoConstants.AUTO_SPEED_ADJUSTMENT * 1.08 : left,
+        angle < 0 ? right * Constants.AutoConstants.AUTO_SPEED_ADJUSTMENT * 1.08 : right
       );
     }
     else{ //When leftDrive1 and rightDrive1 are zero
@@ -239,7 +232,10 @@ public class DriveBase extends SubsystemBase {
   public double getAverageEncoderDistance() { return (leftEncoder.getDistance() + rightEncoder.getDistance()) / 2.0; }
   public Encoder getLeftEncoder() { return leftEncoder; }
   public Encoder getRightEncoder() { return rightEncoder; }
- 
+  public double getLeftTalonEncoder() { return leftDrive1.getSensorCollection().getQuadraturePosition();}
+  public double getRightTalonEncoder() { return rightDrive1.getSensorCollection().getQuadraturePosition();}
+  public double getLeftTalonDistance() {return getLeftTalonEncoder() * Constants.DriveConstants.LEFT_TALON_DPP;}
+  public double getRightTalonDistance() {return getRightTalonEncoder() * Constants.DriveConstants.RIGHT_TALON_DPP;}
 
   //Set the max voltage output
   public void setMaxOutput(double maxOutput) { ourDrive.setMaxOutput(maxOutput); }
@@ -266,8 +262,8 @@ public class DriveBase extends SubsystemBase {
     pitchSB.setDouble(getGyroPitch());
     rollSB.setDouble(getGyroRoll());
     turnRateSB.setDouble(getTurnRate());
-    rightSB.setDouble(rightDrive1.getSensorCollection().getQuadraturePosition());
-    leftSB.setDouble(-leftDrive1.getSensorCollection().getQuadraturePosition());
+    rightSB.setDouble(getRightTalonDistance());
+    leftSB.setDouble(-getLeftTalonDistance());
     
   }
 }

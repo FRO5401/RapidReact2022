@@ -86,11 +86,11 @@ public class NetworkTables extends SubsystemBase {
 
   public boolean checkCentered(){
 
-    if(getBXValue() >= 320 && getBXValue() <= 420){
+    if(getBXValue() >= 300 && getBXValue() <= 340){
       return true;
     }
     
-    else if(((getBXValue() < 320) & (getBXValue() > 0)) || ((getBXValue() > 420) & (getBXValue() < 800))){
+    else if(((getBXValue() < 300) & (getBXValue() >= 0)) || ((getBXValue() > 340) & (getBXValue() <= 640))){
       return false;
     }
     return false;

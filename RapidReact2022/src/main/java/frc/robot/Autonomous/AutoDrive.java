@@ -1,7 +1,6 @@
 package frc.robot.Autonomous;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.Subsystems.DriveBase;
 
 public class AutoDrive extends CommandBase {
@@ -26,7 +25,8 @@ public class AutoDrive extends CommandBase {
     @Override
     public void initialize() {
 
-        //drivebase.resetSensors();
+        drivebase.resetEncoders();
+        drivebase.resetGyroAngle();
         drivebase.DPPShifter("HIGH");
 		drivebase.DPPShifter("LOW");
         distanceTraveled = 0;
@@ -36,12 +36,12 @@ public class AutoDrive extends CommandBase {
 	// Called repeatedly when this Command is scheduled to run
     @Override
     public void execute() {
-        angle = drivebase.getGyroAngle();
-        distanceTraveled = drivebase.getRightEncoder().getDistance() * Constants.DriveConstants.LOW_GEAR_RIGHT_DPP;
-        if ((distanceTraveled) <= (desiredDistance) && desiredDistance >= 0) {
+        angle = drivebase.getGyroYaw();
+        distanceTraveled = drivebase.getRightTalonDistance();
+        if ((distanceTraveled <= desiredDistance) && desiredDistance > 0) {
             drivebase.autoDrive(autoDriveSpeed, autoDriveSpeed, angle);
             doneTraveling = false;
-        } else if (distanceTraveled >= (desiredDistance) && desiredDistance < 0) {
+        } else if ((distanceTraveled > desiredDistance) && desiredDistance < 0) {
             drivebase.autoDrive(autoDriveSpeed, autoDriveSpeed, angle);
         } else {
             drivebase.drive(0,0);
