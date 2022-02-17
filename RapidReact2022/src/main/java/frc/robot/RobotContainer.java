@@ -38,7 +38,7 @@ public class RobotContainer {
         configureInputGroups();
         configureButtonBindings();
         chooser.setDefaultOption("Do Nothing", new DoNothing(drivebase));
-        chooser.addOption("Drive Straight", new DriveStraight(200, 0.3, drivebase));
+        chooser.addOption("Drive Straight", new DriveStraight(100, 0.4, drivebase));
         chooser.addOption("Ball Center Test", new BallCenterTest(0.3, drivebase, networktables));
         //chooser.addOption("Trajectory Test", new SetTrajectoryPath(drivebase, "paths/DriveStraight.wpilib.json")); //REPLACE LATER
         Shuffleboard.getTab("SmartDashboard").add("Auto choices", chooser).withWidget(BuiltInWidgets.kComboBoxChooser);

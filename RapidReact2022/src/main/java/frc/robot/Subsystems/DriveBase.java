@@ -86,6 +86,7 @@ public class DriveBase extends SubsystemBase {
     leftEncoder = new Encoder(Constants.ControlConstants.DRIVE_ENC_LEFT_A, Constants.ControlConstants.DRIVE_ENC_LEFT_B, true, EncodingType.k4X);
     rightEncoder = new Encoder(Constants.ControlConstants.DRIVE_ENC_RIGHT_A, Constants.ControlConstants.DRIVE_ENC_RIGHT_B, false, EncodingType.k4X);
 
+
     //Organization of those physical parts
     leftDrives = new MotorControllerGroup(leftDrive1, leftDrive2, leftDrive3);
     rightDrives = new MotorControllerGroup(rightDrive1, rightDrive2, rightDrive3);
@@ -169,14 +170,14 @@ public class DriveBase extends SubsystemBase {
    public void autoDrive(double left, double right, double angle) {
     if (left > 0 && right > 0){ //driving forwards
       drive(
-        angle < 0 ? left * Constants.AutoConstants.AUTO_SPEED_ADJUSTMENT * 1.08 : left,
-        angle > 0 ? right * Constants.AutoConstants.AUTO_SPEED_ADJUSTMENT * 1.08 : right
+        angle < 0 ? left * Constants.AutoConstants.AUTO_SPEED_ADJUSTMENT : left,
+        angle > 0 ? right * Constants.AutoConstants.AUTO_SPEED_ADJUSTMENT : right
       );
     }
     else if (left < 0 && right < 0){ //driving backwards
       drive(
-        angle > 0 ? left * Constants.AutoConstants.AUTO_SPEED_ADJUSTMENT * 1.08 : left,
-        angle < 0 ? right * Constants.AutoConstants.AUTO_SPEED_ADJUSTMENT * 1.08 : right
+        angle > 0 ? left * Constants.AutoConstants.AUTO_SPEED_ADJUSTMENT : left,
+        angle < 0 ? right * Constants.AutoConstants.AUTO_SPEED_ADJUSTMENT : right
       );
     }
     else{ //When leftDrive1 and rightDrive1 are zero

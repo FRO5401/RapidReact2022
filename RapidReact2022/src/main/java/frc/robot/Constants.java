@@ -12,8 +12,8 @@ public class Constants {
     public static final double LOW_GEAR_RIGHT_DPP  = 0.1568175312974026;
     public static final double HIGH_GEAR_LEFT_DPP = 0.1568175312974026; // High gear skews left
     public static final double HIGH_GEAR_RIGHT_DPP = 0.1466004558282468;
-    public static final double LEFT_TALON_DPP = 0.0116889336;
-    public static final double RIGHT_TALON_DPP = 0.116889336;
+    public static final double LEFT_TALON_DPP = 0.0016256318;
+    public static final double RIGHT_TALON_DPP = 0.0016256318;
     public static final int DRIVEBASE_THRESHOLD_FOR_PID = 0;
 
     ////DRIVE MOTORS////
@@ -75,7 +75,7 @@ public class Constants {
   public static class AutoConstants {
     //True Constants
     public static final double ANGLE_THRESHOLD = 6;
-    public static final double AUTO_SPEED_ADJUSTMENT = 1.4;
+    public static final double AUTO_SPEED_ADJUSTMENT = 1.1;
     public static final double AUTO_TURN_SPEED = 0.8;
     public static final double AUTO_TURN_PRECISION = 0.5;
     public static final double ANGULAR_THRESHOLD = 2;
