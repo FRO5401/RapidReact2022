@@ -107,6 +107,7 @@ public class AutoBallInfeed extends CommandBase {
 
 				if(radius < 200){
 					drivebase.autoDrive(autoDriveSpeed, autoDriveSpeed, drivebase.getGyroAngle());
+					System.out.println("is centered and should be moving");
 				}
 				else{
 		    	    drivebase.drive(0,0);
@@ -115,11 +116,11 @@ public class AutoBallInfeed extends CommandBase {
             }
     	    else { //Turn until the ball that is recognized is straight ahead
 			    if(((currentAngle+90)*3.56) < ballLocation){
-				    drivebase.autoTurn(autoDriveSpeed, currentAngle);
+				    drivebase.autoTurn(autoDriveSpeed, currentAngle+90);
 					System.out.println(isCentered);
 			    }
         	    else if(((currentAngle+90)*3.56) > ballLocation){
-				    drivebase.autoTurn(autoDriveSpeed, currentAngle);
+				    drivebase.autoTurn(autoDriveSpeed, currentAngle+90);
 					System.out.println(isCentered);
 				}
 				else {

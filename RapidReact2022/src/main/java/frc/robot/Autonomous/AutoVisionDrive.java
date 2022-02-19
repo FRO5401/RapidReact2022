@@ -55,11 +55,11 @@ public class AutoVisionDrive extends CommandBase {
 		angle = drivebase.getGyroYaw();
         desiredDistance = (networktables.getBallDistance());
 
-		if ((distanceTraveled) <= (desiredDistance)) {
+		if ((distanceTraveled) < (desiredDistance)) {
 			drivebase.autoDrive(autoDriveSpeed, autoDriveSpeed, angle);
 			doneTraveling = false;
-		} else if (distanceTraveled >= (desiredDistance)) {
-			//made negatove
+		} else if (distanceTraveled > (desiredDistance)) {
+			//made negative
             drivebase.autoDrive(-autoDriveSpeed, -autoDriveSpeed, angle);
             doneTraveling = false;
 		} else {

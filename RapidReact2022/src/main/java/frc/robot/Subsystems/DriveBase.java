@@ -164,6 +164,7 @@ public class DriveBase extends SubsystemBase {
       drive(speed, -speed);
     else 
       drive(0, 0);
+      System.out.println("driving 0");
   }
   
    //For driving automatically
@@ -173,15 +174,20 @@ public class DriveBase extends SubsystemBase {
         angle < 0 ? left * Constants.AutoConstants.AUTO_SPEED_ADJUSTMENT : left,
         angle > 0 ? right * Constants.AutoConstants.AUTO_SPEED_ADJUSTMENT : right
       );
+      System.out.println("driving forwards drivebase autodrive");
     }
     else if (left < 0 && right < 0){ //driving backwards
       drive(
         angle > 0 ? left * Constants.AutoConstants.AUTO_SPEED_ADJUSTMENT : left,
         angle < 0 ? right * Constants.AutoConstants.AUTO_SPEED_ADJUSTMENT : right
       );
+      System.out.println("driving backwards drivebase autodrive");
+
     }
     else{ //When leftDrive1 and rightDrive1 are zero
       drive(0,0);      
+      System.out.println("not driving drivebase autodrive");
+
     }
   }
 
