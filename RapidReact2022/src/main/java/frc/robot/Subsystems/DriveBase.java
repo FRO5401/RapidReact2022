@@ -28,21 +28,15 @@ import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.SPI;
 
-//TODO: Fix Drivebase encoder logic and auto logic
 public class DriveBase extends SubsystemBase {
   private AHRS navxGyro;
-  private ShuffleboardTab competitionTab;
-  private ShuffleboardTab programmerTab;
-
+  
   // Configuring Motors
   private CANSparkMax leftDrive1;
   private CANSparkMax leftDrive2;
-  private CANSparkMax leftDrive3;
 
   private CANSparkMax rightDrive1;
   private CANSparkMax rightDrive2;
-  private CANSparkMax rightDrive3;
-
 
   // Configuring Drives
   private MotorControllerGroup leftDrives;
@@ -267,7 +261,6 @@ public class DriveBase extends SubsystemBase {
     SmartDashboard.putNumber("Right Motor Position", getRightEncodersDistance(0));
   }
 
-  //Thing that does not work TODO: make work
   public void drivebaseShuffleboard(){
     competitionTab.add("Robot Speed",getAverageMotorVelocity());
     programmerTab.add("Left Motor Speed",getLeftVelocity())

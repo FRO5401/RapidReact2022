@@ -32,7 +32,7 @@ public class XboxMove extends CommandBase {
   boolean gearShiftHigh;
   boolean gearShiftLow;
 
-     //Testing Buttons (TODO: Remove for Comp)
+     //Testing Buttons 
   boolean resetSensors;
   /*
   boolean speedConstant1;
