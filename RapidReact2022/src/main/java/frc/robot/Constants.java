@@ -92,11 +92,11 @@ public class Constants {
     //Infeed
     public static final double INFEED_MOTOR_SPEED = 0;
     public static final int INFEED_GATE = 0;
-    public static final int INFEED_SPARK_1 = 0;
-    public static final int INFEED_SPARK_2 = 0;
+    public static final int INFEED_SPARK_1 = 6;
+    public static final int INFEED_SPARK_2 = 5;
 
     //Internal Mechanism
-    public static final int INTERNAL_MECH_MOTOR = 0;
+    public static final int INTERNAL_MECH_MOTOR = 11;
     public static final double MECH_SPEED = 0;
 
     //Shooter
@@ -104,7 +104,7 @@ public class Constants {
     public static final int SHOOTER_MOTOR_2 = 0;
     public static final double SHOOTER_SPEED = 0;
     public static final double LOADER_SPEED = 0;
-	  public static final int BALL_LOADER = 0;
+	  public static final int BALL_LOADER = 10;
     //Shooter PID Constants
      
     public static final double kS = 0.0;
