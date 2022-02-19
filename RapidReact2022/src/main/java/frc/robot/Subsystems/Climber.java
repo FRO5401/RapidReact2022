@@ -3,6 +3,10 @@ package frc.robot.Subsystems;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -12,19 +16,27 @@ import frc.robot.Constants;
 public class Climber extends SubsystemBase{
     
     //Creates parts for the robot
-    private WPI_TalonSRX transMotor1;
-    private WPI_TalonSRX transMotor2;
-    private WPI_TalonSRX rotateMotor1;
-    private WPI_TalonSRX rotateMotor2;
+    private CANSparkMax transMotor1;
+    private CANSparkMax transMotor2;
+    private CANSparkMax rotateMotor1;
+    private CANSparkMax rotateMotor2;
+    private RelativeEncoder tMEncoder1;
+    private RelativeEncoder tMEncoder2;
+    private RelativeEncoder rMEncoder1;
+    private RelativeEncoder rMEncoder2;
     private DigitalInput limit1;
     private DigitalInput limit2; 
     
     public Climber() {
         //Instantiates the motors and limits
-        transMotor1 = new WPI_TalonSRX(Constants.SubsystemConstants.TRANS_MOTOR_1);
-        transMotor2 = new WPI_TalonSRX(Constants.SubsystemConstants.TRANS_MOTOR_2);
-        rotateMotor1 = new WPI_TalonSRX(Constants.SubsystemConstants.ROTATE_MOTOR_1);
-        rotateMotor2 = new WPI_TalonSRX(Constants.SubsystemConstants.ROTATE_MOTOR_2);
+        transMotor1 = new CANSparkMax(Constants.SubsystemConstants.TRANS_MOTOR_1, MotorType.kBrushless);
+        transMotor2 = new CANSparkMax(Constants.SubsystemConstants.TRANS_MOTOR_2, MotorType.kBrushless);
+        rotateMotor1 = new CANSparkMax(Constants.SubsystemConstants.ROTATE_MOTOR_1, MotorType.kBrushless);
+        rotateMotor2 = new CANSparkMax(Constants.SubsystemConstants.ROTATE_MOTOR_2, MotorType.kBrushless);
+        tMEncoder1 = transMotor1.getAlternateEncoder(4096);
+        tMEncoder2 = transMotor2.getAlternateEncoder(4096);
+        rMEncoder1 = rotateMotor1.getAlternateEncoder(4096);
+        rMEncoder2 = rotateMotor2.getAlternateEncoder(4096);
         limit1 = new DigitalInput(Constants.SubsystemConstants.DIGITAL_INPUT_1);
         limit2 = new DigitalInput(Constants.SubsystemConstants.DIGITAL_INPUT_2);
 
@@ -33,10 +45,8 @@ public class Climber extends SubsystemBase{
         rotateMotor2.setInverted(true);
 
         //Makes sure the neutral mode is on brake
-        transMotor1.setNeutralMode(NeutralMode.Brake);
-        transMotor2.setNeutralMode(NeutralMode.Brake);
-        rotateMotor1.setNeutralMode(NeutralMode.Brake);
-        rotateMotor2.setNeutralMode(NeutralMode.Brake);
+        setClimberIdleMode("Translation", IdleMode.kBrake);
+        setClimberIdleMode("Climber", IdleMode.kBrake);
     }
 
     //Set motor speeds for the climber
@@ -55,15 +65,15 @@ public class Climber extends SubsystemBase{
         double returnable = 0;
         if(type.toUpperCase().contains("TRANS")){
             if(number == 1){
-                returnable = transMotor1.getSelectedSensorVelocity();
+                returnable = tMEncoder1.getVelocity();
             } else if (number == 2){
-                returnable = transMotor2.getSelectedSensorVelocity();
+                returnable = tMEncoder2.getVelocity();
             }
         } else if (type.toUpperCase().contains("ROT")) {
             if(number == 1){
-                returnable = rotateMotor1.getSelectedSensorVelocity();
+                returnable = rMEncoder1.getVelocity();
             } else if (number == 2){
-                returnable = rotateMotor2.getSelectedSensorVelocity();
+                returnable = rMEncoder2.getVelocity();
             }
         }
         return returnable;
@@ -77,13 +87,13 @@ public class Climber extends SubsystemBase{
         return limit2.get();
     }
 
-    public void setClimberNeutralMode(String type, NeutralMode mode){
+    public void setClimberIdleMode(String type, IdleMode mode){
         if(type.toUpperCase().contains("TRANS")){
-            transMotor1.setNeutralMode(mode);
-            transMotor2.setNeutralMode(mode);
+            transMotor1.setIdleMode(mode);
+            transMotor2.setIdleMode(mode);
         } else if (type.toUpperCase().contains("ROT")) {
-            rotateMotor1.setNeutralMode(mode);
-            rotateMotor2.setNeutralMode(mode);
+            rotateMotor1.setIdleMode(mode);
+            rotateMotor2.setIdleMode(mode);
         }
     }
 
