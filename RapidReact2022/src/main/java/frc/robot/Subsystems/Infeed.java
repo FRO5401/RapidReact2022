@@ -26,9 +26,8 @@ public class Infeed extends SubsystemBase {
        // gate = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.SubsystemConstants.INFEED_GATE);
         infeedMotor1 = new CANSparkMax(Constants.SubsystemConstants.INFEED_SPARK_1, MotorType.kBrushless);
         infeedMotor2 = new CANSparkMax(Constants.SubsystemConstants.INFEED_SPARK_2, MotorType.kBrushless);
-        infeedMotor2.setInverted(true);
+        infeedMotor2.follow(infeedMotor1, true);
 
-        infeedMotor2.follow(infeedMotor1);
         setInfeedIdleMode(IdleMode.kBrake);
         
     }
@@ -40,25 +39,20 @@ public class Infeed extends SubsystemBase {
 
     public void run(String mode) {
         if(mode.toUpperCase().contains("IN")) {
-            infeedMotor1.set(0.5);
-            infeedMotor2.set(0.5);
+            infeedMotor1.set(Constants.SubsystemConstants.INFEED_MOTOR_SPEED);
         } else if(mode.toUpperCase().contains("OUT")) {
             Printer.qp(9832);
-            infeedMotor1.set(-0.5);
-            infeedMotor2.set(-0.5);
+            infeedMotor1.set(-Constants.SubsystemConstants.INFEED_MOTOR_SPEED);
         } else if (mode.toUpperCase().equals("STOP")) {
             infeedMotor1.set(0);
-            infeedMotor2.set(0);
         }
         else { //Call this variable when sending a string
             infeedMotor1.set(Double.parseDouble(mode));
-            infeedMotor2.set(Double.parseDouble(mode));
         }
     }
 
     public void setInfeedIdleMode(IdleMode mode){
         infeedMotor1.setIdleMode(mode);
-        infeedMotor2.setIdleMode(mode);
     }
 
 
