@@ -2,6 +2,7 @@ package frc.robot.Commands.infeed;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Subsystems.Infeed;
+import frc.robot.Utilities.testers.Printer;
 
 public class InfeedOut extends CommandBase{
      /*** Variables ***/
@@ -16,13 +17,12 @@ public class InfeedOut extends CommandBase{
   // Called just before this Command runs the first time
   @Override
   public void initialize() {
-    
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   public void execute() {
-    infeed.run("OUTFEED");
+    infeed.run("OUT");
   }
 
   @Override

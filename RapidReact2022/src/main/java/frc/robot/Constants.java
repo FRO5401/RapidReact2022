@@ -18,12 +18,10 @@ public class Constants {
    //Right Motors
     public static final int DRIVE_MOTOR_RIGHT_1 = 1;
     public static final int DRIVE_MOTOR_RIGHT_2 = 3;
-    public static final int DRIVE_MOTOR_RIGHT_3 = 5;
 
     //Left Motors
-    public static final int DRIVE_MOTOR_LEFT_1 = 7;
-    public static final int DRIVE_MOTOR_LEFT_2 = 9;
-    public static final int DRIVE_MOTOR_LEFT_3 = 11;
+    public static final int DRIVE_MOTOR_LEFT_1 = 2;
+    public static final int DRIVE_MOTOR_LEFT_2 = 4;
   }
 
   public class ControlConstants {
@@ -92,10 +90,10 @@ public class Constants {
 
   public static class SubsystemConstants {
     //Infeed
-    public static final double INFEED_MOTOR_SPEED = 0;
+    public static final double INFEED_MOTOR_SPEED = 0.5;
     public static final int INFEED_GATE = 0;
-    public static final int INFEED_SPARK_1 = 0;
-    public static final int INFEED_SPARK_2 = 0;
+    public static final int INFEED_SPARK_1 = 5; //left
+    public static final int INFEED_SPARK_2 = 6; //right
 
     //Internal Mechanism
     public static final int INTERNAL_MECH_MOTOR = 0;

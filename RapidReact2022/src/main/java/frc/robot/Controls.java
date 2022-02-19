@@ -92,6 +92,12 @@ public class Controls {
         case "RS":
           output = xboxR3_Driver;
           break;
+        case "LB":
+          output = xboxLeftBumper_Driver;
+          break;
+        case "RB":
+          output = xboxRightBumper_Driver;
+          break;  
         case "START":
           output = xboxStart_Driver;
           break;
@@ -123,6 +129,12 @@ public class Controls {
         case "RS":
           output = xboxL3_Operator;
           break;
+        case "LB":
+          output = xboxLeftBumper_Operator;
+          break;
+        case "RB":
+          output = xboxRightBumper_Operator;
+          break;    
         case "START":
           output = xboxStart_Operator;
           break;

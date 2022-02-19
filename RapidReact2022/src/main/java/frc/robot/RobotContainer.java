@@ -32,8 +32,8 @@ public class RobotContainer {
     private final DriveBase drivebase = new DriveBase();
     private final NetworkTables networktables= new NetworkTables();
     private final Infeed infeed = new Infeed();
-    private final InternalMech internalMech = new InternalMech();
-    private final Shooter shooter = new Shooter();
+    //private final InternalMech internalMech = new InternalMech();
+    //private final Shooter shooter = new Shooter();
     //private final CompressorSubsystem compressor = new CompressorSubsystem();
 
     private final MultipleInputGroup drivetrain = new MultipleInputGroup();
@@ -79,28 +79,31 @@ public class RobotContainer {
         //Subsystem Controls
         //infeed
         Controls.xboxButton(Controls.operator, "RB").whenHeld(new ParallelCommandGroup(
-            new InfeedIn(infeed), 
+            new InfeedIn(infeed)/*, 
             new BeltComplement(internalMech, "PULL"), 
-            new LoadBall(shooter, "LOAD")));
+            new LoadBall(shooter, "LOAD")*/
+            ));
         Controls.xboxButton(Controls.operator, "LB").whenHeld(new ParallelCommandGroup(
-            new InfeedOut(infeed),
+            new InfeedOut(infeed)/*,
             new BeltComplement(internalMech, "PUSH"),
-            new LoadBall(shooter, "UNLOAD")));
+            new LoadBall(shooter, "UNLOAD")*/
+            ));
         Controls.xboxButton(Controls.operator, "B").whenPressed(new GateToggle(infeed));
 
         //internal mechanism
-        Controls.xboxDPad(Controls.operator, 0).whenHeld(new BeltComplement(internalMech, "PULL"));
-        Controls.xboxDPad(Controls.operator, 180).whenHeld(new BeltComplement(internalMech, "PUSH"));
+        //Controls.xboxDPad(Controls.operator, 0).whenHeld(new BeltComplement(internalMech, "PULL"));
+        //Controls.xboxDPad(Controls.operator, 180).whenHeld(new BeltComplement(internalMech, "PUSH"));
         
         //shooter
-        Controls.xboxButton(Controls.operator, "A").whenHeld(new SequentialCommandGroup(
+       /* Controls.xboxButton(Controls.operator, "A").whenHeld(new SequentialCommandGroup(
             new ShootBall(shooter),
             new WaitCommand(Constants.SubsystemConstants.SHOOTER_WAIT_TIME), //Guessed wait time
             new ParallelCommandGroup(
                 new BeltComplement(internalMech, "PULL"),
                 new LoadBall(shooter, "UNLOAD")
             ))).whenReleased(new StopShooter(shooter));
-        Controls.xboxButton(Controls.operator, "Y").whenPressed(new ChangeMode(shooter));
+        Controls.xboxButton(Controls.operator, "Y").whenPressed(new ChangeMode(shooter));*/
+        //TODO: Change this stuff back before I forget
 
     }
 

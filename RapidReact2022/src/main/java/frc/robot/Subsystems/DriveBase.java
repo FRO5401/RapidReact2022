@@ -26,6 +26,7 @@ import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.SPI;
 
 //TODO: Fix Drivebase encoder logic and auto logic
 public class DriveBase extends SubsystemBase {
@@ -70,7 +71,7 @@ public class DriveBase extends SubsystemBase {
   public DriveBase() {
 
     //Instantating the physical parts on the drivebase
-    navxGyro = new AHRS(I2C.Port.kMXP);
+    navxGyro = new AHRS(SPI.Port.kMXP);
     leftDrive1 = new CANSparkMax(Constants.DriveConstants.DRIVE_MOTOR_LEFT_1, MotorType.kBrushless);
     leftDrive2 = new CANSparkMax(Constants.DriveConstants.DRIVE_MOTOR_LEFT_2, MotorType.kBrushless);
     rightDrive1 = new CANSparkMax(Constants.DriveConstants.DRIVE_MOTOR_RIGHT_1, MotorType.kBrushless);
