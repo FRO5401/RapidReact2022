@@ -49,8 +49,6 @@ public class XboxMove extends CommandBase {
   public XboxMove(DriveBase m_drivebase) {
     drivebase = m_drivebase;
     
-    System.out.println("funny moments compilation 53");
-    
     
     addRequirements(drivebase);
   }

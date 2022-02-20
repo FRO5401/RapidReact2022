@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.Controls;
+import frc.robot.Tabs;
+import frc.robot.Utilities.testers.Printer;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.Solenoid;
 
@@ -23,11 +25,13 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.SPI;
 
+//TODO: Remember to bring gear shifter back
 public class DriveBase extends SubsystemBase {
   private AHRS navxGyro;
   
@@ -61,10 +65,12 @@ public class DriveBase extends SubsystemBase {
   private Encoder rightEncoder;
   private RelativeEncoder leftEncoders[];
   private RelativeEncoder rightEncoders[];
+  private Compressor compressor;
 
   public DriveBase() {
 
     //Instantating the physical parts on the drivebase
+    compressor = new Compressor(0, PneumaticsModuleType.CTREPCM);
     navxGyro = new AHRS(SPI.Port.kMXP);
     leftDrive1 = new CANSparkMax(Constants.DriveConstants.DRIVE_MOTOR_LEFT_1, MotorType.kBrushless);
     leftDrive2 = new CANSparkMax(Constants.DriveConstants.DRIVE_MOTOR_LEFT_2, MotorType.kBrushless);
@@ -83,7 +89,7 @@ public class DriveBase extends SubsystemBase {
     leftDrives = new MotorControllerGroup(leftDrive1, leftDrive2);
     rightDrives = new MotorControllerGroup(rightDrive1, rightDrive2);
     ourDrive = new DifferentialDrive(leftDrives, rightDrives);
-    //gearShifter = new Solenoid(PneumaticsModuleType.CTREPCM, 0);
+    gearShifter = new Solenoid(0, PneumaticsModuleType.CTREPCM, 0);
 
     //Configuring parts
     leftDrives.setInverted(true);
@@ -95,8 +101,8 @@ public class DriveBase extends SubsystemBase {
 
     //Shuffleboard and Path Planning
     odometry = new DifferentialDriveOdometry(navxGyro.getRotation2d());
-    competitionTab = Shuffleboard.getTab("Competition");
-    programmerTab = Shuffleboard.getTab("Programming");
+    drivebaseShuffleboard();
+    shift("LOW");
   }
 
   //Report sensors whenever
@@ -104,20 +110,18 @@ public class DriveBase extends SubsystemBase {
   public void periodic() {
    // odometry.update(navxGyro.getRotation2d(), leftEncoder.getDistance(), rightEncoder.getDistance());
     reportSensors();
-
-    //Purely for testing purposes
-    SmartDashboard.putNumber("Axis", Controls.xboxAxis(Controls.driver, "LS-X").getAxis());
-   // drivebaseShuffleboard();
   }
 
   //Shift gears
   public void shift(String gear) {
-   // if(gear.toUpperCase().equals("LOW")) 
-    //  gearShifter.set(true);
-  //  else if(gear.toUpperCase().equals("HIGH")) 
-      //gearShifter.set(false);
-    //DPPShifter(gear);  
+    if(gear.toUpperCase().equals("LOW")) 
+      gearShifter.set(true);
+    else if(gear.toUpperCase().equals("HIGH")) 
+      gearShifter.set(false);
+    DPPShifter(gear);  
   }  
+
+  public boolean getGear(){ return gearShifter.get();}
 
   //Update DPP to be compliant with gears
   public void DPPShifter(String gear) {
@@ -249,23 +253,65 @@ public class DriveBase extends SubsystemBase {
 
   //Report the values
   public void reportSensors() {
-    SmartDashboard.putNumber("Gyro Rotations", getGyroAngle()/360);
-    SmartDashboard.putNumber("Gyro Angle", getGyroAngle());
-    SmartDashboard.putNumber("Gyro Yaw", getGyroYaw());
-    SmartDashboard.putNumber("Gyro Pitch", getGyroPitch());
-    SmartDashboard.putNumber("Gyro Roll", getGyroRoll());
-    SmartDashboard.putNumber("Gyro Turn Rate", getTurnRate());
-    SmartDashboard.putNumber("Left Motors Speed", getLeftVelocity());
-    SmartDashboard.putNumber("Right Motors Speed", getRightVelocity());
-    SmartDashboard.putNumber("Left Motor Position", getLeftEncodersDistance(0));
-    SmartDashboard.putNumber("Right Motor Position", getRightEncodersDistance(0));
+    //Graph config
+    Tabs.speedGraph.setDouble(getAverageMotorVelocity());
+    Tabs.leftSpeedGraph.setDouble(getLeftVelocity());
+    Tabs.rightSpeedGraph.setDouble(getRightVelocity());
+    Tabs.leftPositionGraph.setDouble(getLeftEncodersDistance(0));
+    Tabs.rightPositionGraph.setDouble(getRightEncodersDistance(0));
+    Tabs.turnRateGraph.setDouble(getTurnRate());
+
+    //Testing config
+    Tabs.speedEntry.setDouble(getAverageMotorVelocity());
+    Tabs.leftSpeedEntry.setDouble(getLeftVelocity());
+    Tabs.rightSpeedEntry.setDouble(getRightVelocity());
+    Tabs.leftPositionEntry.setDouble(getLeftEncodersDistance(0));
+    Tabs.rightPositionEntry.setDouble(getRightEncodersDistance(0));
+    Tabs.rotationsEntry.setDouble(getGyroAngle()/360);
+    Tabs.angleEntry.setDouble(getGyroAngle());
+    Tabs.yawEntry.setDouble(getGyroYaw());
+    Tabs.pitchEntry.setDouble(getGyroPitch());
+    Tabs.rollEntry.setDouble(getGyroRoll());
+    Tabs.turnRateEntry.setDouble(getTurnRate());
+    Tabs.shifterEntry.setBoolean(getGear());
+    Tabs.axisTester.setDouble(Controls.xboxAxis(Controls.driver, "LS-X").getAxis());
+
+    //Competition config
+    Tabs.shifterComp.setBoolean(getGear());
+  
   }
 
   public void drivebaseShuffleboard(){
-    competitionTab.add("Robot Speed",getAverageMotorVelocity());
-    programmerTab.add("Left Motor Speed",getLeftVelocity())
-        .withWidget(BuiltInWidgets.kGraph);
-    competitionTab.add("Right Motor Speed",getRightVelocity())
-        .withWidget(BuiltInWidgets.kGraph);   
+    //Graph config
+    Tabs.speedGraph = Tabs.graphTab.add("Robot Speed",getAverageMotorVelocity())
+      .withWidget(BuiltInWidgets.kGraph).getEntry();
+    Tabs.leftSpeedGraph = Tabs.graphTab.add("Left Motor Speed",getLeftVelocity())
+        .withWidget(BuiltInWidgets.kGraph).getEntry();
+    Tabs.rightSpeedGraph = Tabs.graphTab.add("Right Motor Speed",getRightVelocity())
+        .withWidget(BuiltInWidgets.kGraph).getEntry(); 
+    Tabs.leftPositionGraph = Tabs.graphTab.add("Left Motor Position",getLeftEncodersDistance(0))
+        .withWidget(BuiltInWidgets.kGraph).getEntry();     
+    Tabs.rightPositionGraph = Tabs.graphTab.add("Right Motor Position",getRightEncodersDistance(0))
+        .withWidget(BuiltInWidgets.kGraph).getEntry();   
+    Tabs.turnRateGraph = Tabs.graphTab.add("Gyro Turn Rate", getTurnRate())
+        .withWidget(BuiltInWidgets.kGraph).getEntry();    
+    
+    //Testing Tab
+    Tabs.speedEntry = Tabs.testingTab.add("Robot Speed",getAverageMotorVelocity()).getEntry();
+    Tabs.leftSpeedEntry = Tabs.testingTab.add("Left Motor Speed",getLeftVelocity()).getEntry();
+    Tabs.rightSpeedEntry = Tabs.testingTab.add("Right Motor Speed",getRightVelocity()).getEntry(); 
+    Tabs.leftPositionEntry = Tabs.testingTab.add("Left Motor Position",getLeftEncodersDistance(0)).getEntry();     
+    Tabs.rightPositionEntry = Tabs.testingTab.add("Right Motor Position",getRightEncodersDistance(0)).getEntry();  
+    Tabs.rotationsEntry = Tabs.testingTab.add("Gyro Rotations", getGyroAngle()/360).getEntry();
+    Tabs.angleEntry = Tabs.testingTab.add("Gyro Angle", getGyroAngle()).getEntry();
+    Tabs.yawEntry = Tabs.testingTab.add("Gyro Yaw", getGyroYaw()).getEntry();
+    Tabs.pitchEntry = Tabs.testingTab.add("Gyro Pitch", getGyroPitch()).getEntry();
+    Tabs.rollEntry = Tabs.testingTab.add("Gyro Roll", getGyroRoll()).getEntry();
+    Tabs.turnRateEntry = Tabs.testingTab.add("Gyro Turn Rate", getTurnRate()).getEntry();
+    Tabs.shifterEntry = Tabs.testingTab.add("Solenoid Gear", getGear()).getEntry();
+    Tabs.axisTester = Tabs.testingTab.add("Axis", Controls.xboxAxis(Controls.driver, "LS-X").getAxis()).getEntry();
+
+    //Competition Tab
+    Tabs.shifterComp = Tabs.competitionTab.add("Low Gear", getGear()).withWidget(BuiltInWidgets.kBooleanBox).getEntry();
   }
 }

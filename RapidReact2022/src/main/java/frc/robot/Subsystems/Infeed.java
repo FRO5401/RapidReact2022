@@ -16,14 +16,17 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
 public class Infeed extends SubsystemBase {
     //things go here
-    private Solenoid gate;
+    //private Solenoid gateLeft;
+    //private Solenoid gateRight;
+    private Solenoid infeedGate;
     boolean deploy = false;
     
     private CANSparkMax infeedMotor1;
     private CANSparkMax infeedMotor2;
 
     public Infeed() {
-       // gate = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.SubsystemConstants.INFEED_GATE);
+        infeedGate = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.SubsystemConstants.INFEED_GATE);
+        //gateRight = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.SubsystemConstants.INFEED_GATE_RIGHT);
         infeedMotor1 = new CANSparkMax(Constants.SubsystemConstants.INFEED_SPARK_1, MotorType.kBrushless);
         infeedMotor2 = new CANSparkMax(Constants.SubsystemConstants.INFEED_SPARK_2, MotorType.kBrushless);
         infeedMotor2.follow(infeedMotor1, true);
@@ -34,7 +37,10 @@ public class Infeed extends SubsystemBase {
 
     public void toggleGate() {
         deploy = !deploy;
-        gate.set(deploy);
+        System.out.println("deploys");
+        //gateLeft.set(deploy);
+        //gateRight.set(deploy);
+        infeedGate.set(deploy);
     }
 
     public void run(String mode) {
@@ -57,7 +63,9 @@ public class Infeed extends SubsystemBase {
 
 
     public void reportInfeed() {
-       // SmartDashboard.putBoolean("Gate Solenoid", gate.get());
+        //SmartDashboard.putBoolean("Left Gate Solenoid", gateLeft.get());
+        //SmartDashboard.putBoolean("Right Gate Solenoid", gateRight.get());
+        SmartDashboard.putBoolean("Both gates", infeedGate.get());
         SmartDashboard.putNumber("Infeed Motor 1 Input", infeedMotor1.get());
         SmartDashboard.putNumber("Infeed Motor 2 Input", infeedMotor2.get());
     }

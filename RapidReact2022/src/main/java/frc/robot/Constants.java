@@ -55,7 +55,7 @@ public class Constants {
     public static final double DRIVE_SENSITIVITY_DEFAULT = 1;
     public static final double SPIN_SENSITIVITY = 0.8;
 
-    public static final int PCM_ID = 0;
+    //public static final int PCM_ID = 0;
 
     //Solenoids
     public static final int GEAR_SHIFTER = 0;
@@ -91,7 +91,9 @@ public class Constants {
   public static class SubsystemConstants {
     //Infeed
     public static final double INFEED_MOTOR_SPEED = 0.5;
-    public static final int INFEED_GATE = 0;
+    //public static final int INFEED_GATE_LEFT = 0;
+    //public static final int INFEED_GATE_RIGHT = 1;
+    public static final int INFEED_GATE = 1;
     public static final int INFEED_SPARK_1 = 5; //left
     public static final int INFEED_SPARK_2 = 6; //right
 
@@ -114,7 +116,6 @@ public class Constants {
     public static final double shootLowSpeed = 0.0;
     public static final double shootHighSpeed = 0.0;
     public static final double feedFordwardConstant = 0.0;
-
   }
      
 }
