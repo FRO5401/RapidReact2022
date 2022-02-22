@@ -14,6 +14,9 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Autonomous.*;
+import frc.robot.Autonomous.groups.BallCenterTest;
+import frc.robot.Autonomous.groups.DoNothing;
+import frc.robot.Autonomous.groups.DriveStraight;
 import frc.robot.Commands.drivebase.*;
 import frc.robot.Commands.infeed.*;
 import frc.robot.Commands.internal_mech.*;
@@ -24,6 +27,9 @@ import frc.robot.Utilities.controllers.MultipleInputGroup;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
+
+import static frc.robot.Controls.*;
+import static frc.robot.Tabs.*;
 
 public class RobotContainer {
     
@@ -46,6 +52,7 @@ public class RobotContainer {
         chooser.addOption("Ball Center Test", new BallCenterTest(0.3, drivebase, networktables));
         //chooser.addOption("Trajectory Test", new SetTrajectoryPath(drivebase, "paths/DriveStraight.wpilib.json")); //REPLACE LATER
         SmartDashboard.putData("Auto choices", chooser);
+        
     }
 
     public boolean updateDrivetrain(){
@@ -56,14 +63,17 @@ public class RobotContainer {
         return drivebase;
     }
 
+    private void configureCommandShuffleboard() {
+
+    }
 
     private void configureInputGroups(){
-        drivetrain.addAxis(Controls.xboxLT_Driver);
-        drivetrain.addAxis(Controls.xboxRT_Driver);
-        drivetrain.addAxis(Controls.xboxLX_Driver);
-        drivetrain.addButton(Controls.xboxRightBumper_Driver);
-        drivetrain.addButton(Controls.xboxLeftBumper_Driver);
-        drivetrain.addButton(Controls.xboxL3_Driver);
+        drivetrain.addAxis(xboxLT_Driver);
+        drivetrain.addAxis(xboxRT_Driver);
+        drivetrain.addAxis(xboxLX_Driver);
+        drivetrain.addButton(xboxRightBumper_Driver);
+        drivetrain.addButton(xboxLeftBumper_Driver);
+        drivetrain.addButton(xboxL3_Driver);
     }
 
     private void configureButtonBindings() {
@@ -72,37 +82,38 @@ public class RobotContainer {
         drivetrain.whenAnyActive(new XboxMove(drivebase));
 
         //Drivebase Controls      
-        Controls.xboxButton(Controls.operator, "Back").whenPressed(new ResetSensors(drivebase));
-        Controls.xboxButton(Controls.driver, "Start").whenPressed(new GearShiftHigh(drivebase));
-        Controls.xboxButton(Controls.driver, "Back").whenPressed(new GearShiftLow(drivebase));
+        xboxButton(operator, "Back").whenPressed(new ResetSensors(drivebase));
+        xboxButton(driver, "Start").whenPressed(new GearShiftHigh(drivebase));
+        xboxButton(driver, "Back").whenPressed(new GearShiftLow(drivebase));
+        xboxButton(driver, "Y").whenPressed(new CompressorToggle(drivebase));
 
         //Subsystem Controls
         //infeed
-        Controls.xboxButton(Controls.operator, "RB").whenHeld(new ParallelCommandGroup(
+        xboxButton(operator, "RB").whenHeld(new ParallelCommandGroup(
             new InfeedIn(infeed)/*, 
             new BeltComplement(internalMech, "PULL"), 
             new LoadBall(shooter, "LOAD")*/
             ));
-        Controls.xboxButton(Controls.operator, "LB").whenHeld(new ParallelCommandGroup(
+        xboxButton(operator, "LB").whenHeld(new ParallelCommandGroup(
             new InfeedOut(infeed)/*,
             new BeltComplement(internalMech, "PUSH"),
             new LoadBall(shooter, "UNLOAD")*/
             ));
-        Controls.xboxButton(Controls.operator, "B").whenPressed(new GateToggle(infeed));
+        xboxButton(operator, "B").whenPressed(new GateToggle(infeed));
 
         //internal mechanism
-        //Controls.xboxDPad(Controls.operator, 0).whenHeld(new BeltComplement(internalMech, "PULL"));
-        //Controls.xboxDPad(Controls.operator, 180).whenHeld(new BeltComplement(internalMech, "PUSH"));
+        //xboxDPad(operator, 0).whenHeld(new BeltComplement(internalMech, "PULL"));
+        //xboxDPad(operator, 180).whenHeld(new BeltComplement(internalMech, "PUSH"));
         
         //shooter
-       /* Controls.xboxButton(Controls.operator, "A").whenHeld(new SequentialCommandGroup(
+       /* xboxButton(operator, "A").whenHeld(new SequentialCommandGroup(
             new ShootBall(shooter),
             new WaitCommand(Constants.SubsystemConstants.SHOOTER_WAIT_TIME), //Guessed wait time
             new ParallelCommandGroup(
                 new BeltComplement(internalMech, "PULL"),
                 new LoadBall(shooter, "UNLOAD")
             ))).whenReleased(new StopShooter(shooter));
-        Controls.xboxButton(Controls.operator, "Y").whenPressed(new ChangeMode(shooter));*/
+        xboxButton(operator, "Y").whenPressed(new ChangeMode(shooter));*/
         //TODO: Change this stuff back before I forget
 
     }

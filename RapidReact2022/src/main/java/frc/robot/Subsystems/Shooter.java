@@ -10,9 +10,13 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.BangBangController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+
+import static frc.robot.Tabs.*;
+
 public class Shooter extends SubsystemBase{
  
     private WPI_TalonFX shooterMotor1;
@@ -23,6 +27,7 @@ public class Shooter extends SubsystemBase{
     private boolean shooterMode = true; //True means high shooting, false means low shooting
     private BangBangController bangbangController;
     private SimpleMotorFeedforward feedforwardController;
+
     public Shooter() {
         
         shooterMotor1 = new WPI_TalonFX(Constants.SubsystemConstants.SHOOTER_MOTOR_1);
@@ -37,6 +42,8 @@ public class Shooter extends SubsystemBase{
         shooterMotor1.setNeutralMode(NeutralMode.Coast);
         shooterMotor2.setNeutralMode(NeutralMode.Coast);
         ballLoader.setIdleMode(IdleMode.kBrake);
+
+        shooterShuffleboard();
     }
 
     public void load(String mode) {
@@ -59,12 +66,12 @@ public class Shooter extends SubsystemBase{
         }
 
         if(shooterMode){
-            shooterMotor1.set(bangbangController.calculate(getVelocity(),Constants.SubsystemConstants.shootHighSpeed) 
+            shooterMotor1.set(bangbangController.calculate(getRightVelocity(),Constants.SubsystemConstants.shootHighSpeed) 
             + Constants.SubsystemConstants.feedFordwardConstant * feedforwardController.calculate(Constants.SubsystemConstants.shootHighSpeed));
             //Set shooter speed based off BangBangController and FeedFordwardController (Calibrated with SysID)
         }
         else{
-            shooterMotor1.set(bangbangController.calculate(getVelocity(),Constants.SubsystemConstants.shootLowSpeed) 
+            shooterMotor1.set(bangbangController.calculate(getRightVelocity(),Constants.SubsystemConstants.shootLowSpeed) 
             + Constants.SubsystemConstants.feedFordwardConstant * feedforwardController.calculate(Constants.SubsystemConstants.shootLowSpeed));
         }
     }
@@ -73,8 +80,12 @@ public class Shooter extends SubsystemBase{
         shooterMode = !shooterMode;
     }
     
-    public double getVelocity() {
+    public double getLeftVelocity() {
         return shooterMotor1.getSensorCollection().getIntegratedSensorVelocity();
+    }
+
+    public double getRightVelocity() {
+        return shooterMotor2.getSensorCollection().getIntegratedSensorVelocity();
     }
 
     public double getLoaderVelocity(){
@@ -89,10 +100,33 @@ public class Shooter extends SubsystemBase{
         ballLoader.setIdleMode(mode);
     }
 
+    public void reportShooter(){
+        //Graph config
+        shooterLeftSpeedGraph.setDouble(getRightVelocity());
+        shooterRightSpeedGraph.setDouble(getLeftVelocity());
+        
+        //Testing config
+        shooterLeftSpeedEntry.setDouble(getLeftVelocity());
+        shooterRightSpeedEntry.setDouble(getRightVelocity());
+        ballLoaderSpeedEntry.setDouble(getLoaderVelocity());
+    }
+
+    public void shooterShuffleboard(){
+        //Graph config
+        shooterLeftSpeedGraph = graphTab.add("Left Shooter Velocity", getLeftVelocity())
+            .withWidget(BuiltInWidgets.kGraph).getEntry();
+        shooterRightSpeedGraph = graphTab.add("Right Shooter Velocity", getRightVelocity())
+            .withWidget(BuiltInWidgets.kGraph).getEntry();
+        
+        //Testing config
+        shooterLeftSpeedEntry = testingTab.add("Left Shooter Velocity", getLeftVelocity()).getEntry();
+        shooterRightSpeedEntry = testingTab.add("Right Shooter Velocity", getRightVelocity()).getEntry();
+        ballLoaderSpeedEntry = testingTab.add("Ball Loader Velocity", getLoaderVelocity()).getEntry();
+    }
+
     @Override
     public void periodic(){
-        SmartDashboard.putNumber("Shooter Velocity", getVelocity());
-        SmartDashboard.putNumber("Ball Loader Velocity", getLoaderVelocity());
+        reportShooter();
     }
 
 }

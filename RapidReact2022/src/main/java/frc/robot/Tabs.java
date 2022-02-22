@@ -19,4 +19,23 @@ public class Tabs {
     public static NetworkTableEntry shifterEntry, shifterComp;
     public static NetworkTableEntry leftSpeedGraph, rightSpeedGraph, speedGraph, leftPositionGraph, rightPositionGraph, turnRateGraph;
     public static NetworkTableEntry axisTester;
+
+    //INFEED
+    public static NetworkTableEntry gateEntry, gateComp;
+    public static NetworkTableEntry infeedLeftSpeedEntry, infeedRightSpeedEntry, infeedLeftSpeedGraph, infeedRightSpeedGraph;
+
+    //SHOOTER
+    public static NetworkTableEntry shooterLeftSpeedEntry, shooterRightSpeedEntry, shooterLeftSpeedGraph, shooterRightSpeedGraph;
+    public static NetworkTableEntry ballLoaderSpeedEntry, ballLoaderSpeedGraph;
+
+    //INTERNAL MECHs
+    public static NetworkTableEntry internalMechEntry, internalMechGraph;
+
+    //CLIMBER
+    public static NetworkTableEntry transClimberLeftPositionEntry, transClimberRightPositionEntry, transClimberLeftPositionGraph, transClimberRightPositionGraph;
+    public static NetworkTableEntry rotClimberLeftAngleEntry, rotClimberRightAngleEntry, rotClimberLeftRateEntry, rotClimberRightRateEntry;
+    public static NetworkTableEntry rotClimberLeftAngleGraph, rotClimberRightAngleGraph, rotClimberLeftRateGraph, rotClimberRightRateGraph;
+
+    //ROBOT CONTAINER
+    public static NetworkTableEntry chooserData;
 }

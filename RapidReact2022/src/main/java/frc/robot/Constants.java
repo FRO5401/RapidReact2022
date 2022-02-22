@@ -91,8 +91,6 @@ public class Constants {
   public static class SubsystemConstants {
     //Infeed
     public static final double INFEED_MOTOR_SPEED = 0.5;
-    //public static final int INFEED_GATE_LEFT = 0;
-    //public static final int INFEED_GATE_RIGHT = 1;
     public static final int INFEED_GATE = 1;
     public static final int INFEED_SPARK_1 = 5; //left
     public static final int INFEED_SPARK_2 = 6; //right
