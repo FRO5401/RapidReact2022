@@ -78,12 +78,12 @@ public class RobotContainer {
 
         //Subsystem Controls
         //infeed
-        Controls.xboxButton(Controls.operator, "RB").whenHeld(new ParallelCommandGroup(
+        Controls.xboxButton(Controls.operator, "LB").whenHeld(new ParallelCommandGroup(
             new InfeedIn(infeed)/*, 
             new BeltComplement(internalMech, "PULL"), 
             new LoadBall(shooter, "LOAD")*/
             ));
-        Controls.xboxButton(Controls.operator, "LB").whenHeld(new ParallelCommandGroup(
+        Controls.xboxButton(Controls.operator, "RB").whenHeld(new ParallelCommandGroup(
             new InfeedOut(infeed)/*,
             new BeltComplement(internalMech, "PUSH"),
             new LoadBall(shooter, "UNLOAD")*/
