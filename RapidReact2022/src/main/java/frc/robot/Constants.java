@@ -98,6 +98,14 @@ public class Constants {
     public static final int ROTATE_MOTOR_2 = 0;
     public static final int DIGITAL_INPUT_1 = 0;
     public static final int DIGITAL_INPUT_2 = 0;
+    //climber angle calculations
+    public static int measuredHorizontalPosition = 840;
+    public static double ticksPerDegree = (4096 / 360); 
+    public static double gravityFF = 0.07; //predetermined gravity feedforward constant
+    public static double climberArmLength = 0;
+    public static double robotFrontOffset = 0;
+    public static double robotBackOffset = 0;
+    public static int extensionLimit = 16;
   }
      
 }

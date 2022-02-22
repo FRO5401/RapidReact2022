@@ -12,6 +12,9 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
+
+import java.lang.Math;
 
 public class Climber extends SubsystemBase{
     
@@ -26,7 +29,8 @@ public class Climber extends SubsystemBase{
     private RelativeEncoder rMEncoder2;
     private DigitalInput limit1;
     private DigitalInput limit2; 
-    
+    private double angle;
+
     public Climber() {
         //Instantiates the motors and limits
         transMotor1 = new CANSparkMax(Constants.SubsystemConstants.TRANS_MOTOR_1, MotorType.kBrushless);
@@ -39,7 +43,7 @@ public class Climber extends SubsystemBase{
         rMEncoder2 = rotateMotor2.getAlternateEncoder(4096);
         limit1 = new DigitalInput(Constants.SubsystemConstants.DIGITAL_INPUT_1);
         limit2 = new DigitalInput(Constants.SubsystemConstants.DIGITAL_INPUT_2);
-
+        angle = 0.0;
         //Inverts the necessary motors
         transMotor2.setInverted(true);
         rotateMotor2.setInverted(true);
