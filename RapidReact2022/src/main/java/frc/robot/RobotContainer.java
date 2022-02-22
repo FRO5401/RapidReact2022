@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.Autonomous.*;
 import frc.robot.Autonomous.groups.BallCenterTest;
 import frc.robot.Autonomous.groups.DoNothing;
 import frc.robot.Autonomous.groups.DriveStraight;
