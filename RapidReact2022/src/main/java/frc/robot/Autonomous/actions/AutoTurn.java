@@ -1,24 +1,23 @@
-package frc.robot.Autonomous;
+package frc.robot.Autonomous.actions;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.Subsystems.DriveBase;
 
-public class AutoDrive extends CommandBase {
+public class AutoTurn extends CommandBase {
 
     private DriveBase drivebase;
-	private double angle, desiredDistance, autoDriveSpeed, distanceTraveled; //Can declare variables next to each other
+	private double desiredAngle;
+	private double autoDriveSpeed;
 	private boolean doneTraveling;
 
-	public AutoDrive(double DistanceInput, double SpeedInput, DriveBase passedDrivebase) {
+	public AutoTurn(double SpeedInput, double AngleInput, DriveBase passedDrivebase) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		// requires(drivebase);
-        doneTraveling = false;
         drivebase = passedDrivebase;
-		desiredDistance = DistanceInput;
+		desiredAngle = AngleInput;
 		autoDriveSpeed = SpeedInput;
-        distanceTraveled = 0;
+		doneTraveling = true;
         addRequirements(drivebase);
 	}
 
@@ -29,24 +28,17 @@ public class AutoDrive extends CommandBase {
         //drivebase.resetSensors();
         drivebase.DPPShifter("HIGH");
 		drivebase.DPPShifter("LOW");
-        distanceTraveled = 0;
+        drivebase.resetGyroAngle();
+        doneTraveling = false;
 
-    } 
+    }
 
 	// Called repeatedly when this Command is scheduled to run
     @Override
     public void execute() {
-        angle = drivebase.getGyroAngle();
-        distanceTraveled = drivebase.getRightEncoder().getDistance() * Constants.DriveConstants.LOW_GEAR_RIGHT_DPP;
-        if ((distanceTraveled) <= (desiredDistance) && desiredDistance >= 0) {
-            drivebase.autoDrive(autoDriveSpeed, autoDriveSpeed, angle);
-            doneTraveling = false;
-        } else if (distanceTraveled >= (desiredDistance) && desiredDistance < 0) {
-            drivebase.autoDrive(autoDriveSpeed, autoDriveSpeed, angle);
-        } else {
-            drivebase.drive(0,0);
+        drivebase.autoTurn(autoDriveSpeed, desiredAngle);
+        if(drivebase.getGyroAngle() > desiredAngle+2 || drivebase.getGyroAngle() < desiredAngle-2)
             doneTraveling = true;
-        }
     }
 
     // Called once after isFinished returns true

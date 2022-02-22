@@ -1,6 +1,7 @@
 package frc.robot.Subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
@@ -12,6 +13,8 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxAlternateEncoder.Type;
 
+import static frc.robot.Tabs.*;
+
 public class InternalMech extends SubsystemBase{ 
     private CANSparkMax mechMotor; 
     private RelativeEncoder mechEncoder;
@@ -19,6 +22,7 @@ public class InternalMech extends SubsystemBase{
     public InternalMech(){
         mechMotor = new CANSparkMax(Constants.SubsystemConstants.INTERNAL_MECH_MOTOR, MotorType.kBrushless);
         mechEncoder = mechMotor.getAlternateEncoder(Type.kQuadrature, 4096);
+        internalMechShuffleboard();
     }
 
     public void run(String mode) {
@@ -43,7 +47,15 @@ public class InternalMech extends SubsystemBase{
 
     //Reports Internal Mech Motor to Smart Dashboard
     public void reportSensors(){
-        SmartDashboard.putNumber("Mech Speed", getVelocity());
+        internalMechGraph.setDouble(getVelocity());
+        internalMechEntry.setDouble(getVelocity());
+    }
+
+    //Internal Mech Shuffleboard
+    public void internalMechShuffleboard(){
+        //All Tabs
+        internalMechGraph = graphTab.add("Internal Mech Speed", getVelocity()).withWidget(BuiltInWidgets.kGraph).getEntry(); 
+        internalMechEntry = testingTab.add("Internal Mech Speed", getVelocity()).getEntry(); 
     }
 
     //Runs methods periodically

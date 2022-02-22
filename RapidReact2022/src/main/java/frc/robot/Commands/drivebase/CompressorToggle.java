@@ -3,14 +3,15 @@ package frc.robot.Commands.drivebase;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Subsystems.DriveBase;
 
-public class ResetSensors extends CommandBase{
+public class CompressorToggle extends CommandBase{
      /*** Variables ***/
 
-     boolean endCommand = false;
+  boolean resetSensors;
 
   private final DriveBase drivebase;
+  boolean endCommand=false;
 
-  public ResetSensors(DriveBase m_drivebase) {
+  public CompressorToggle(DriveBase m_drivebase) {
     drivebase = m_drivebase;
     
     addRequirements(drivebase);
@@ -19,18 +20,15 @@ public class ResetSensors extends CommandBase{
   // Called just before this Command runs the first time
   @Override
   public void initialize() {
-    drivebase.shift("LOW");
+    
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   public void execute() {
-    
-      drivebase.resetEncoders();
-      drivebase.resetGyroAngle();
-      System.out.println("RESET SENSORS");
-      endCommand = true;
-    
+    drivebase.compressorToggle();;
+    endCommand = true;
+
   }
 
   @Override
@@ -49,3 +47,4 @@ public class ResetSensors extends CommandBase{
       return false;
   }
 }
+

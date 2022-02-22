@@ -10,6 +10,7 @@ import frc.robot.Constants;
 import frc.robot.Subsystems.DriveBase;
 import frc.robot.RobotContainer;
 
+import static frc.robot.Controls.*;
 /*
  * Command controls the following drive functions:
  * - TURNING
@@ -62,12 +63,12 @@ public class XboxMove extends CommandBase {
   // Called repeatedly when this Command is scheduled to run
   @Override
   public void execute() {
-    throttle = Controls.xboxAxis(Controls.driver, "RT").getAxis();
-    reverse = Controls.xboxAxis(Controls.driver, "LT").getAxis();
-    turn = Controls.xboxAxis(Controls.driver, "LS-X").getAxis();
-    precision = Controls.xboxButton(Controls.driver, "RB").get();
-    brake = Controls.xboxButton(Controls.driver, "LB").get();
-    rotate = Controls.xboxButton(Controls.driver, "LS").get();
+    throttle = xboxAxis(driver, "RT").getAxis();
+    reverse = xboxAxis(driver, "LT").getAxis();
+    turn = xboxAxis(driver, "LS-X").getAxis();
+    precision = xboxButton(driver, "RB").get();
+    brake = xboxButton(driver, "LB").get();
+    rotate = xboxButton(driver, "LS").get();
       //Braking
        /*** Precision ***/
       //Hold for Precision Speed
