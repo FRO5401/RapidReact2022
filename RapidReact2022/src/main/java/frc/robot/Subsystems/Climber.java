@@ -83,6 +83,36 @@ public class Climber extends SubsystemBase{
         return returnable;
     }
 
+
+    public double posToAngle(int currPos){
+        double degrees = (currPos - Constants.SubsystemConstants.measuredHorizontalPosition) / Constants.SubsystemConstants.ticksPerDegree;
+        return degrees;
+    }
+    public boolean checkOverExtension(double angle){
+         
+        if(angle > 0){
+            int horizontalDistance = (int)((Constants.SubsystemConstants.climberArmLength * Math.cos(90 - Math.abs(angle))) - Constants.SubsystemConstants.robotFrontOffset);
+            if(horizontalDistance >= 16){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        else if (angle < 0){
+            int horizontalDistance = (int)((Constants.SubsystemConstants.climberArmLength * Math.cos(90 - Math.abs(angle))) - Constants.SubsystemConstants.robotBackOffset);
+            if(horizontalDistance >= 16){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        else{
+            return false;
+        }
+    }
+
     public boolean getLimit1(){
         return limit1.get();
     }
