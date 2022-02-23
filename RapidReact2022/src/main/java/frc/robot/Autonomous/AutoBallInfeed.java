@@ -75,7 +75,7 @@ public class AutoBallInfeed extends CommandBase {
 			isCentered = networktables.checkCentered();
 			currentAngle = drivebase.getGyroYaw();
 			try {
-				desiredDistance = networktables.getBallDistance()*1000;
+				desiredDistance = networktables.getBallDistance();
 			}
 			catch (NullPointerException e) {
 				desiredDistance = 0;
@@ -116,11 +116,11 @@ public class AutoBallInfeed extends CommandBase {
             }
     	    else { //Turn until the ball that is recognized is straight ahead
 			    if(((currentAngle+90)*3.56) < ballLocation){
-				    drivebase.autoTurn(autoDriveSpeed, currentAngle+90);
+				    drivebase.autoTurn(autoDriveSpeed, currentAngle+5);
 					System.out.println(isCentered);
 			    }
         	    else if(((currentAngle+90)*3.56) > ballLocation){
-				    drivebase.autoTurn(autoDriveSpeed, currentAngle+90);
+				    drivebase.autoTurn(autoDriveSpeed, currentAngle+5);
 					System.out.println(isCentered);
 				}
 				else {
