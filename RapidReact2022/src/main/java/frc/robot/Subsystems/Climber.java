@@ -85,8 +85,8 @@ public class Climber extends SubsystemBase{
 
 
     public double posToAngle(int currPos){
-        double degrees = (currPos - Constants.SubsystemConstants.measuredHorizontalPosition) / Constants.SubsystemConstants.ticksPerDegree;
-        return degrees;
+        double radians = Math.toRadians((currPos - Constants.SubsystemConstants.measuredHorizontalPosition) / Constants.SubsystemConstants.ticksPerDegree);
+        return radians;
     }
     public boolean checkOverExtension(double angle){
          
