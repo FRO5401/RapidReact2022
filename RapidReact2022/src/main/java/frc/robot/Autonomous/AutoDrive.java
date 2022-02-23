@@ -27,8 +27,8 @@ public class AutoDrive extends CommandBase {
 
         drivebase.resetEncoders();
         drivebase.resetGyroAngle();
-        drivebase.DPPShifter("HIGH");
-		drivebase.DPPShifter("LOW");
+        //drivebase.DPPShifter("HIGH");
+		//drivebase.DPPShifter("LOW");
         distanceTraveled = 0;
 
     } 

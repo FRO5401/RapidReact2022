@@ -91,7 +91,7 @@ public class DriveBase extends SubsystemBase {
     leftDrives = new MotorControllerGroup(leftDrive1, leftDrive2, leftDrive3);
     rightDrives = new MotorControllerGroup(rightDrive1, rightDrive2, rightDrive3);
     ourDrive = new DifferentialDrive(leftDrives, rightDrives);
-    gearShifter = new Solenoid(PneumaticsModuleType.CTREPCM, 0);
+    //gearShifter = new Solenoid(PneumaticsModuleType.CTREPCM, 0);
 
     //Configuring parts
     leftDrives.setInverted(true);
@@ -132,11 +132,11 @@ public class DriveBase extends SubsystemBase {
 
   //Shift gears
   public void shift(String gear) {
-    if(gear.toUpperCase().equals("LOW")) 
-      gearShifter.set(true);
-    else if(gear.toUpperCase().equals("HIGH")) 
-      gearShifter.set(false);
-    DPPShifter(gear);  
+    //if(gear.toUpperCase().equals("LOW")) 
+      //gearShifter.set(true);
+    //else if(gear.toUpperCase().equals("HIGH")) 
+     // gearShifter.set(false);
+   // DPPShifter(gear);  
   }  
 
   //Update DPP to be compliant with gears

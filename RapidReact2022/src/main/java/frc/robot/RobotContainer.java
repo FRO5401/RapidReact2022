@@ -38,7 +38,7 @@ public class RobotContainer {
         configureInputGroups();
         configureButtonBindings();
         chooser.setDefaultOption("Do Nothing", new DoNothing(drivebase));
-        chooser.addOption("Drive Straight", new DriveStraight(100, 0.4, drivebase));
+        chooser.addOption("Drive Straight", new DriveStraight(100, 0.6, drivebase));
         chooser.addOption("Ball Center Test", new BallCenterTest(0.55, drivebase, networktables));
         //chooser.addOption("Trajectory Test", new SetTrajectoryPath(drivebase, "paths/DriveStraight.wpilib.json")); //REPLACE LATER
         Shuffleboard.getTab("SmartDashboard").add("Auto choices", chooser).withWidget(BuiltInWidgets.kComboBoxChooser);
@@ -56,8 +56,8 @@ public class RobotContainer {
 
         //Drivebase Controls      
         Controls.xboxButton(Controls.operator, "Back").whenPressed(new ResetSensors(drivebase));
-        Controls.xboxButton(Controls.driver, "Start").whenPressed(new GearShiftHigh(drivebase));
-        Controls.xboxButton(Controls.driver, "Back").whenPressed(new GearShiftLow(drivebase));
+       // Controls.xboxButton(Controls.driver, "Start").whenPressed(new GearShiftHigh(drivebase));
+        //Controls.xboxButton(Controls.driver, "Back").whenPressed(new GearShiftLow(drivebase));
         drivetrain.whenAnyActive(new XboxMove(drivebase));
     }
 

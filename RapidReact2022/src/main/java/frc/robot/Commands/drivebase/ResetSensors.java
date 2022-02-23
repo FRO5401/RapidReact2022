@@ -19,7 +19,7 @@ public class ResetSensors extends CommandBase{
   // Called just before this Command runs the first time
   @Override
   public void initialize() {
-    drivebase.shift("LOW");
+   // drivebase.shift("LOW");
   }
 
   // Called repeatedly when this Command is scheduled to run
