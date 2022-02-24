@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.Autonomous.*;
 import frc.robot.Autonomous.groups.BallCenterTest;
 import frc.robot.Autonomous.groups.DoNothing;
 import frc.robot.Autonomous.groups.DriveStraight;
@@ -39,7 +38,7 @@ public class RobotContainer {
     private final NetworkTables networktables= new NetworkTables();
     private final Infeed infeed = new Infeed();
     //private final InternalMech internalMech = new InternalMech();
-    //private final Shooter shooter = new Shooter();
+    private final Shooter shooter = new Shooter();
     //private final CompressorSubsystem compressor = new CompressorSubsystem();
 
     private final MultipleInputGroup drivetrain = new MultipleInputGroup();
@@ -91,13 +90,13 @@ public class RobotContainer {
         //infeed
         xboxButton(operator, "RB").whenHeld(new ParallelCommandGroup(
             new InfeedIn(infeed)/*, 
-            new BeltComplement(internalMech, "PULL"), 
-            new LoadBall(shooter, "LOAD")*/
+            new BeltComplement(internalMech, "PULL")*/ ,
+            new LoadBall(shooter, "LOAD")
             ));
         xboxButton(operator, "LB").whenHeld(new ParallelCommandGroup(
             new InfeedOut(infeed)/*,
-            new BeltComplement(internalMech, "PUSH"),
-            new LoadBall(shooter, "UNLOAD")*/
+            new BeltComplement(internalMech, "PUSH")*/,
+            new LoadBall(shooter, "UNLOAD")
             ));
         xboxButton(operator, "B").whenPressed(new GateToggle(infeed));
 
@@ -106,14 +105,14 @@ public class RobotContainer {
         //xboxDPad(operator, 180).whenHeld(new BeltComplement(internalMech, "PUSH"));
         
         //shooter
-       /* xboxButton(operator, "A").whenHeld(new SequentialCommandGroup(
+       xboxButton(operator, "A").whenHeld(new SequentialCommandGroup(
             new ShootBall(shooter),
             new WaitCommand(Constants.SubsystemConstants.SHOOTER_WAIT_TIME), //Guessed wait time
             new ParallelCommandGroup(
-                new BeltComplement(internalMech, "PULL"),
+                //new BeltComplement(internalMech, "PULL"),
                 new LoadBall(shooter, "UNLOAD")
             ))).whenReleased(new StopShooter(shooter));
-        xboxButton(operator, "Y").whenPressed(new ChangeMode(shooter));*/
+        xboxButton(operator, "Y").whenPressed(new ChangeMode(shooter));
         //TODO: Change this stuff back before I forget
 
     }

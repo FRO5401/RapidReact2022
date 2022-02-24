@@ -54,7 +54,6 @@ public class Infeed extends SubsystemBase {
         if(mode.toUpperCase().contains("IN")) {
             infeedMotor1.set(Constants.SubsystemConstants.INFEED_MOTOR_SPEED);
         } else if(mode.toUpperCase().contains("OUT")) {
-            Printer.qp(9832);
             infeedMotor1.set(-Constants.SubsystemConstants.INFEED_MOTOR_SPEED);
         } else if (mode.toUpperCase().equals("STOP")) {
             infeedMotor1.set(0);
@@ -93,16 +92,16 @@ public class Infeed extends SubsystemBase {
 
     public void infeedShuffleboard(){
         //Graph config
-        infeedLeftSpeedGraph = graphTab.add("Left Infeed Motor Speed",getLeftInfeedSpeed())
+        infeedLeftSpeedGraph = graphTab.add("Left Infeed Motor Graph",getLeftInfeedSpeed())
             .withWidget(BuiltInWidgets.kGraph).getEntry();
-        infeedRightSpeedGraph = graphTab.add("Right Infeed Motor Speed",getRightInfeedSpeed())
+        infeedRightSpeedGraph = graphTab.add("Right Infeed Motor Graph",getRightInfeedSpeed())
             .withWidget(BuiltInWidgets.kGraph).getEntry(); 
 
   
         //Testing Tab
-        gateEntry = testingTab.add("Infeed Gate State", getGateState()).getEntry();
-        infeedLeftSpeedEntry = testingTab.add("Left Motor Speed",getLeftInfeedSpeed()).getEntry();
-        infeedRightSpeedEntry = testingTab.add("Right Motor Speed",getRightInfeedSpeed()).getEntry(); 
+        gateEntry = testingTab.add("Infeed Gate", getGateState()).getEntry();
+        infeedLeftSpeedEntry = testingTab.add("Left Infeed Motor Speed",getLeftInfeedSpeed()).getEntry();
+        infeedRightSpeedEntry = testingTab.add("Right Infeed Motor Speed",getRightInfeedSpeed()).getEntry(); 
 
         //Comp Tab
         gateComp = testingTab.add("Infeed Gate State", getGateState())
