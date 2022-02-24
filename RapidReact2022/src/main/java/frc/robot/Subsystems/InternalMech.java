@@ -22,6 +22,7 @@ public class InternalMech extends SubsystemBase{
     public InternalMech(){
         mechMotor = new CANSparkMax(Constants.SubsystemConstants.INTERNAL_MECH_MOTOR, MotorType.kBrushless);
         mechEncoder = mechMotor.getAlternateEncoder(Type.kQuadrature, 4096);
+        mechMotor.setInverted(true);
         internalMechShuffleboard();
     }
 
