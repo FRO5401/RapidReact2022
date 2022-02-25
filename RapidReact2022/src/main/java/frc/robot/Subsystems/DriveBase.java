@@ -94,6 +94,7 @@ public class DriveBase extends SubsystemBase {
     ourDrive.setExpiration(0.1);
     ourDrive.setMaxOutput(1.0);
     setDrivebaseIdleMode(IdleMode.kBrake);
+    compressor.enableDigital();
 
     //Shuffleboard and Path Planning
     odometry = new DifferentialDriveOdometry(navxGyro.getRotation2d());
@@ -110,7 +111,6 @@ public class DriveBase extends SubsystemBase {
 
   //Compressor control
   public void compressorToggle(){
-    compressor.enableDigital();
     compressorState = !compressorState;
     setCompressor(compressorState);
   }

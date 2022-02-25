@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -20,9 +21,12 @@ public class InternalMech extends SubsystemBase{
     private RelativeEncoder mechEncoder;
     
     public InternalMech(){
+        // As of 2/25/22 assembly switched back to the Sparks
         mechMotor = new CANSparkMax(Constants.SubsystemConstants.INTERNAL_MECH_MOTOR, MotorType.kBrushless);
         mechEncoder = mechMotor.getAlternateEncoder(Type.kQuadrature, 4096);
+
         mechMotor.setInverted(true);
+        setMechNeutralMode(IdleMode.kBrake);
         internalMechShuffleboard();
     }
 
@@ -38,7 +42,7 @@ public class InternalMech extends SubsystemBase{
     }
     
     //Set Motor Neutral
-    public void setMechIdleMode(IdleMode mode){
+    public void setMechNeutralMode(IdleMode mode){
         mechMotor.setIdleMode(mode);
     }
 
