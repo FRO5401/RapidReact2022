@@ -26,6 +26,8 @@ public class InternalMech extends SubsystemBase{
         mechEncoder = mechMotor.getAlternateEncoder(Type.kQuadrature, 4096);
 
         mechMotor.setInverted(true);
+        mechMotor.setSmartCurrentLimit(95);
+        //100A is supposedly the sall current so we don't kill motor again
         setMechNeutralMode(IdleMode.kBrake);
         internalMechShuffleboard();
     }

@@ -38,7 +38,7 @@ public class RobotContainer {
     private final DriveBase drivebase = new DriveBase();
     private final NetworkTables networktables= new NetworkTables();
     private final Infeed infeed = new Infeed();
-    //private final InternalMech internalMech = new InternalMech();
+    private final InternalMech internalMech = new InternalMech();
     private final Shooter shooter = new Shooter();
 
     private final MultipleInputGroup drivetrain = new MultipleInputGroup();
@@ -89,27 +89,27 @@ public class RobotContainer {
         //Subsystem Controls
         //infeed
         xboxButton(operator, "RB").whenHeld(new ParallelRaceGroup(
-            new InfeedIn(infeed)//, 
-           // new BeltComplement(internalMech, "PULL"),
+            new InfeedIn(infeed), 
+            new BeltComplement(internalMech, "PULL")//,
             //new LoadBall(shooter, "LOAD")
             ));
         xboxButton(operator, "LB").whenHeld(new ParallelRaceGroup(
-            new InfeedOut(infeed)//,
-           // new BeltComplement(internalMech, "PUSH"),
+            new InfeedOut(infeed),
+            new BeltComplement(internalMech, "PUSH")//,
             //new LoadBall(shooter, "UNLOAD")
             ));
         xboxButton(operator, "B").whenPressed(new GateToggle(infeed));
 
         //internal mechanism
-       //// xboxDPad(operator, 0).whenHeld(new BeltComplement(internalMech, "PULL"));
-       // xboxDPad(operator, 180).whenHeld(new BeltComplement(internalMech, "PUSH"));
+        xboxDPad(operator, 0).whenHeld(new BeltComplement(internalMech, "PULL"));
+        xboxDPad(operator, 180).whenHeld(new BeltComplement(internalMech, "PUSH"));
         
         //shooter
        xboxButton(operator, "A").whenHeld(new SequentialCommandGroup(
             new ShootBall(shooter),
             new WaitCommand(Constants.SubsystemConstants.SHOOTER_WAIT_TIME), //Guessed wait time
             new ParallelRaceGroup(
-            //    new BeltComplement(internalMech, "PULL"),
+                new BeltComplement(internalMech, "PULL"),
                 new LoadBall(shooter, "UNLOAD")
             ))).whenReleased(new StopShooter(shooter));
         xboxButton(operator, "Y").whenPressed(new ChangeMode(shooter));
