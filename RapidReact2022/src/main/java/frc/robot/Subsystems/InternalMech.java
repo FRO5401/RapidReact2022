@@ -38,13 +38,13 @@ public class InternalMech extends SubsystemBase{
 
     public void run(String mode) {
         if(mode.toUpperCase().equals("PULL"))
-            mechMotor.set(Constants.SubsystemConstants.MECH_SPEED);
+            mechMotor2.set(Constants.SubsystemConstants.MECH_SPEED);
         else if(mode.toUpperCase().equals("PUSH"))
-            mechMotor.set(-Constants.SubsystemConstants.MECH_SPEED);
+            mechMotor2.set(-Constants.SubsystemConstants.MECH_SPEED);
         else if (mode.toUpperCase().equals("STOP"))
-            mechMotor.set(0);
+            mechMotor2.set(0);
         else  //Call this variable when sending a string
-            mechMotor.set(Double.parseDouble(mode));
+            mechMotor2.set(Double.parseDouble(mode));
     }
     
     //Set Motor Neutral
@@ -53,7 +53,7 @@ public class InternalMech extends SubsystemBase{
     }
 
     public double getVelocity(){
-        return mechEncoder.getVelocity();
+        return (mechEncoder.getVelocity() + mechEncoder2.getVelocity())/2;
     }
 
     //Reports Internal Mech Motor to Smart Dashboard
