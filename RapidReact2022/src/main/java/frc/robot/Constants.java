@@ -97,7 +97,8 @@ public class Constants {
     
 
     //Internal Mechanism
-    public static final int INTERNAL_MECH_MOTOR = 7; 
+    public static final int INTERNAL_MECH_MOTOR = 15; //Right, swapped CAN Ids to be easier 
+    public static final int INTERNAL_MECH_MOTOR2 = 7; //Left
     public static final double MECH_SPEED = 0.75;
 
     //Shooter

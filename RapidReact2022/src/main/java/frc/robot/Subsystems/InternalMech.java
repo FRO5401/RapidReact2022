@@ -18,14 +18,18 @@ import static frc.robot.Tabs.*;
 
 public class InternalMech extends SubsystemBase{ 
     private CANSparkMax mechMotor; 
+    private CANSparkMax mechMotor2; 
     private RelativeEncoder mechEncoder;
+    private RelativeEncoder mechEncoder2;
     
     public InternalMech(){
-        // As of 2/25/22 assembly switched back to the Sparks
+        // As of 2/25/22 assembly switched back to the Sparks. 2/26 we use two now.  -David
         mechMotor = new CANSparkMax(Constants.SubsystemConstants.INTERNAL_MECH_MOTOR, MotorType.kBrushless);
+        mechMotor2 = new CANSparkMax(Constants.SubsystemConstants.INTERNAL_MECH_MOTOR2, MotorType.kBrushless);
+        mechEncoder2 = mechMotor2.getAlternateEncoder(Type.kQuadrature, 4096);
         mechEncoder = mechMotor.getAlternateEncoder(Type.kQuadrature, 4096);
 
-        mechMotor.setInverted(true);
+        mechMotor.follow(mechMotor2, true);
         mechMotor.setSmartCurrentLimit(95);
         //100A is supposedly the sall current so we don't kill motor again
         setMechNeutralMode(IdleMode.kBrake);
