@@ -3,14 +3,19 @@ package frc.robot.Subsystems;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
+import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.PneumaticsControlModule;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants;
 import frc.robot.Robot;
 
@@ -23,6 +28,8 @@ public class Climber extends SubsystemBase{
     private CANSparkMax transMotor2;
     private CANSparkMax rotateMotor1;
     private CANSparkMax rotateMotor2;
+    private Solenoid ratchetSolenoid;
+    private Compressor compressor;
     private RelativeEncoder tMEncoder1;
     private RelativeEncoder tMEncoder2;
     private RelativeEncoder rMEncoder1;
@@ -30,13 +37,15 @@ public class Climber extends SubsystemBase{
     private DigitalInput limit1;
     private DigitalInput limit2; 
     private double angle;
-
+    private double startTime;
+    private double currentTime;
     public Climber() {
         //Instantiates the motors and limits
         transMotor1 = new CANSparkMax(Constants.SubsystemConstants.TRANS_MOTOR_1, MotorType.kBrushless);
         transMotor2 = new CANSparkMax(Constants.SubsystemConstants.TRANS_MOTOR_2, MotorType.kBrushless);
         rotateMotor1 = new CANSparkMax(Constants.SubsystemConstants.ROTATE_MOTOR_1, MotorType.kBrushless);
         rotateMotor2 = new CANSparkMax(Constants.SubsystemConstants.ROTATE_MOTOR_2, MotorType.kBrushless);
+        ratchetSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM,Constants.SubsystemConstants.RATCHET_SOLENOID);
         tMEncoder1 = transMotor1.getAlternateEncoder(4096);
         tMEncoder2 = transMotor2.getAlternateEncoder(4096);
         rMEncoder1 = rotateMotor1.getAlternateEncoder(4096);
@@ -47,6 +56,8 @@ public class Climber extends SubsystemBase{
         //Inverts the necessary motors
         transMotor2.setInverted(true);
         rotateMotor2.setInverted(true);
+        ratchetSolenoid.set(false); //default is false, at the end of the game you set true to hold climber position 
+        startTime = Timer.getMatchTime();
 
         //Makes sure the neutral mode is on brake
         setClimberIdleMode("Translation", IdleMode.kBrake);
@@ -82,7 +93,7 @@ public class Climber extends SubsystemBase{
         }
         return returnable;
     }
-
+    
 
     public double posToAngle(int currPos){
         double radians = Math.toRadians((currPos - Constants.SubsystemConstants.measuredHorizontalPosition) / Constants.SubsystemConstants.ticksPerDegree);
@@ -132,8 +143,25 @@ public class Climber extends SubsystemBase{
     }
 
     //Reports the climber sensors periodically
+    public boolean getRatchetAirPressure(){
+       if(compressor.getPressure() <= 10.0){
+           return true;
+       }
+       else{
+           return false;
+       }
+    }
+    public void setSafetySolenoid(){
+        currentTime = Timer.getMatchTime();
+        double elapsedTime;
+        elapsedTime = currentTime - startTime; 
+        if(elapsedTime >= 132 || getRatchetAirPressure() ){
+            ratchetSolenoid.set(true);
+        }
+    }
     @Override
     public void periodic() {
+       
         reportClimber();
     }
 
@@ -143,6 +171,7 @@ public class Climber extends SubsystemBase{
         SmartDashboard.putNumber("Translation Motor 2 Speed", getMotorSpeeds("TRANSLATION", 2));
         SmartDashboard.putNumber("Rotation Motor 1 Speed", getMotorSpeeds("ROTATION", 1));
         SmartDashboard.putNumber("Rotation Motor 2 Speed", getMotorSpeeds("ROTATION", 2));
+        SmartDashboard.putBoolean("Airpressure Status Bad", getRatchetAirPressure());
         SmartDashboard.putBoolean("Limit 1 status", getLimit1());
         SmartDashboard.putBoolean("Limit 2 status", getLimit2());
     }

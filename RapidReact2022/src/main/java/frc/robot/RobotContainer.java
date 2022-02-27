@@ -5,6 +5,7 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -55,7 +56,10 @@ public class RobotContainer {
         Controls.xboxButton(Controls.operator, "Back").whenPressed(new ResetSensors(drivebase));
         Controls.xboxButton(Controls.driver, "Start").whenPressed(new GearShiftHigh(drivebase));
         Controls.xboxButton(Controls.driver, "Back").whenPressed(new GearShiftLow(drivebase));
-
+        if(SmartDashboard.getBoolean("Airpressure Status Bad", false) == true){
+            Controls.operator.setRumble(RumbleType.kRightRumble, 1.0);
+            Controls.operator.setRumble(RumbleType.kLeftRumble, 1.0);
+        }
         //driver and operator controls for subsystems
         //Controls.xboxButton(Controls.operator, "Start").whenPressed(new ClimberRoutine(climber));
         //Controls.xboxButton(Controls.operator, "X").whenPressed(new StopClimber(climber));
