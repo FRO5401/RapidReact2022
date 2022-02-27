@@ -29,7 +29,7 @@ public class Tabs {
     public static NetworkTableEntry ballLoaderSpeedEntry, ballLoaderSpeedGraph;
 
     //INTERNAL MECHs
-    public static NetworkTableEntry internalMechEntry, internalMechGraph;
+    public static NetworkTableEntry internalMechAverageEntry, internalMechAverageGraph, leftIMSpeedGraph, rightIMSpeedGraph, leftIMSpeedEntry, rightIMSpeedEntry;
 
     //CLIMBER
     public static NetworkTableEntry transClimberLeftPositionEntry, transClimberRightPositionEntry, transClimberLeftPositionGraph, transClimberRightPositionGraph;
