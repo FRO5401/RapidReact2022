@@ -10,7 +10,7 @@ import frc.robot.Subsystems.NetworkTables;
  * This command is also used as a "BaselineOnly" command
  */
 
-public class AutoBallInfeed extends CommandBase {
+public class AutoBallShoot extends CommandBase {
 
     private double desiredDistance;
     private double currentAngle;
@@ -27,7 +27,7 @@ public class AutoBallInfeed extends CommandBase {
     
     private boolean isCentered;
 
-	public AutoBallInfeed(double SpeedInput, DriveBase passedDrivebase, NetworkTables passedNetworkTables) {
+	public AutoBallShoot(double SpeedInput, DriveBase passedDrivebase, NetworkTables passedNetworkTables) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		// requires(drivebase);
@@ -65,11 +65,11 @@ public class AutoBallInfeed extends CommandBase {
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	public void execute() {
-		ballLocation = networktables.getBallBXValue();
+		ballLocation = networktables.getTargetXValue();
 		currentTime = Timer.getMatchTime();
 		double timeElapsed = startTime - currentTime;
         SmartDashboard.putNumber("Time elapsed", timeElapsed);
-		radius = networktables.getBallRadius();
+		radius = networktables.getTarget();
 
 		if(isCentered == false){
 			isCentered = networktables.checkCentered();
