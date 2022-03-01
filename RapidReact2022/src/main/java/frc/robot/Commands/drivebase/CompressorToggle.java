@@ -26,7 +26,7 @@ public class CompressorToggle extends CommandBase{
   // Called repeatedly when this Command is scheduled to run
   @Override
   public void execute() {
-    drivebase.compressorToggle();;
+    drivebase.compressorToggle();
     endCommand = true;
 
   }

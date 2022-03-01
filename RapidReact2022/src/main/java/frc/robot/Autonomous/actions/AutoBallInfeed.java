@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Subsystems.DriveBase;
+import frc.robot.Subsystems.Infeed;
 import frc.robot.Subsystems.NetworkTables;
 
 /**
@@ -21,13 +22,14 @@ public class AutoBallInfeed extends CommandBase {
 	private double ballLocation;
 	private DriveBase drivebase;
 	private NetworkTables networktables;
+	private Infeed infeed;
     
     private double startTime;
     private double currentTime;
     
     private boolean isCentered;
 
-	public AutoBallInfeed(double SpeedInput, DriveBase passedDrivebase, NetworkTables passedNetworkTables) {
+	public AutoBallInfeed(double SpeedInput, DriveBase passedDrivebase, NetworkTables passedNetworkTables, Infeed passedInfeed) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		// requires(drivebase);
@@ -44,6 +46,7 @@ public class AutoBallInfeed extends CommandBase {
 		distanceTraveled = 0;
 		drivebase = passedDrivebase;
 		networktables = passedNetworkTables;
+		infeed = passedInfeed;
 	}
 
 	// Called just before this Command runs the first time
@@ -103,7 +106,7 @@ public class AutoBallInfeed extends CommandBase {
 		}
 		else if(radius > 0){ //If ball is recognized drive towards it and infeed
 		    if(isCentered == true) { //Once recognized ball is straight ahead, drive towards it based off of received distance
-				//infeed.startMotors();
+				//infeed.run("START");
 
 				if(radius < 200){
 					drivebase.autoDrive(autoDriveSpeed, autoDriveSpeed, drivebase.getGyroAngle());

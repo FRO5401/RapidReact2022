@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Autonomous.actions.AutoBallInfeed;
 import frc.robot.Autonomous.actions.AutoVisionDrive;
 import frc.robot.Subsystems.DriveBase;
+import frc.robot.Subsystems.Infeed;
 import frc.robot.Subsystems.NetworkTables;
 
 public class BallCenterTest extends SequentialCommandGroup {
@@ -15,10 +16,9 @@ public class BallCenterTest extends SequentialCommandGroup {
   /**
    * Add your docs here.
    */
-  public BallCenterTest(double SpeedInput, DriveBase passedDrivebase, NetworkTables passedNetworkTables) {
-    drivebase = passedDrivebase;
+  public BallCenterTest(double SpeedInput, DriveBase passedDrivebase, NetworkTables passedNetworkTables, Infeed passedInfeed) {
     addCommands(
-        new AutoBallInfeed(SpeedInput, passedDrivebase, passedNetworkTables),
+        new AutoBallInfeed(SpeedInput, passedDrivebase, passedNetworkTables, passedInfeed),
         new WaitCommand(1),
         new AutoVisionDrive(SpeedInput, passedDrivebase, passedNetworkTables)
     );

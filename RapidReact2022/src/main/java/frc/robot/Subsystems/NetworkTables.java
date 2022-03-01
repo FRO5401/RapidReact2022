@@ -24,28 +24,28 @@ public class NetworkTables extends SubsystemBase {
   public NetworkTables() {
     inst = NetworkTableInstance.getDefault();
     ballTable = inst.getTable("Ball");
-    targetTable = inst.getTable("Target");
+    targetTable = inst.getTable("Targets");
     robotTable = inst.getTable("Robot");
-    ballXEntry = ballTable.getEntry("BallX");
-    ballYEntry = ballTable.getEntry("BallY");
-    ballDEntry = ballTable.getEntry("BallDistance");
-    ballREntry = ballTable.getEntry("BallRadius");
-    targetXEntry = ballTable.getEntry("TargetX");
-    targetYEntry = ballTable.getEntry("TargetY");
-    targetDEntry = ballTable.getEntry("TargetDistance");
-    robotXEntry = ballTable.getEntry("RobotX");
-    robotYEntry = ballTable.getEntry("RobotY");
-    robotDEntry = ballTable.getEntry("RobotDistance");
+    ballXEntry = ballTable.getEntry("ballX");
+    ballYEntry = ballTable.getEntry("ballY");
+    targetXEntry = ballTable.getEntry("targetX");
+    targetYEntry = ballTable.getEntry("targetY");
+    robotXEntry = ballTable.getEntry("robotX");
+    robotYEntry = ballTable.getEntry("robotY");
+    ballDEntry = ballTable.getEntry("ballDistance");
+    targetDEntry = ballTable.getEntry("targetDistance");
+    robotDEntry = ballTable.getEntry("robotDistance");
+    ballREntry = ballTable.getEntry("ballRadius");
     ballX = 0.0;
     ballY = 0.0;
-    ballDistance = 0.0;
-    ballRadius = 0.0;
     targetX = 0.0;
     targetY = 0.0;
-    targetDistance = 0.0;
     robotX = 0.0;
     robotY = 0.0;
+    targetDistance = 0.0;
     robotDistance = 0.0;
+    ballDistance = 0.0;
+    ballRadius = 0.0;
 
     inst.startClientTeam(5401); // where TEAM=190, 294, etc, or use inst.
     inst.startDSClient();
@@ -92,24 +92,20 @@ public class NetworkTables extends SubsystemBase {
     return ballY;
   }
 
-  public double getBallDistance(){
-    return ballDistance;
-  }
-
   public double getBallRadius(){
     return ballRadius;
+  }
+
+  public double getBallDistance(){
+    return ballDistance;
   }
 
   public double getTargetXValue() {
     return targetX;
   }
 
-  public double getTargetYValue() {
+  public double getTargetYValue(){
     return targetY;
-  }
-
-  public double getTargetDistance(){
-    return targetDistance;
   }
 
   public double getRobotXValue() {
@@ -120,13 +116,24 @@ public class NetworkTables extends SubsystemBase {
     return robotY;
   }
 
-  public double getRobotDistance(){
+  public double getTargetDistance(){
+    return targetDistance;
+  }
+
+  public double getRobotDistance() {
     return robotDistance;
   }
 
+  
   public void resetValues(){
     ballX = 0;
     ballY = 0;
+    targetY = 0;
+    targetX = 0;
+    robotX = 0;
+    robotY = 0;
+    robotDistance = 0;
+    targetDistance = 0;
     ballDistance = 0;
     ballRadius = 0;
   }

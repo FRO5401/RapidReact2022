@@ -9,11 +9,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.Autonomous.*;
 import frc.robot.Autonomous.groups.BallCenterTest;
 import frc.robot.Autonomous.groups.DoNothing;
 import frc.robot.Autonomous.groups.DriveStraight;
@@ -38,9 +38,8 @@ public class RobotContainer {
     private final DriveBase drivebase = new DriveBase();
     private final NetworkTables networktables= new NetworkTables();
     private final Infeed infeed = new Infeed();
-    //private final InternalMech internalMech = new InternalMech();
-    //private final Shooter shooter = new Shooter();
-    //private final CompressorSubsystem compressor = new CompressorSubsystem();
+    private final InternalMech internalMech = new InternalMech();
+    private final Shooter shooter = new Shooter();
 
     private final MultipleInputGroup drivetrain = new MultipleInputGroup();
 
@@ -49,7 +48,7 @@ public class RobotContainer {
         configureButtonBindings();
         chooser.setDefaultOption("Do Nothing", new DoNothing(drivebase));
         chooser.addOption("Drive Straight", new DriveStraight(200, 0.3, drivebase));
-        chooser.addOption("Ball Center Test", new BallCenterTest(0.3, drivebase, networktables));
+       // chooser.addOption("Ball Center Test", new BallCenterTest(0.3, drivebase, networktables));
         //chooser.addOption("Trajectory Test", new SetTrajectoryPath(drivebase, "paths/DriveStraight.wpilib.json")); //REPLACE LATER
         SmartDashboard.putData("Auto choices", chooser);
         
@@ -89,31 +88,31 @@ public class RobotContainer {
 
         //Subsystem Controls
         //infeed
-        xboxButton(operator, "RB").whenHeld(new ParallelCommandGroup(
-            new InfeedIn(infeed)/*, 
-            new BeltComplement(internalMech, "PULL"), 
-            new LoadBall(shooter, "LOAD")*/
+        xboxButton(operator, "RB").whenHeld(new ParallelRaceGroup(
+            new InfeedIn(infeed), 
+            new BeltComplement(internalMech, "PULL")//,
+            //new LoadBall(shooter, "LOAD")
             ));
-        xboxButton(operator, "LB").whenHeld(new ParallelCommandGroup(
-            new InfeedOut(infeed)/*,
-            new BeltComplement(internalMech, "PUSH"),
-            new LoadBall(shooter, "UNLOAD")*/
+        xboxButton(operator, "LB").whenHeld(new ParallelRaceGroup(
+            new InfeedOut(infeed),
+            new BeltComplement(internalMech, "PUSH")//,
+            //new LoadBall(shooter, "UNLOAD")
             ));
         xboxButton(operator, "B").whenPressed(new GateToggle(infeed));
 
         //internal mechanism
-        //xboxDPad(operator, 0).whenHeld(new BeltComplement(internalMech, "PULL"));
-        //xboxDPad(operator, 180).whenHeld(new BeltComplement(internalMech, "PUSH"));
+        xboxDPad(operator, 0).whenHeld(new BeltComplement(internalMech, "PULL"));
+        xboxDPad(operator, 180).whenHeld(new BeltComplement(internalMech, "PUSH"));
         
         //shooter
-       /* xboxButton(operator, "A").whenHeld(new SequentialCommandGroup(
+       xboxButton(operator, "A").whenHeld(new SequentialCommandGroup(
             new ShootBall(shooter),
             new WaitCommand(Constants.SubsystemConstants.SHOOTER_WAIT_TIME), //Guessed wait time
-            new ParallelCommandGroup(
+            new ParallelRaceGroup(
                 new BeltComplement(internalMech, "PULL"),
                 new LoadBall(shooter, "UNLOAD")
             ))).whenReleased(new StopShooter(shooter));
-        xboxButton(operator, "Y").whenPressed(new ChangeMode(shooter));*/
+        xboxButton(operator, "Y").whenPressed(new ChangeMode(shooter));
         //TODO: Change this stuff back before I forget
 
     }
