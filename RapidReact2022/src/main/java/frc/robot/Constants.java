@@ -74,6 +74,7 @@ public class Constants {
     public static final double AUTO_SPEED_ADJUSTMENT = 1.4;
     public static final double AUTO_TURN_SPEED = 0.8;
     public static final double AUTO_TURN_PRECISION = 0.5;
+    public static final double ANGULAR_THRESHOLD = 2;
 
     //Trajectory Constants
     public static final double kTrackwidthMeters = 0.6858;
