@@ -54,12 +54,6 @@ public class AutoBallInfeed extends CommandBase {
 	public void initialize() {
 		
 		startTime = Timer.getMatchTime();
-		System.out.println("Baller");
-		System.out.println("Baller");
-		System.out.println("Baller");
-		System.out.println("Baller");
-		System.out.println("Baller");
-		System.out.println("Baller");
 		networktables.resetValues();
 		drivebase.resetEncoders();
 		drivebase.resetGyroAngle();
@@ -74,7 +68,7 @@ public class AutoBallInfeed extends CommandBase {
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	public void execute() {
-		ballLocation = networktables.getBallBXValue();
+		ballLocation = networktables.getBallXValue();
 		currentTime = Timer.getMatchTime();
 		double timeElapsed = startTime - currentTime;
         SmartDashboard.putNumber("Time elapsed", timeElapsed);
@@ -82,7 +76,7 @@ public class AutoBallInfeed extends CommandBase {
 
 		if(isCentered == false){
 			isCentered = networktables.checkCentered();
-			currentAngle = drivebase.getGyroAngle();
+			currentAngle = drivebase.getGyroYaw();
 			try {
 				desiredDistance = networktables.getBallDistance()*1000;
 			}
@@ -112,7 +106,7 @@ public class AutoBallInfeed extends CommandBase {
 		}
 		else if(radius > 0){ //If ball is recognized drive towards it and infeed
 		    if(isCentered == true) { //Once recognized ball is straight ahead, drive towards it based off of received distance
-				infeed.run("START");
+				//infeed.run("START");
 
 				if(radius < 200){
 					drivebase.autoDrive(autoDriveSpeed, autoDriveSpeed, drivebase.getGyroAngle());
@@ -123,19 +117,16 @@ public class AutoBallInfeed extends CommandBase {
 				}
             }
     	    else { //Turn until the ball that is recognized is straight ahead
-			    if((currentAngle+320) < ballLocation){
-				    drivebase.autoVisionTurn(autoDriveSpeed);
+			    if(((currentAngle+90)*3.56) < ballLocation){
+				    drivebase.autoTurn(autoDriveSpeed, currentAngle);
 					System.out.println(isCentered);
-					System.out.println("Bangerang" + ballLocation + "   " + (currentAngle+320));
 			    }
-        	    else if((currentAngle+320) > ballLocation){
-				    drivebase.autoVisionTurn(-autoDriveSpeed);
+        	    else if(((currentAngle+90)*3.56) > ballLocation){
+				    drivebase.autoTurn(autoDriveSpeed, currentAngle);
 					System.out.println(isCentered);
-					System.out.println("AMobg us" + ballLocation + "   " + (currentAngle+320));
 				}
 				else {
 					drivebase.drive(0, 0);
-					System.out.println("Biden, joe");
 				}
             }
         }

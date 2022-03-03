@@ -51,6 +51,8 @@ public class AutoVisionDrive extends CommandBase {
 	@Override
 	public void execute() {
         //Robot.infeed.runMotors();
+		distanceTraveled = drivebase.getPosition();
+		angle = drivebase.getGyroYaw();
         desiredDistance = (networktables.getBallDistance());
 
 		if ((distanceTraveled) <= (desiredDistance)) {

@@ -1,6 +1,7 @@
 package frc.robot.Autonomous.actions;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.Subsystems.DriveBase;
 
 public class AutoTurn extends CommandBase {
@@ -37,7 +38,7 @@ public class AutoTurn extends CommandBase {
     @Override
     public void execute() {
         drivebase.autoTurn(autoDriveSpeed, desiredAngle);
-        if(drivebase.getGyroAngle() > desiredAngle+2 || drivebase.getGyroAngle() < desiredAngle-2)
+        if(drivebase.getGyroYaw() < desiredAngle+Constants.AutoConstants.ANGULAR_THRESHOLD && drivebase.getGyroYaw() > desiredAngle-Constants.AutoConstants.ANGULAR_THRESHOLD)
             doneTraveling = true;
     }
 

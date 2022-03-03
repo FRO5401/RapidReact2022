@@ -10,6 +10,9 @@ import frc.robot.Subsystems.Infeed;
 import frc.robot.Subsystems.NetworkTables;
 
 public class BallCenterTest extends SequentialCommandGroup {
+
+  boolean doneCommand;
+  DriveBase drivebase;
   /**
    * Add your docs here.
    */
@@ -21,4 +24,15 @@ public class BallCenterTest extends SequentialCommandGroup {
     );
     
   }
+/** 
+  @Override
+  public void end(boolean interrupted) {
+    drivebase.drive(0,0);
+  }
+
+  @Override
+  public boolean isFinished(){
+    return doneCommand;
+  }
+*/
 }
