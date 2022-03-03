@@ -78,21 +78,25 @@ public class DriveBase extends SubsystemBase {
     rightDrive2 = new CANSparkMax(Constants.DriveConstants.DRIVE_MOTOR_RIGHT_2, MotorType.kBrushless);
     leftEncoders = new RelativeEncoder[2];
     rightEncoders = new RelativeEncoder[2];
-    leftEncoders[0] = leftDrive1.getAlternateEncoder(Type.kQuadrature, 4096);
-    leftEncoders[1] = leftDrive2.getAlternateEncoder(Type.kQuadrature, 4096);
-    rightEncoders[0] = rightDrive1.getAlternateEncoder(Type.kQuadrature, 4096);
-    rightEncoders[1] = rightDrive2.getAlternateEncoder(Type.kQuadrature, 4096);
+    leftEncoders[0] = leftDrive1.getEncoder();
+    leftEncoders[1] = leftDrive2.getEncoder();
+    rightEncoders[0] = rightDrive1.getEncoder();
+    rightEncoders[1] = rightDrive2.getEncoder();
+    rightDrive1.setSmartCurrentLimit(55, 20);
+    rightDrive2.setSmartCurrentLimit(55, 20);
+    leftDrive1.setSmartCurrentLimit(55, 20);
+    leftDrive2.setSmartCurrentLimit(55, 20);
 
     //Organization of those physical parts
     leftDrives = new MotorControllerGroup(leftDrive1, leftDrive2);
     rightDrives = new MotorControllerGroup(rightDrive1, rightDrive2);
     ourDrive = new DifferentialDrive(leftDrives, rightDrives);
-    gearShifter = new Solenoid(0, PneumaticsModuleType.CTREPCM, 0);
+    gearShifter = new Solenoid(0, PneumaticsModuleType.CTREPCM, Constants.DriveConstants.GEAR_SHIFTER);
 
     //Configuring parts
-    leftDrives.setInverted(true);
-    ourDrive.setExpiration(0.1);
-    ourDrive.setMaxOutput(1.0);
+    //leftDrives.setInverted(true);
+    //ourDrive.setExpiration(0.1);
+    //ourDrive.setMaxOutput(1.0);
     setDrivebaseIdleMode(IdleMode.kBrake);
     compressor.enableDigital();
 
@@ -105,8 +109,9 @@ public class DriveBase extends SubsystemBase {
   //Report sensors whenever
   @Override
   public void periodic() {
-   odometry.update(navxGyro.getRotation2d(), leftEncoders[0].getPosition(), rightEncoders[0].getPosition());
+  // odometry.update(navxGyro.getRotation2d(), leftEncoders[0].getPosition(), rightEncoders[0].getPosition());
     reportSensors();
+    System.out.println(getPosition());
   }
 
   //Compressor control
@@ -126,9 +131,9 @@ public class DriveBase extends SubsystemBase {
   //Shift gears
   public void shift(String gear) {
     if(gear.toUpperCase().equals("LOW")) 
-      gearShifter.set(true);
-    else if(gear.toUpperCase().equals("HIGH")) 
       gearShifter.set(false);
+    else if(gear.toUpperCase().equals("HIGH")) 
+      gearShifter.set(true);
     DPPShifter(gear);  
   }  
 
@@ -176,14 +181,14 @@ public class DriveBase extends SubsystemBase {
    public void autoDrive(double left, double right, double angle) {
     if (left > 0 && right > 0){ //driving forwards
       drive(
-        angle < 0 ? left : left * Constants.AutoConstants.AUTO_SPEED_ADJUSTMENT * 1.08,
-        angle > 0 ? right : right * Constants.AutoConstants.AUTO_SPEED_ADJUSTMENT * 1.08
+        angle > 0 ? left : left * Constants.AutoConstants.AUTO_SPEED_ADJUSTMENT * 1.08,
+        angle < 0 ? right : right * Constants.AutoConstants.AUTO_SPEED_ADJUSTMENT * 1.08
       );
     }
     else if (left < 0 && right < 0){ //driving backwards
       drive(
-        angle > 0 ? left : left * Constants.AutoConstants.AUTO_SPEED_ADJUSTMENT * 1.08,
-        angle < 0 ? right : right * Constants.AutoConstants.AUTO_SPEED_ADJUSTMENT * 1.08
+        angle < 0 ? left : left * Constants.AutoConstants.AUTO_SPEED_ADJUSTMENT * 1.08,
+        angle > 0 ? right : right * Constants.AutoConstants.AUTO_SPEED_ADJUSTMENT * 1.08
       );
     }
     else{ //When leftDrive1 and rightDrive1 are zero
@@ -281,7 +286,7 @@ public class DriveBase extends SubsystemBase {
     rightSpeedGraph.setDouble(getRightVelocity());
     leftPositionGraph.setDouble(getLeftEncodersDistance(0));
     rightPositionGraph.setDouble(getRightEncodersDistance(0));
-    turnRateGraph.setDouble(getTurnRate());
+    //turnRateGraph.setDouble(getTurnRate());
 
     //Testing config
     speedEntry.setDouble(getAverageMotorVelocity());
@@ -296,7 +301,8 @@ public class DriveBase extends SubsystemBase {
     rollEntry.setDouble(getGyroRoll());
     turnRateEntry.setDouble(getTurnRate());
     shifterEntry.setBoolean(getGear());
-    axisTester.setDouble(Controls.xboxAxis(Controls.driver, "LS-X").getAxis());
+    axisTester.setDouble(Controls.xboxAxis(Controls.driver, "RT").getAxis());
+    //System.out.println(Controls.xboxAxis(Controls.driver, "RT").getAxis());
 
     //Competition config
     shifterComp.setBoolean(getGear());
@@ -316,8 +322,8 @@ public class DriveBase extends SubsystemBase {
         .withWidget(BuiltInWidgets.kGraph).getEntry();     
     rightPositionGraph = graphTab.add("Right Motor Position",getRightEncodersDistance(0))
         .withWidget(BuiltInWidgets.kGraph).getEntry();   
-    turnRateGraph = graphTab.add("Gyro Turn Rate", getTurnRate())
-        .withWidget(BuiltInWidgets.kGraph).getEntry();    
+    /*turnRateGraph = graphTab.add("Gyro Turn Rate", getTurnRate())
+        .withWidget(BuiltInWidgets.kGraph).getEntry();    */
     
     //Testing Tab
     speedEntry = testingTab.add("Robot Speed",getAverageMotorVelocity()).getEntry();
@@ -332,9 +338,10 @@ public class DriveBase extends SubsystemBase {
     rollEntry = testingTab.add("Gyro Roll", getGyroRoll()).getEntry();
     turnRateEntry = testingTab.add("Gyro Turn Rate", getTurnRate()).getEntry();
     shifterEntry = testingTab.add("Solenoid Gear", getGear()).getEntry();
-    axisTester = testingTab.add("Axis", Controls.xboxAxis(Controls.driver, "LS-X").getAxis()).getEntry();
+    axisTester = graphTab.add("Axis", Controls.xboxAxis(Controls.driver, "RT").getAxis()).withWidget(BuiltInWidgets.kGraph).getEntry();
+    
 
     //Competition Tab
-    shifterComp = competitionTab.add("Low Gear", getGear()).withWidget(BuiltInWidgets.kBooleanBox).getEntry();
+    shifterComp = competitionTab.add("High Gear", getGear()).withWidget(BuiltInWidgets.kBooleanBox).getEntry();
   }
 }

@@ -2,6 +2,7 @@ package frc.robot.Commands.drivebase;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Subsystems.DriveBase;
+import frc.robot.Utilities.testers.Printer;
 
 public class ResetSensors extends CommandBase{
      /*** Variables ***/
@@ -20,6 +21,7 @@ public class ResetSensors extends CommandBase{
   @Override
   public void initialize() {
     drivebase.shift("LOW");
+    Printer.print("ResetSensors");
   }
 
   // Called repeatedly when this Command is scheduled to run

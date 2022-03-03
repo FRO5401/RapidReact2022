@@ -37,7 +37,7 @@ public class AutoDrive extends CommandBase {
     @Override
     public void execute() {
         angle = drivebase.getGyroAngle();
-        distanceTraveled = drivebase.getRightEncoder(0).getPosition();
+        distanceTraveled = drivebase.getPosition();
         if ((distanceTraveled) <= (desiredDistance) && desiredDistance >= 0) {
             drivebase.autoDrive(autoDriveSpeed, autoDriveSpeed, angle);
             doneTraveling = false;

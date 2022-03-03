@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Controls;
 import frc.robot.Constants;
 import frc.robot.Subsystems.DriveBase;
+import frc.robot.Utilities.testers.Printer;
 import frc.robot.RobotContainer;
 
 import static frc.robot.Controls.*;
@@ -57,7 +58,8 @@ public class XboxMove extends CommandBase {
   // Called just before this Command runs the first time
   @Override
   public void initialize() {
-    drivebase.shift("LOW");
+   
+    Printer.print("XboxMove");
   }
 
   // Called repeatedly when this Command is scheduled to run

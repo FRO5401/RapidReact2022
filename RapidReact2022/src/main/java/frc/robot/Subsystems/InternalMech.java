@@ -49,14 +49,14 @@ public class InternalMech extends SubsystemBase{
     
     //Set Motor Neutral
     public void setMechNeutralMode(IdleMode mode){
-        mechMotor.setIdleMode(mode);
+        mechMotor2.setIdleMode(mode);
     }
 
     public double getAverageIMVelocity(){
-        return (mechEncoder.getVelocity() + mechEncoder2.getVelocity())/2;
+        return (mechEncoder2.getVelocity() + mechEncoder2.getVelocity())/2;
     }
     public double getLeftIMVelocity(){
-        return (mechEncoder.getVelocity());
+        return (mechEncoder2.getVelocity());
     }
     public double getRightIMVelocity(){
         return (mechEncoder2.getVelocity());

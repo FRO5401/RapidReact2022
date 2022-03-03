@@ -2,6 +2,7 @@ package frc.robot.Commands.drivebase;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Subsystems.DriveBase;
+import frc.robot.Utilities.testers.Printer;
 
 public class GearShiftHigh extends CommandBase{
      /*** Variables ***/
@@ -20,7 +21,7 @@ public class GearShiftHigh extends CommandBase{
   // Called just before this Command runs the first time
   @Override
   public void initialize() {
-    
+    Printer.print("High");
   }
 
   // Called repeatedly when this Command is scheduled to run

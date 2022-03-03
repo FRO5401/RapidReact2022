@@ -8,10 +8,10 @@ public class Constants {
     //True Constants
     public static final double TELEOP_SPEED_ADJUSTMENT_RIGHT = 0.99;
     public static final double TELEOP_SPEED_ADJUSTMENT_LEFT = 1;
-    public static final double LOW_GEAR_LEFT_DPP = 0.1466004558282468; // Low gear skews left
-    public static final double LOW_GEAR_RIGHT_DPP  = 0.1568175312974026;
-    public static final double HIGH_GEAR_LEFT_DPP = 0.1568175312974026; // High gear skews left
-    public static final double HIGH_GEAR_RIGHT_DPP = 0.1466004558282468;
+    public static final double LOW_GEAR_LEFT_DPP = 1; // Low gear skews left
+    public static final double LOW_GEAR_RIGHT_DPP  = 1;
+    public static final double HIGH_GEAR_LEFT_DPP = 1; // High gear skews left
+    public static final double HIGH_GEAR_RIGHT_DPP = 1;
     public static final int DRIVEBASE_THRESHOLD_FOR_PID = 0;
 
     ////DRIVE MOTORS////
@@ -22,6 +22,8 @@ public class Constants {
     //Left Motors
     public static final int DRIVE_MOTOR_LEFT_1 = 2;
     public static final int DRIVE_MOTOR_LEFT_2 = 4;
+
+    public static final int GEAR_SHIFTER = 0;
   }
 
   public class ControlConstants {
@@ -58,7 +60,7 @@ public class Constants {
     //public static final int PCM_ID = 0;
 
     //Solenoids
-    public static final int GEAR_SHIFTER = 0;
+
 
     ////Sensors////
     //Encoders
@@ -99,23 +101,25 @@ public class Constants {
     //Internal Mechanism
     public static final int INTERNAL_MECH_MOTOR = 7; //Right
     public static final int INTERNAL_MECH_MOTOR2 = 15; //Left
-    public static final double MECH_SPEED = 0.75;
+    public static final double MECH_SPEED = 0.95;
 
     //Shooter
     public static final int SHOOTER_MOTOR_1 = 9; //Left
     public static final int SHOOTER_MOTOR_2 = 10; //Right
-    public static final double SHOOTER_SPEED = 0;
+    public static final double SHOOTER_SPEED = 0.80;
     public static final double LOADER_SPEED = 0.35;
 	  public static final int BALL_LOADER = 8;
-    public static final double SHOOTER_WAIT_TIME = 0;
+    public static final double SHOOTER_WAIT_TIME = 2;
 
     //Shooter PID Constants 
+    /** 
     public static final double kS = 0.0;
     public static final double kV = 0.0; 
     public static final double kA = 0.0;
     public static final double shootLowSpeed = 1;
     public static final double shootHighSpeed = 1;
     public static final double feedFordwardConstant = 0.0;
+    */
   }
      
 }
