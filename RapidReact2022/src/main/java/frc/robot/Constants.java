@@ -107,7 +107,7 @@ public class Constants {
     //Shooter
     public static final int SHOOTER_MOTOR_1 = 9; //Left
     public static final int SHOOTER_MOTOR_2 = 10; //Right
-    public static final double SHOOTER_SPEED = 0.80;
+    public static final double SHOOTER_SPEED = 0.65; //0.75 for blue from the line radially*** 
     public static final double LOADER_SPEED = 0.35;
 	  public static final int BALL_LOADER = 8;
     public static final double SHOOTER_WAIT_TIME = 2;
