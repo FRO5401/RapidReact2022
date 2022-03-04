@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.simulation.PDPSim;
 import frc.robot.Constants;
 import frc.robot.Controls;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -14,13 +13,11 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.SparkMaxAlternateEncoder.Type;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.SPI;
@@ -47,20 +44,18 @@ public class DriveBase extends SubsystemBase {
   private boolean compressorState = true;
 
   //PID stuff
-  private int loopIndex, slotIndex;
-  private double DRIVEBASE_kF = 0;
-  private double DRIVEBASE_kP = 0;
-  private double DRIVEBASE_kI = 0;
-  private double DRIVEBASE_kD = 0;
+ // private int loopIndex, slotIndex;
+ // private double DRIVEBASE_kF = 0;
+ // private double DRIVEBASE_kP = 0;
+ // private double DRIVEBASE_kI = 0;
+  //private double DRIVEBASE_kD = 0;
 
-  private int iaccum = 0;
+  //private int iaccum = 0;
 
   // Solenoid
   private Solenoid gearShifter;
 
   // Sensors
-  private Encoder leftEncoder;
-  private Encoder rightEncoder;
   private RelativeEncoder leftEncoders[];
   private RelativeEncoder rightEncoders[];
   public Compressor compressor;

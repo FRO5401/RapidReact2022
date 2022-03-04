@@ -1,16 +1,9 @@
 package frc.robot.Commands.climber;
 
-import java.util.function.BooleanSupplier;
-import java.util.function.DoubleSupplier;
-
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Controls;
-import frc.robot.Constants;
 import frc.robot.Subsystems.Climber;
-import frc.robot.Subsystems.DriveBase;
 import frc.robot.Utilities.testers.Printer;
-import frc.robot.RobotContainer;
+
 
 import static frc.robot.Controls.*;
 /*

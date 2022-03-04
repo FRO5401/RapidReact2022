@@ -1,8 +1,6 @@
 package frc.robot.Utilities.controllers;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants;
 /**
  * A {@link Button} that gets its state from a {@link GenericHID}.

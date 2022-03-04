@@ -2,7 +2,6 @@ package frc.robot.Commands.infeed;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Subsystems.Infeed;
-import frc.robot.Utilities.testers.Printer;
 
 public class InfeedIn extends CommandBase{
      /*** Variables ***/

@@ -71,10 +71,6 @@ public class RobotContainer {
         return drivebase;
     }
 
-    private void configureCommandShuffleboard() {
-
-    }
-
     private void configureInputGroups(){
         drivetrain.addAxis(xboxLT_Driver);
         drivetrain.addAxis(xboxRT_Driver);

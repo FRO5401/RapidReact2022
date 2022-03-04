@@ -1,7 +1,5 @@
 package frc.robot.Commands.internal_mech;
 
-import java.util.function.IntSupplier;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Subsystems.InternalMech;
 
@@ -9,12 +7,10 @@ public class StartBelt extends CommandBase{
      /*** Variables ***/
 
   InternalMech internalMech;   
-  String mode;
   boolean endCommand = false;
 
   public StartBelt(InternalMech m_internalMech) {
     internalMech = m_internalMech;
-    this.mode = mode;
 
     addRequirements(internalMech);
   }
