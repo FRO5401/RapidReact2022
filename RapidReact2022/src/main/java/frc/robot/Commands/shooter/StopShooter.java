@@ -19,6 +19,7 @@ public class StopShooter extends CommandBase {
     @Override
     public void execute(){
         shooter.run("STOP");
+        System.out.println("blingowingo");
         endCommand = true;
     }
     

@@ -111,7 +111,7 @@ public class DriveBase extends SubsystemBase {
   public void periodic() {
   // odometry.update(navxGyro.getRotation2d(), leftEncoders[0].getPosition(), rightEncoders[0].getPosition());
     reportSensors();
-    System.out.println(getPosition());
+ 
   }
 
   //Compressor control

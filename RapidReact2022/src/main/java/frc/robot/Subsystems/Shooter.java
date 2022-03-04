@@ -1,5 +1,6 @@
 package frc.robot.Subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -15,6 +16,7 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Utilities.testers.Printer;
 
 import static frc.robot.Tabs.*;
 
@@ -26,16 +28,16 @@ public class Shooter extends SubsystemBase{
     private RelativeEncoder loaderEncoder;
 
     private boolean shooterMode = true; //True means high shooting, false means low shooting
-    //private BangBangController bangbangController;
-    //private SimpleMotorFeedforward feedforwardController;
+    private BangBangController bangbangController;
+    private SimpleMotorFeedforward feedforwardController;
 
     public Shooter() {
         
         shooterMotor1 = new WPI_TalonFX(Constants.SubsystemConstants.SHOOTER_MOTOR_1);
         shooterMotor2 = new WPI_TalonFX(Constants.SubsystemConstants.SHOOTER_MOTOR_2);
         ballLoader = new CANSparkMax(Constants.SubsystemConstants.BALL_LOADER, MotorType.kBrushless);
-        //bangbangController = new BangBangController();
-        //feedforwardController = new SimpleMotorFeedforward(Constants.SubsystemConstants.kS, Constants.SubsystemConstants.kV, Constants.SubsystemConstants.kA);
+        bangbangController = new BangBangController();
+        feedforwardController = new SimpleMotorFeedforward(Constants.SubsystemConstants.kS, Constants.SubsystemConstants.kV, Constants.SubsystemConstants.kA);
         shooterMotor2.setInverted(true);
         shooterMotor2.follow(shooterMotor1);
         
@@ -63,16 +65,13 @@ public class Shooter extends SubsystemBase{
     public void run(String mode) {
         if(mode.toUpperCase().equals("START")){
             if(shooterMode){
-                //shooterMotor1.set(bangbangController.calculate(getRightVelocity(),Constants.SubsystemConstants.shootHighSpeed) 
-                //+ Constants.SubsystemConstants.feedFordwardConstant * feedforwardController.calculate(Constants.SubsystemConstants.shootHighSpeed));
-                shooterMotor1.set(Constants.SubsystemConstants.SHOOTER_SPEED);
+                shooterMotor1.set(0.9*bangbangController.calculate(getLeftVelocity(),-Constants.SubsystemConstants.shootHighSpeed)); //+ Constants.SubsystemConstants.feedFordwardConstant * feedforwardController.calculate(Constants.SubsystemConstants.shootHighSpeed));
+                //shooterMotor1.set(Constants.SubsystemConstants.SHOOTER_SPEED);
                 //Set shooter speed based off BangBangController and FeedFordwardController (Calibrated with SysID)
             }
             else{
-            // shooterMotor1.set(bangbangController.calculate(getRightVelocity(),Constants.SubsystemConstants.shootLowSpeed) 
-                //+ Constants.SubsystemConstants.feedFordwardConstant * feedforwardController.calculate(Constants.SubsystemConstants.shootLowSpeed));
-                shooterMotor1.set(Constants.SubsystemConstants.SHOOTER_SPEED);
-
+                shooterMotor1.set(0.9*bangbangController.calculate(getLeftVelocity(),-Constants.SubsystemConstants.shootLowSpeed)); //+ Constants.SubsystemConstants.feedFordwardConstant * feedforwardController.calculate(Constants.SubsystemConstants.shootLowSpeed));
+                //shooterMotor1.set(Constants.SubsystemConstants.SHOOTER_SPEED);
             }
         } else if (mode.toUpperCase().equals("STOP")) {
             shooterMotor1.set(0);
@@ -92,6 +91,7 @@ public class Shooter extends SubsystemBase{
 
     public double getRightVelocity() { 
         return shooterMotor2.getSensorCollection().getIntegratedSensorVelocity();
+        
     }
 
     public double getLoaderVelocity(){
@@ -132,6 +132,8 @@ public class Shooter extends SubsystemBase{
 
     @Override
     public void periodic(){
+        //System.out.println("feed"+(feedforwardController.calculate(getRightVelocity())));
+       // System.out.println("velocity"+getRightVelocity());
         reportShooter();
     }
 

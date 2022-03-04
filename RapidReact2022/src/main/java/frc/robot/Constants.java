@@ -93,7 +93,7 @@ public class Constants {
 
   public static class SubsystemConstants {
     //Infeed
-    public static final double INFEED_MOTOR_SPEED = 0.5;
+    public static final double INFEED_MOTOR_SPEED = 0.3;
     public static final int INFEED_GATE = 1;
     public static final int INFEED_SPARK_2 = 5; //right
     public static final int INFEED_SPARK_1 = 6; //left
@@ -107,20 +107,20 @@ public class Constants {
     //Shooter
     public static final int SHOOTER_MOTOR_1 = 9; //Left
     public static final int SHOOTER_MOTOR_2 = 10; //Right
-    public static final double SHOOTER_SPEED = 0.65; //0.75 for blue from the line radially*** 
-    public static final double LOADER_SPEED = 0.35;
+    public static final double SHOOTER_SPEED = 0.95; //0.75 for blue from the line radially*** 
+    public static final double LOADER_SPEED = 0.75;
 	  public static final int BALL_LOADER = 8;
-    public static final double SHOOTER_WAIT_TIME = 2;
+    public static final double SHOOTER_WAIT_TIME = 1.75;
 
     //Shooter PID Constants 
-    /** 
-    public static final double kS = 0.0;
-    public static final double kV = 0.0; 
-    public static final double kA = 0.0;
-    public static final double shootLowSpeed = 1;
-    public static final double shootHighSpeed = 1;
-    public static final double feedFordwardConstant = 0.0;
-    */
+     
+    public static final double kS = 0.69587;
+    public static final double kV = 1.5559; 
+    public static final double kA = 0.081132;
+    public static final double shootLowSpeed = -15000;
+    public static final double shootHighSpeed = -15000;
+    public static final double feedFordwardConstant = 0.9;
+    
   }
      
 }

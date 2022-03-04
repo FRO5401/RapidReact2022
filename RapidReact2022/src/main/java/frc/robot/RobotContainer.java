@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.Autonomous.groups.BackShoot;
 import frc.robot.Autonomous.groups.BallCenterTest;
 import frc.robot.Autonomous.groups.DoNothing;
 import frc.robot.Autonomous.groups.DriveStraight;
@@ -48,6 +49,7 @@ public class RobotContainer {
         configureButtonBindings();
         chooser.setDefaultOption("Do Nothing", new DoNothing(drivebase));
         chooser.addOption("Drive Straight", new DriveStraight(100, 0.5, drivebase));
+        chooser.addOption("Back Shoot", new BackShoot(-55, -0.5, drivebase, shooter, internalMech));
        // chooser.addOption("Ball Center Test", new BallCenterTest(0.3, drivebase, networktables));
         //chooser.addOption("Trajectory Test", new SetTrajectoryPath(drivebase, "paths/DriveStraight.wpilib.json")); //REPLACE LATER
         SmartDashboard.putData("Auto choices", chooser);
@@ -107,9 +109,9 @@ public class RobotContainer {
         //shooter
        xboxButton(operator, "A").whenHeld(new SequentialCommandGroup(
             new ShootBall(shooter),
-            new WaitCommand(Constants.SubsystemConstants.SHOOTER_WAIT_TIME), //Guessed wait time
+            //new WaitCommand(Constants.SubsystemConstants.SHOOTER_WAIT_TIME), //Guessed wait time
             new ParallelRaceGroup(
-                new BeltComplement(internalMech, "PULL"),
+                //new BeltComplement(internalMech, "PULL"),
                 new LoadBall(shooter, "UNLOAD")
             ))).whenReleased(new StopShooter(shooter));
         xboxButton(operator, "Y").whenPressed(new ChangeMode(shooter));
