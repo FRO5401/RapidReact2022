@@ -130,6 +130,7 @@ public class Constants {
     public static final int RATCHET_SOLENOID = 2;
     public static final int DIGITAL_INPUT_1 = 0;
     public static final int DIGITAL_INPUT_2 = 0;
+    public static int ClimberStage = 0;
      
     //climber angle calculations
     public static int measuredHorizontalPosition = 840;

@@ -131,7 +131,7 @@ public class RobotContainer {
         xboxAxis(operator, "RS-Y").whenHeld(new TranslateClimberArms(climber));
         xboxAxis(operator, "LS-X").whenHeld(new RotateClimberArms(climber));
         //driver and operator controls for subsystems
-        //Controls.xboxButton(Controls.operator, "Start").whenPressed(new ClimberRoutine(climber));
+        Controls.xboxButton(Controls.operator, "Start").whenPressed(new ClimberRoutine(climber));
         //Controls.xboxButton(Controls.operator, "X").whenPressed(new StopClimber(climber));
         //TODO: Change this stuff back before I forget
 

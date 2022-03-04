@@ -6,6 +6,7 @@ import frc.robot.Subsystems.Climber;
 import frc.robot.Autonomous.actions.*;
 import frc.robot.Commands.climber.*;
 
+//TODO: Climber stages for override need to be done later
 public class ClimberRoutine extends SequentialCommandGroup {
     public ClimberRoutine(Climber passedClimber) {
         addCommands(
