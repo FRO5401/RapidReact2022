@@ -40,7 +40,7 @@ public class Climber extends SubsystemBase{
     private double startTime;
     private double currentTime;
     private DriveBase driveBase;
-    public Climber() {
+    public Climber(DriveBase passedDrivebase) {
         //Instantiates the motors and limits
         transMotor1 = new CANSparkMax(Constants.SubsystemConstants.TRANS_MOTOR_1, MotorType.kBrushless);
         transMotor2 = new CANSparkMax(Constants.SubsystemConstants.TRANS_MOTOR_2, MotorType.kBrushless);
@@ -60,10 +60,16 @@ public class Climber extends SubsystemBase{
         ratchetSolenoid.set(false); //default is false, at the end of the game you set true to hold climber position 
         startTime = Timer.getMatchTime();
 
+        driveBase = passedDrivebase;
         rMEncoder1.getPositionConversionFactor();
-        rMEncoder1.setPositionConversionFactor(360/42);
+        rMEncoder1.setPositionConversionFactor(360/42*50); //50:1
         rMEncoder2.getPositionConversionFactor();
-        rMEncoder2.setPositionConversionFactor(360/42);
+        rMEncoder2.setPositionConversionFactor(360/42*50);
+
+        tMEncoder1.getPositionConversionFactor();
+        tMEncoder1.setPositionConversionFactor(12); //12:1 gearing
+        tMEncoder2.getPositionConversionFactor();
+        tMEncoder2.setPositionConversionFactor(12);
 
         //Makes sure the neutral mode is on brake
         setClimberIdleMode("Translation", IdleMode.kBrake);
@@ -150,9 +156,19 @@ public class Climber extends SubsystemBase{
 
     //Reports the climber sensors periodically
     public boolean getRatchetAirPressure(){
-      if( driveBase.getPressureStatus()){return true;}
-      else{return true;}
+      if( driveBase.getPressureStatus())
+        return true;
+      else
+        return false;
     }
+
+    public void resetClimberEncoders(){
+        rMEncoder1.setPosition(0);
+        rMEncoder2.setPosition(0);
+        tMEncoder1.setPosition(0);
+        tMEncoder2.setPosition(0);
+    }
+
     public void setSafetySolenoid(){
         currentTime = Timer.getMatchTime();
         double elapsedTime;

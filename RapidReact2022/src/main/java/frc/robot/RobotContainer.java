@@ -20,6 +20,7 @@ import frc.robot.Autonomous.groups.BallCenterTest;
 import frc.robot.Autonomous.groups.DoNothing;
 import frc.robot.Autonomous.groups.DriveSquare;
 import frc.robot.Autonomous.groups.DriveStraight;
+import frc.robot.Commands.climber.RatchetAttachit;
 import frc.robot.Commands.climber.RotateClimberArms;
 import frc.robot.Commands.climber.TranslateClimberArms;
 import frc.robot.Commands.drivebase.*;
@@ -45,7 +46,7 @@ public class RobotContainer {
     private final Infeed infeed = new Infeed();
     private final InternalMech internalMech = new InternalMech();
     private final Shooter shooter = new Shooter();
-    private final Climber climber = new Climber();
+    private final Climber climber = new Climber(drivebase);
 
     private final MultipleInputGroup drivetrain = new MultipleInputGroup();
 
@@ -134,6 +135,10 @@ public class RobotContainer {
         //Controls.xboxButton(Controls.operator, "X").whenPressed(new StopClimber(climber));
         //TODO: Change this stuff back before I forget
 
+    }
+
+    public void rachetClimb(){
+        new RatchetAttachit(climber);
     }
 
     public Command getAutonomousCommand(){
