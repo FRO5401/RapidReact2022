@@ -10,8 +10,11 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import frc.robot.Constants;
 import java.lang.Math;
+
+import static frc.robot.Tabs.*;
 
 //TODO: Limit code
 public class Climber extends SubsystemBase{
@@ -170,13 +173,20 @@ public class Climber extends SubsystemBase{
         }
     }
 
-    public double getRotAngle(){
+    public double getLeftRotAngle(){
         return rMEncoder1.getPosition();
     }
 
-    
-    public double getTransPosition(){
+    public double getRightRotAngle(){
+        return rMEncoder2.getPosition();
+    }
+
+    public double getLeftTransPosition(){
         return tMEncoder1.getPosition();
+    }
+
+    public double getRightTransPosition(){
+        return tMEncoder2.getPosition();
     }
 
     @Override
@@ -193,5 +203,29 @@ public class Climber extends SubsystemBase{
         SmartDashboard.putBoolean("Airpressure Status Bad", getRatchetAirPressure());
         SmartDashboard.putBoolean("Limit 1 status", getLimit1());
         SmartDashboard.putBoolean("Limit 2 status", getLimit2());
+
+        transClimberLeftPositionEntry.setDouble(getLeftTransPosition());
+        transClimberRightPositionEntry.setDouble(getRightTransPosition());
+        transClimberLeftPositionGraph.setDouble(getLeftTransPosition());
+        transClimberRightPositionGraph.setDouble(getRightTransPosition());
+
+        rotClimberLeftAngleEntry.setDouble(getLeftRotAngle());
+        rotClimberRightAngleEntry.setDouble(getRightRotAngle());
+        rotClimberLeftAngleGraph.setDouble(getLeftRotAngle());
+        rotClimberRightAngleGraph.setDouble(getRightRotAngle());
+    }
+
+    public void climberShuffleboard(){
+        //Testing
+        transClimberLeftPositionEntry = testingTab.add("Left Climber Position",getLeftTransPosition()).getEntry();
+        transClimberRightPositionEntry = testingTab.add("Right Climber Position", getRightTransPosition()).getEntry();
+        rotClimberLeftAngleEntry = testingTab.add("Left Climber Position", getLeftRotAngle()).getEntry();
+        rotClimberRightAngleEntry = testingTab.add("Right Climber Position", getRightRotAngle()).getEntry();
+
+        //Graphing
+        transClimberLeftPositionGraph = graphTab.add("Left Climber Position",getLeftTransPosition()).withWidget(BuiltInWidgets.kGraph).getEntry();
+        transClimberRightPositionGraph = graphTab.add("Right Climber Position", getRightTransPosition()).withWidget(BuiltInWidgets.kGraph).getEntry();
+        rotClimberLeftAngleGraph = graphTab.add("Left Climber Position", getLeftRotAngle()).withWidget(BuiltInWidgets.kGraph).getEntry();
+        rotClimberRightAngleGraph = graphTab.add("Right Climber Position", getRightRotAngle()).getEntry();
     }
 }
