@@ -81,6 +81,25 @@ public class Shooter extends SubsystemBase{
         }
     }
     
+    public void runSmart(String mode) {
+        if(mode.toUpperCase().equals("START")){
+            if(shooterMode){
+                shooterMotor1.set(feedforwardController.calculate(Constants.SubsystemConstants.shootHighSpeed));
+                //shooterMotor1.set(Constants.SubsystemConstants.SHOOTER_SPEED);
+                //Set shooter speed based off BangBangController and FeedFordwardController (Calibrated with SysID)
+            }
+            else{
+                shooterMotor1.set(feedforwardController.calculate(Constants.SubsystemConstants.shootLowSpeed));
+                //shooterMotor1.set(Constants.SubsystemConstants.SHOOTER_SPEED);
+            }
+        } else if (mode.toUpperCase().equals("STOP")) {
+            shooterMotor1.set(0);
+        }    
+        else {
+            shooterMotor1.set(Double.parseDouble(mode));
+        }
+    }
+
     public void changeMode(){
         shooterMode = !shooterMode;
     }

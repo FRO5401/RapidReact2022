@@ -63,7 +63,7 @@ public class DriveBase extends SubsystemBase {
   private Encoder rightEncoder;
   private RelativeEncoder leftEncoders[];
   private RelativeEncoder rightEncoders[];
-  private Compressor compressor;
+  public Compressor compressor;
   private PowerDistribution pdp;
 
   public DriveBase() {
@@ -265,6 +265,14 @@ public class DriveBase extends SubsystemBase {
 
   //Compressor stuff
   public double getPressure() { return compressor.getPressure();}
+  public boolean getPressureStatus(){
+    if(compressor.getPressure() <= 10.0){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
   public double getCompressorCurrent() { return compressor.getCurrent(); }
   public double getCompressorVoltage() { return compressor.getAnalogVoltage(); }
   public boolean getEnabled() { return compressor.enabled(); }

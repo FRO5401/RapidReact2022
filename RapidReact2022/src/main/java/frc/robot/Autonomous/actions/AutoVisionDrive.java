@@ -53,7 +53,7 @@ public class AutoVisionDrive extends CommandBase {
         //Robot.infeed.runMotors();
 		distanceTraveled = drivebase.getPosition();
 		angle = drivebase.getGyroYaw();
-        desiredDistance = (networktables.getBallDistance());
+        desiredDistance = (networktables.getBallDistance())*59/43;
 
 		if ((distanceTraveled) <= (desiredDistance)) {
 			drivebase.autoDrive(autoDriveSpeed, autoDriveSpeed, angle);

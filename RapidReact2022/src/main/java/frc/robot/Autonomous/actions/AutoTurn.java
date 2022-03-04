@@ -26,7 +26,7 @@ public class AutoTurn extends CommandBase {
     @Override
     public void initialize() {
 
-        //drivebase.resetSensors();
+        drivebase.resetEncoders();
         drivebase.DPPShifter("HIGH");
 		drivebase.DPPShifter("LOW");
         drivebase.resetGyroAngle();

@@ -5,6 +5,7 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -17,7 +18,10 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Autonomous.groups.BackShoot;
 import frc.robot.Autonomous.groups.BallCenterTest;
 import frc.robot.Autonomous.groups.DoNothing;
+import frc.robot.Autonomous.groups.DriveSquare;
 import frc.robot.Autonomous.groups.DriveStraight;
+import frc.robot.Commands.climber.RotateClimberArms;
+import frc.robot.Commands.climber.TranslateClimberArms;
 import frc.robot.Commands.drivebase.*;
 import frc.robot.Commands.infeed.*;
 import frc.robot.Commands.internal_mech.*;
@@ -41,6 +45,7 @@ public class RobotContainer {
     private final Infeed infeed = new Infeed();
     private final InternalMech internalMech = new InternalMech();
     private final Shooter shooter = new Shooter();
+    private final Climber climber = new Climber();
 
     private final MultipleInputGroup drivetrain = new MultipleInputGroup();
 
@@ -49,8 +54,9 @@ public class RobotContainer {
         configureButtonBindings();
         chooser.setDefaultOption("Do Nothing", new DoNothing(drivebase));
         chooser.addOption("Drive Straight", new DriveStraight(100, 0.5, drivebase));
-        chooser.addOption("Back Shoot", new BackShoot(-59, -0.5, drivebase, shooter, internalMech));
-       // chooser.addOption("Ball Center Test", new BallCenterTest(0.3, drivebase, networktables));
+        chooser.addOption("Back Shoot", new BackShoot(109.22 * 59/109.22, 0.5, drivebase, shooter, internalMech)); //cm to errored inches
+        chooser.addOption("Drive Square", new DriveSquare(100 * 59/109.22, 0.5, drivebase)); //cm to errored inches
+        chooser.addOption("Ball Center Test", new BallCenterTest(0.3, drivebase, networktables, infeed));
         //chooser.addOption("Trajectory Test", new SetTrajectoryPath(drivebase, "paths/DriveStraight.wpilib.json")); //REPLACE LATER
         SmartDashboard.putData("Auto choices", chooser);
         
@@ -115,6 +121,17 @@ public class RobotContainer {
                 new LoadBall(shooter, "UNLOAD")
             ))).whenReleased(new StopShooter(shooter));
         xboxButton(operator, "Y").whenPressed(new ChangeMode(shooter));
+        if(SmartDashboard.getBoolean("Airpressure Status Bad", false) == true){
+            Controls.operator.setRumble(RumbleType.kRightRumble, 1.0);
+            Controls.operator.setRumble(RumbleType.kLeftRumble, 1.0);
+        }
+
+        //Climber
+        xboxAxis(operator, "RS-Y").whenHeld(new TranslateClimberArms(climber));
+        xboxAxis(operator, "LS-X").whenHeld(new RotateClimberArms(climber));
+        //driver and operator controls for subsystems
+        //Controls.xboxButton(Controls.operator, "Start").whenPressed(new ClimberRoutine(climber));
+        //Controls.xboxButton(Controls.operator, "X").whenPressed(new StopClimber(climber));
         //TODO: Change this stuff back before I forget
 
     }
