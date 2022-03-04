@@ -65,12 +65,12 @@ public class Shooter extends SubsystemBase{
     public void run(String mode) {
         if(mode.toUpperCase().equals("START")){
             if(shooterMode){
-                shooterMotor1.set(0.9*bangbangController.calculate(getLeftVelocity(),-Constants.SubsystemConstants.shootHighSpeed)); //+ Constants.SubsystemConstants.feedFordwardConstant * feedforwardController.calculate(Constants.SubsystemConstants.shootHighSpeed));
+                shooterMotor1.set(0.72);//*bangbangController.calculate(getLeftVelocity(),-Constants.SubsystemConstants.shootHighSpeed)); //+ Constants.SubsystemConstants.feedFordwardConstant * feedforwardController.calculate(Constants.SubsystemConstants.shootHighSpeed));
                 //shooterMotor1.set(Constants.SubsystemConstants.SHOOTER_SPEED);
                 //Set shooter speed based off BangBangController and FeedFordwardController (Calibrated with SysID)
             }
             else{
-                shooterMotor1.set(0.9*bangbangController.calculate(getLeftVelocity(),-Constants.SubsystemConstants.shootLowSpeed)); //+ Constants.SubsystemConstants.feedFordwardConstant * feedforwardController.calculate(Constants.SubsystemConstants.shootLowSpeed));
+                shooterMotor1.set(0.72);//*bangbangController.calculate(getLeftVelocity(),-Constants.SubsystemConstants.shootLowSpeed)); //+ Constants.SubsystemConstants.feedFordwardConstant * feedforwardController.calculate(Constants.SubsystemConstants.shootLowSpeed));
                 //shooterMotor1.set(Constants.SubsystemConstants.SHOOTER_SPEED);
             }
         } else if (mode.toUpperCase().equals("STOP")) {

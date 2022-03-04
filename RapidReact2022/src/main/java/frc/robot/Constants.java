@@ -73,7 +73,7 @@ public class Constants {
   public static class AutoConstants {
     //True Constants
     public static final double ANGLE_THRESHOLD = 6;
-    public static final double AUTO_SPEED_ADJUSTMENT = 1.4;
+    public static final double AUTO_SPEED_ADJUSTMENT = 1.05;
     public static final double AUTO_TURN_SPEED = 0.8;
     public static final double AUTO_TURN_PRECISION = 0.5;
     public static final double ANGULAR_THRESHOLD = 2;
@@ -108,7 +108,7 @@ public class Constants {
     public static final int SHOOTER_MOTOR_1 = 9; //Left
     public static final int SHOOTER_MOTOR_2 = 10; //Right
     public static final double SHOOTER_SPEED = 0.95; //0.75 for blue from the line radially*** 
-    public static final double LOADER_SPEED = 0.75;
+    public static final double LOADER_SPEED = 0.55;
 	  public static final int BALL_LOADER = 8;
     public static final double SHOOTER_WAIT_TIME = 1.75;
 

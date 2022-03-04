@@ -49,7 +49,7 @@ public class RobotContainer {
         configureButtonBindings();
         chooser.setDefaultOption("Do Nothing", new DoNothing(drivebase));
         chooser.addOption("Drive Straight", new DriveStraight(100, 0.5, drivebase));
-        chooser.addOption("Back Shoot", new BackShoot(-55, -0.5, drivebase, shooter, internalMech));
+        chooser.addOption("Back Shoot", new BackShoot(-59, -0.5, drivebase, shooter, internalMech));
        // chooser.addOption("Ball Center Test", new BallCenterTest(0.3, drivebase, networktables));
         //chooser.addOption("Trajectory Test", new SetTrajectoryPath(drivebase, "paths/DriveStraight.wpilib.json")); //REPLACE LATER
         SmartDashboard.putData("Auto choices", chooser);

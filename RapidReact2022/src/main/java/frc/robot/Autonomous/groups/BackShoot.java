@@ -9,7 +9,10 @@ import frc.robot.Commands.drivebase.ResetSensors;
 import frc.robot.Commands.internal_mech.BeltComplement;
 import frc.robot.Commands.internal_mech.StartBelt;
 import frc.robot.Commands.internal_mech.StopBelt;
+import frc.robot.Commands.shooter.LoadBall;
 import frc.robot.Commands.shooter.ShootBall;
+import frc.robot.Commands.shooter.StartLoad;
+import frc.robot.Commands.shooter.StopLoad;
 import frc.robot.Commands.shooter.StopShooter;
 import frc.robot.Subsystems.DriveBase;
 import frc.robot.Subsystems.InternalMech;
@@ -31,11 +34,13 @@ public class BackShoot extends SequentialCommandGroup {
         new ShootBall(passedShooter)
       ),
       //new AutoTurn(0.3, -passedDrivebase.getGyroAngle(), passedDrivebase),
-      new WaitCommand(2),
+      new WaitCommand(3),
       new StartBelt(passedInternalMech),
+      new StartLoad(passedShooter),
       new WaitCommand(3),
       new StopShooter(passedShooter),
-      new StopBelt(passedInternalMech)
+      new StopBelt(passedInternalMech),
+      new StopLoad(passedShooter)
     );    
   }
 
