@@ -17,6 +17,8 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Autonomous.groups.BackShoot;
 import frc.robot.Autonomous.groups.BallCenterTest;
+import frc.robot.Autonomous.groups.BallShooterTest;
+import frc.robot.Autonomous.groups.ClimberRoutine;
 import frc.robot.Autonomous.groups.DoNothing;
 import frc.robot.Autonomous.groups.DriveSquare;
 import frc.robot.Autonomous.groups.DriveStraight;
@@ -58,6 +60,8 @@ public class RobotContainer {
         chooser.addOption("Back Shoot", new BackShoot(109.22 * 59/109.22, 0.5, drivebase, shooter, internalMech)); //cm to errored inches
         chooser.addOption("Drive Square", new DriveSquare(100 * 59/109.22, 0.5, drivebase)); //cm to errored inches
         chooser.addOption("Ball Center Test", new BallCenterTest(0.3, drivebase, networktables, infeed));
+        chooser.addOption("Ball Shoot Test", new BallShooterTest(0.3, drivebase, networktables, shooter, internalMech));
+        chooser.addOption("Climber Routine", new ClimberRoutine(climber));
         //chooser.addOption("Trajectory Test", new SetTrajectoryPath(drivebase, "paths/DriveStraight.wpilib.json")); //REPLACE LATER
         SmartDashboard.putData("Auto choices", chooser);
         

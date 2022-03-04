@@ -9,7 +9,7 @@ import frc.robot.Subsystems.NetworkTables;
  * This command is also used as a "BaselineOnly" command
  */
 
-public class AutoVisionDrive extends CommandBase {
+public class AutoInfeedVisionDrive extends CommandBase {
 
     //private int ballCount;
 	private double angle;
@@ -20,7 +20,7 @@ public class AutoVisionDrive extends CommandBase {
 	private DriveBase drivebase;
 	private NetworkTables networktables;
 
-	public AutoVisionDrive(double SpeedInput, DriveBase passedDriveBase, NetworkTables passedNetworkTables) {
+	public AutoInfeedVisionDrive(double SpeedInput, DriveBase passedDriveBase, NetworkTables passedNetworkTables) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		// requires(Robot.drivebase);

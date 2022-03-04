@@ -41,19 +41,4 @@ public class BackShoot extends SequentialCommandGroup {
       new StopLoad(passedShooter)
     );    
   }
-
-  /*@Override
-  public void end(boolean interrupted) {
-    drivebase.drive(0,0);
-  }
-
-  @Override
-  public boolean isFinished(){
-    return doneCommand;
-  }
-
-  @Override
-    public boolean runsWhenDisabled() {
-        return false;
-    }*/
 }

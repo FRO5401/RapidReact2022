@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Subsystems.DriveBase;
 import frc.robot.Subsystems.NetworkTables;
+import frc.robot.Subsystems.Shooter;
 
 /**
  * This command is also used as a "BaselineOnly" command
@@ -20,13 +21,14 @@ public class AutoBallShoot extends CommandBase {
 	private double targetLocation;
 	private DriveBase drivebase;
 	private NetworkTables networktables;
+	private Shooter shooter;
     
     private double startTime;
     private double currentTime;
     
     private boolean isCentered;
 
-	public AutoBallShoot(double SpeedInput, DriveBase passedDrivebase, NetworkTables passedNetworkTables) {
+	public AutoBallShoot(double SpeedInput, DriveBase passedDrivebase, NetworkTables passedNetworkTables, Shooter passedShooter) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		// requires(drivebase);
@@ -43,6 +45,7 @@ public class AutoBallShoot extends CommandBase {
 		distanceTraveled = 0;
 		drivebase = passedDrivebase;
 		networktables = passedNetworkTables;
+		shooter = passedShooter;
 	}
 
 	// Called just before this Command runs the first time
@@ -118,7 +121,7 @@ public class AutoBallShoot extends CommandBase {
 	// Called once after isFinished returns true
 	@Override
 	public void end(boolean interrupted) {
-		drivebase.drive(0,0);
+		shooter.run("START");
 		// System.out.println("Angle when EXITING DriveShift:" +
 		// drivebase.getGyroAngle());
 	}
