@@ -89,6 +89,7 @@ public class Constants {
     public static final double kRamseteB = 2;
     public static final double kRamseteZeta = 0.7;
     public static final double kPDriveVel = 1.05;
+    public static final double SCUFFED_CORRECTION_CONSTANT = 59/109.22;
   }
 
   public static class SubsystemConstants {

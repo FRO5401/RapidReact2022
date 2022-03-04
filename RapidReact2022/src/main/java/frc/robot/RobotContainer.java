@@ -57,8 +57,8 @@ public class RobotContainer {
         configureButtonBindings();
         chooser.setDefaultOption("Do Nothing", new DoNothing(drivebase));
         chooser.addOption("Drive Straight", new DriveStraight(100, 0.5, drivebase));
-        chooser.addOption("Back Shoot", new BackShoot(109.22 * 59/109.22, 0.5, drivebase, shooter, internalMech)); //cm to errored inches
-        chooser.addOption("Drive Square", new DriveSquare(100 * 59/109.22, 0.5, drivebase)); //cm to errored inches
+        chooser.addOption("Back Shoot", new BackShoot(109.22 * Constants.AutoConstants.SCUFFED_CORRECTION_CONSTANT, 0.5, drivebase, shooter, internalMech)); //cm to errored inches
+        chooser.addOption("Drive Square", new DriveSquare(100 * Constants.AutoConstants.SCUFFED_CORRECTION_CONSTANT, 0.5, drivebase)); //cm to errored inches
         chooser.addOption("Ball Center Test", new BallCenterTest(0.3, drivebase, networktables, infeed));
         chooser.addOption("Ball Shoot Test", new BallShooterTest(0.3, drivebase, networktables, shooter, internalMech));
         chooser.addOption("Climber Routine", new ClimberRoutine(climber));

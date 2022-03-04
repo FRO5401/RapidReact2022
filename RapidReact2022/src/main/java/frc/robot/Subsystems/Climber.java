@@ -170,17 +170,17 @@ public class Climber extends SubsystemBase{
         }
     }
 
-    public double getAngle(){
+    public double getRotAngle(){
         return rMEncoder1.getPosition();
     }
 
+    
     public double getTransPosition(){
         return tMEncoder1.getPosition();
     }
 
     @Override
     public void periodic() {
-       
         reportClimber();
     }
 

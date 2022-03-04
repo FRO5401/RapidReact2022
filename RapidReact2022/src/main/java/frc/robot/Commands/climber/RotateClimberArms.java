@@ -45,8 +45,8 @@ public class RotateClimberArms extends CommandBase {
   public void execute() {
     rotation = xboxAxis(operator, "LS-X").getAxis();
     checkRotation = xboxAxis(operator, "LS-X").get();
-    if(checkRotation && climber.checkOverExtension(climber.getAngle()))
-        climber.setMotorSpeeds("ROT", rotation);
+    if(checkRotation && climber.checkOverExtension(climber.getRotAngle()))
+      climber.setMotorSpeeds("ROT", rotation);
   }
 
   @Override
