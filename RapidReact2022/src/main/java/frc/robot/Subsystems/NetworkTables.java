@@ -7,8 +7,6 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
-import static frc.robot.Tabs.*;
-
 public class NetworkTables extends SubsystemBase {
   
   NetworkTable visionTable, targetTable, robotTable;
@@ -51,7 +49,10 @@ public class NetworkTables extends SubsystemBase {
     inst.startClientTeam(5401); // where TEAM=190, 294, etc, or use inst.
     inst.startDSClient();
 
-    networkTablesShuffleboard();
+    Shuffleboard.getTab("SmartDashboard").add("Current Ball X", getBallXValue()).withWidget(BuiltInWidgets.kGraph);
+    Shuffleboard.getTab("SmartDashboard").add("Current Ball Y", getBallYValue()).withWidget(BuiltInWidgets.kGraph);
+    Shuffleboard.getTab("SmartDashboard").add("Current Ball radius", getBallRadius()).withWidget(BuiltInWidgets.kGraph);
+    Shuffleboard.getTab("SmartDashboard").add("Ball Distance", getBallDistance()).withWidget(BuiltInWidgets.kGraph);
   }
 
   @Override
@@ -152,31 +153,6 @@ public class NetworkTables extends SubsystemBase {
 
   public void reportValues()
   {
-    ballXShuffleboard.setDouble(getBallXValue());
-    ballYShuffleboard.setDouble(getBallYValue());
-    ballDShuffleboard.setDouble(getBallDistance());
-    ballRShuffleboard.setDouble(getBallRadius());
-    targetXShuffleboard.setDouble(getTargetXValue());
-    targetYShuffleboard.setDouble(getTargetYValue());
-    targetDShuffleboard.setDouble(getTargetDistance());
-    robotXShuffleboard.setDouble(getRobotXValue());
-    robotYShuffleboard.setDouble(getRobotYValue());
-    robotDShuffleboard.setDouble(getRobotDistance());
-  }
-
-  public void networkTablesShuffleboard() {
-    //Network config
-    ballXShuffleboard = networkTab.add("Ball CX", getBallXValue()).getEntry();  
-    ballYShuffleboard = networkTab.add("Ball CY", getBallYValue()).getEntry();  
-    ballDShuffleboard = networkTab.add("Ball Distance", getBallDistance()).getEntry();  
-    ballRShuffleboard = networkTab.add("Ball Radius", getBallRadius()).getEntry();  
-    targetXShuffleboard = networkTab.add("Target CX", getTargetXValue()).getEntry();  
-    targetYShuffleboard = networkTab.add("Target CY", getTargetYValue()).getEntry();  
-    targetDShuffleboard = networkTab.add("Target Distance", getTargetDistance()).getEntry(); 
-    robotXShuffleboard = networkTab.add("Robot CX", getRobotXValue()).getEntry();  
-    robotYShuffleboard = networkTab.add("Robot CY", getRobotYValue()).getEntry();  
-    robotDShuffleboard = networkTab.add("Robot Distance", getRobotDistance()).getEntry();  
-    
-    
+   
   }
 }

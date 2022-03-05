@@ -29,8 +29,8 @@ public class Climber extends SubsystemBase{
     private RelativeEncoder tMEncoder2;
     private RelativeEncoder rMEncoder1;
     private RelativeEncoder rMEncoder2;
-    //private DigitalInput limit1;
-    //private DigitalInput limit2; 
+    private DigitalInput limit1;
+    private DigitalInput limit2; 
     private double angle;
     private double startTime;
     private double currentTime;
@@ -46,8 +46,8 @@ public class Climber extends SubsystemBase{
         tMEncoder2 = transMotor2.getEncoder();
         rMEncoder1 = rotateMotor1.getEncoder();
         rMEncoder2 = rotateMotor2.getEncoder();
-        //limit1 = new DigitalInput(Constants.SubsystemConstants.DIGITAL_INPUT_1);
-        //limit2 = new DigitalInput(Constants.SubsystemConstants.DIGITAL_INPUT_2);
+        limit1 = new DigitalInput(Constants.SubsystemConstants.DIGITAL_INPUT_1);
+        limit2 = new DigitalInput(Constants.SubsystemConstants.DIGITAL_INPUT_2);
         angle = 0.0;
         //Inverts the necessary motors
         transMotor2.setInverted(true);
@@ -69,9 +69,6 @@ public class Climber extends SubsystemBase{
         //Makes sure the neutral mode is on brake
         setClimberIdleMode("Translation", IdleMode.kBrake);
         setClimberIdleMode("Climber", IdleMode.kBrake);
-
-        climberShuffleboard();
-
     }
 
     //Set motor speeds for the climber
@@ -133,7 +130,7 @@ public class Climber extends SubsystemBase{
             return false;
         }
     }
-    /** 
+
     public boolean getLimit1(){
         return limit1.get();
     }
@@ -141,7 +138,7 @@ public class Climber extends SubsystemBase{
     public boolean getLimit2(){
         return limit2.get();
     }
-    */
+
     public void setClimberIdleMode(String type, IdleMode mode){
         if(type.toUpperCase().contains("TRANS")){
             transMotor1.setIdleMode(mode);
@@ -183,7 +180,7 @@ public class Climber extends SubsystemBase{
     public double getRightRotAngle(){
         return rMEncoder2.getPosition();
     }
-    
+
     public double getLeftTransPosition(){
         return tMEncoder1.getPosition();
     }
@@ -191,7 +188,7 @@ public class Climber extends SubsystemBase{
     public double getRightTransPosition(){
         return tMEncoder2.getPosition();
     }
-    
+
     @Override
     public void periodic() {
         reportClimber();
@@ -203,9 +200,9 @@ public class Climber extends SubsystemBase{
         SmartDashboard.putNumber("Translation Motor 2 Speed", getMotorSpeeds("TRANSLATION", 2));
         SmartDashboard.putNumber("Rotation Motor 1 Speed", getMotorSpeeds("ROTATION", 1));
         SmartDashboard.putNumber("Rotation Motor 2 Speed", getMotorSpeeds("ROTATION", 2));
-        //SmartDashboard.putBoolean("Airpressure Status Bad", getRatchetAirPressure());
-        //SmartDashboard.putBoolean("Limit 1 status", getLimit1());
-        //SmartDashboard.putBoolean("Limit 2 status", getLimit2());
+        SmartDashboard.putBoolean("Airpressure Status Bad", getRatchetAirPressure());
+        SmartDashboard.putBoolean("Limit 1 status", getLimit1());
+        SmartDashboard.putBoolean("Limit 2 status", getLimit2());
 
         transClimberLeftPositionEntry.setDouble(getLeftTransPosition());
         transClimberRightPositionEntry.setDouble(getRightTransPosition());
@@ -220,15 +217,15 @@ public class Climber extends SubsystemBase{
 
     public void climberShuffleboard(){
         //Testing
-        transClimberLeftPositionEntry = testingTab.add("Left T-Climber Position",getLeftTransPosition()).getEntry();
-        transClimberRightPositionEntry = testingTab.add("Right T-Climber Position", getRightTransPosition()).getEntry();
-        rotClimberLeftAngleEntry = testingTab.add("Left R-Climber Position", getLeftRotAngle()).getEntry();
-        rotClimberRightAngleEntry = testingTab.add("Right R-Climber Position", getRightRotAngle()).getEntry();
+        transClimberLeftPositionEntry = testingTab.add("Left Climber Position",getLeftTransPosition()).getEntry();
+        transClimberRightPositionEntry = testingTab.add("Right Climber Position", getRightTransPosition()).getEntry();
+        rotClimberLeftAngleEntry = testingTab.add("Left Climber Position", getLeftRotAngle()).getEntry();
+        rotClimberRightAngleEntry = testingTab.add("Right Climber Position", getRightRotAngle()).getEntry();
 
         //Graphing
-        transClimberLeftPositionGraph = graphTab.add("Left T-Climber Graph",getLeftTransPosition()).withWidget(BuiltInWidgets.kGraph).getEntry();
-        transClimberRightPositionGraph = graphTab.add("Right T-Climber Graph", getRightTransPosition()).withWidget(BuiltInWidgets.kGraph).getEntry();
-        rotClimberLeftAngleGraph = graphTab.add("Left R-Climber Graph", getLeftRotAngle()).withWidget(BuiltInWidgets.kGraph).getEntry();
-        rotClimberRightAngleGraph = graphTab.add("Right R-Climber Graph", getRightRotAngle()).withWidget(BuiltInWidgets.kGraph).getEntry();
+        transClimberLeftPositionGraph = graphTab.add("Left Climber Position",getLeftTransPosition()).withWidget(BuiltInWidgets.kGraph).getEntry();
+        transClimberRightPositionGraph = graphTab.add("Right Climber Position", getRightTransPosition()).withWidget(BuiltInWidgets.kGraph).getEntry();
+        rotClimberLeftAngleGraph = graphTab.add("Left Climber Position", getLeftRotAngle()).withWidget(BuiltInWidgets.kGraph).getEntry();
+        rotClimberRightAngleGraph = graphTab.add("Right Climber Position", getRightRotAngle()).getEntry();
     }
 }

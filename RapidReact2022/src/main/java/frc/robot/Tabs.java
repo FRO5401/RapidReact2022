@@ -27,7 +27,6 @@ public class Tabs {
     //SHOOTER
     public static NetworkTableEntry shooterLeftSpeedEntry, shooterRightSpeedEntry, shooterLeftSpeedGraph, shooterRightSpeedGraph;
     public static NetworkTableEntry ballLoaderSpeedEntry, ballLoaderSpeedGraph;
-    public static NetworkTableEntry shooterModeComp;
 
     //INTERNAL MECHs
     public static NetworkTableEntry internalMechAverageEntry, internalMechAverageGraph, leftIMSpeedGraph, rightIMSpeedGraph, leftIMSpeedEntry, rightIMSpeedEntry;
@@ -36,11 +35,6 @@ public class Tabs {
     public static NetworkTableEntry transClimberLeftPositionEntry, transClimberRightPositionEntry, transClimberLeftPositionGraph, transClimberRightPositionGraph;
     public static NetworkTableEntry rotClimberLeftAngleEntry, rotClimberRightAngleEntry, rotClimberLeftRateEntry, rotClimberRightRateEntry;
     public static NetworkTableEntry rotClimberLeftAngleGraph, rotClimberRightAngleGraph, rotClimberLeftRateGraph, rotClimberRightRateGraph;
-
-    //NETWORK TABLES
-    public static NetworkTableEntry ballXShuffleboard, ballYShuffleboard, ballDShuffleboard, ballRShuffleboard;
-    public static NetworkTableEntry targetXShuffleboard, targetYShuffleboard, targetDShuffleboard;
-    public static NetworkTableEntry robotXShuffleboard, robotYShuffleboard, robotDShuffleboard;
 
     //ROBOT CONTAINER
     public static NetworkTableEntry chooserData;

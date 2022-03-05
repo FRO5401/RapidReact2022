@@ -1,6 +1,5 @@
 package frc.robot.Autonomous.groups;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Subsystems.Climber;
@@ -13,18 +12,7 @@ public class ClimberRoutine extends SequentialCommandGroup {
         addCommands(
             //We need to figure out the time we rotate the climber for
             //We need to figure out how long to translate the climber for
-            /*
-            new ParallelCommandGroup(
-                new AutoRotateArm(), //Offset angle initially
-                new AutoTranslateArm()
-            ),
-            new WaitCommand(),
-            new ParallelCommandGroup(
-                new AutoRotateArm(), //Reverse offset to vertical but elevated
-                new AutoTranslateArm()
-            ),
-            new AutoTranslateArm() //Pullup
-            */
+            
         );
     }
 }

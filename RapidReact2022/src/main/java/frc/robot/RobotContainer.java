@@ -54,11 +54,10 @@ public class RobotContainer {
 
     public RobotContainer() {
         configureInputGroups();
-        configureButtonBindings(); //109.22 was intiial in testing
-        chooser.setDefaultOption("Back Shoot", new BackShoot(125.22 * Constants.AutoConstants.SCUFFED_CORRECTION_CONSTANT, 0.5, drivebase, shooter, internalMech));
-        chooser.addOption("Do Nothing", new DoNothing(drivebase));
+        configureButtonBindings();
+        chooser.setDefaultOption("Do Nothing", new DoNothing(drivebase));
         chooser.addOption("Drive Straight", new DriveStraight(100, 0.5, drivebase));
-         //cm to errored inches
+        chooser.addOption("Back Shoot", new BackShoot(109.22 * Constants.AutoConstants.SCUFFED_CORRECTION_CONSTANT, 0.5, drivebase, shooter, internalMech)); //cm to errored inches
         chooser.addOption("Drive Square", new DriveSquare(100 * Constants.AutoConstants.SCUFFED_CORRECTION_CONSTANT, 0.5, drivebase)); //cm to errored inches
         chooser.addOption("Ball Center Test", new BallCenterTest(0.3, drivebase, networktables, infeed));
         chooser.addOption("Ball Shoot Test", new BallShooterTest(0.3, drivebase, networktables, shooter, internalMech));
@@ -133,10 +132,10 @@ public class RobotContainer {
         xboxDPad(operator, 270).whenHeld(new );
 
         //Climber
-        //xboxAxis(operator, "RS-Y").whenHeld(new TranslateClimberArms(climber));
-        //xboxAxis(operator, "LS-X").whenHeld(new RotateClimberArms(climber));
+        xboxAxis(operator, "RS-Y").whenHeld(new TranslateClimberArms(climber));
+        xboxAxis(operator, "LS-X").whenHeld(new RotateClimberArms(climber));
         //driver and operator controls for subsystems
-        //Controls.xboxButton(Controls.operator, "Start").whenPressed(new ClimberRoutine(climber));
+        Controls.xboxButton(Controls.operator, "Start").whenPressed(new ClimberRoutine(climber));
         //Controls.xboxButton(Controls.operator, "X").whenPressed(new StopClimber(climber));
         //TODO: Change this stuff back before I forget
 
