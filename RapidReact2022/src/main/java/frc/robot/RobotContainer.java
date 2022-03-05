@@ -64,8 +64,6 @@ public class RobotContainer {
         chooser.addOption("Climber Routine", new ClimberRoutine(climber));
         //chooser.addOption("Trajectory Test", new SetTrajectoryPath(drivebase, "paths/DriveStraight.wpilib.json")); //REPLACE LATER
         SmartDashboard.putData("Auto choices", chooser);
-        drivebase.resetEncoders();
-        drivebase.resetGyroAngle();
         
     }
 
@@ -128,8 +126,6 @@ public class RobotContainer {
             Controls.operator.setRumble(RumbleType.kRightRumble, 1.0);
             Controls.operator.setRumble(RumbleType.kLeftRumble, 1.0);
         }
-        xboxDPad(operator, 90).whenPressed( );
-        xboxDPad(operator, 270).whenHeld(new );
 
         //Climber
         xboxAxis(operator, "RS-Y").whenHeld(new TranslateClimberArms(climber));
@@ -142,7 +138,7 @@ public class RobotContainer {
     }
 
     public void rachetClimb(){
-        //new RatchetAttachit(climber);
+        new RatchetAttachit(climber);
     }
 
     public Command getAutonomousCommand(){
