@@ -118,8 +118,8 @@ public class Constants {
     public static final double kS = 0.69587;
     public static final double kV = 1.5559; 
     public static final double kA = 0.081132;
-    public static final double shootLowSpeed = 15000;
-    public static final double shootHighSpeed = 15000;
+    public static double shootLowSpeed = 0.31;
+    public static double shootHighSpeed = 0.78;
     public static final double feedFordwardConstant = 0.9;
 
     //Climber

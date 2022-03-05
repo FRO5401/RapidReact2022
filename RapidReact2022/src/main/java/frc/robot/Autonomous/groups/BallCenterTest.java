@@ -19,7 +19,7 @@ public class BallCenterTest extends SequentialCommandGroup {
     addCommands(
         new AutoBallInfeed(SpeedInput, passedDrivebase, passedNetworkTables, passedInfeed),
         new WaitCommand(1),
-        new AutoInfeedVisionDrive(SpeedInput, passedDrivebase, passedNetworkTables)
+        new AutoInfeedVisionDrive(SpeedInput, passedDrivebase, passedNetworkTables, passedInfeed)
     );
     
   }

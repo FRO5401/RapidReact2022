@@ -3,6 +3,7 @@ package frc.robot.Autonomous.actions;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Subsystems.DriveBase;
+import frc.robot.Subsystems.Infeed;
 import frc.robot.Subsystems.NetworkTables;
 
 /**
@@ -19,14 +20,16 @@ public class AutoInfeedVisionDrive extends CommandBase {
 	private double distanceTraveled;
 	private DriveBase drivebase;
 	private NetworkTables networktables;
+	private Infeed infeed;
 
-	public AutoInfeedVisionDrive(double SpeedInput, DriveBase passedDriveBase, NetworkTables passedNetworkTables) {
+	public AutoInfeedVisionDrive(double SpeedInput, DriveBase passedDriveBase, NetworkTables passedNetworkTables, Infeed passedInfeed) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		// requires(Robot.drivebase);
 
 		drivebase = passedDriveBase;
 		networktables = passedNetworkTables;
+		infeed = passedInfeed;
 		autoDriveSpeed = SpeedInput;
 		doneTraveling = true;
         distanceTraveled = 0;
@@ -80,6 +83,7 @@ public class AutoInfeedVisionDrive extends CommandBase {
 	@Override
 	public void end(boolean interrupted) {
 		drivebase.drive(0,0);
+		infeed.run("STOP");
 	}
 
   	@Override

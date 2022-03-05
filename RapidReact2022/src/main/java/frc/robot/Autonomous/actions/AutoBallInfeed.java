@@ -81,12 +81,7 @@ public class AutoBallInfeed extends CommandBase {
 		if(isCentered == false){
 			isCentered = networktables.checkCentered();
 			currentAngle = drivebase.getGyroYaw();
-			try {
-				desiredDistance = networktables.getBallDistance()*1000;
-			}
-			catch (NullPointerException e) {
-				desiredDistance = 0;
-			} 
+
 		}
 		
 		if(ballX == 0 && ballY == 0){ //If no ball is recognized, scan area
@@ -110,7 +105,7 @@ public class AutoBallInfeed extends CommandBase {
 		}
 		else{ //If ball is recognized drive towards it and infeed
 		    if(isCentered == true) { //Once recognized ball is straight ahead, drive towards it based off of received distance
-				//infeed.run("START");
+				infeed.run("START");
 
 				if(radius < 200){
 					drivebase.autoDrive(autoDriveSpeed, autoDriveSpeed, drivebase.getGyroAngle());

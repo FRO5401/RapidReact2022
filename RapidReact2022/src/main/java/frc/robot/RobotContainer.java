@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Autonomous.groups.BackShoot;
+import frc.robot.Autonomous.groups.BackShootVision;
 import frc.robot.Autonomous.groups.BallCenterTest;
 import frc.robot.Autonomous.groups.BallShooterTest;
 import frc.robot.Autonomous.groups.ClimberRoutine;
@@ -48,22 +49,26 @@ public class RobotContainer {
     private final Infeed infeed = new Infeed();
     private final InternalMech internalMech = new InternalMech();
     private final Shooter shooter = new Shooter();
-    private final Climber climber = new Climber(drivebase);
+    //private final Climber climber = new Climber(drivebase);
 
     private final MultipleInputGroup drivetrain = new MultipleInputGroup();
 
     public RobotContainer() {
         configureInputGroups();
-        configureButtonBindings();
-        chooser.setDefaultOption("Do Nothing", new DoNothing(drivebase));
+        configureButtonBindings(); //109.22 was intiial in testing
+        chooser.setDefaultOption("Back Shoot", new BackShoot(-125.22 * Constants.AutoConstants.SCUFFED_CORRECTION_CONSTANT, -0.6, drivebase, shooter, internalMech));
+        chooser.addOption("Back Shoot Vision", new BackShootVision(-125.22 * Constants.AutoConstants.SCUFFED_CORRECTION_CONSTANT, -0.5, drivebase, shooter, internalMech, infeed, networktables));
+        chooser.addOption("Do Nothing", new DoNothing(drivebase));
         chooser.addOption("Drive Straight", new DriveStraight(100, 0.5, drivebase));
-        chooser.addOption("Back Shoot", new BackShoot(109.22 * Constants.AutoConstants.SCUFFED_CORRECTION_CONSTANT, 0.5, drivebase, shooter, internalMech)); //cm to errored inches
+         //cm to errored inches
         chooser.addOption("Drive Square", new DriveSquare(100 * Constants.AutoConstants.SCUFFED_CORRECTION_CONSTANT, 0.5, drivebase)); //cm to errored inches
         chooser.addOption("Ball Center Test", new BallCenterTest(0.3, drivebase, networktables, infeed));
         chooser.addOption("Ball Shoot Test", new BallShooterTest(0.3, drivebase, networktables, shooter, internalMech));
-        chooser.addOption("Climber Routine", new ClimberRoutine(climber));
+        //chooser.addOption("Climber Routine", new ClimberRoutine(climber));
         //chooser.addOption("Trajectory Test", new SetTrajectoryPath(drivebase, "paths/DriveStraight.wpilib.json")); //REPLACE LATER
         SmartDashboard.putData("Auto choices", chooser);
+        drivebase.resetEncoders();
+        drivebase.resetGyroAngle();
         
     }
 
@@ -110,8 +115,8 @@ public class RobotContainer {
         xboxButton(operator, "B").whenPressed(new GateToggle(infeed));
 
         //internal mechanism
-        xboxDPad(operator, 0).whenHeld(new BeltComplement(internalMech, "PULL"));
-        xboxDPad(operator, 180).whenHeld(new BeltComplement(internalMech, "PUSH"));
+        xboxButton(driver, "A").whenHeld(new BeltComplement(internalMech, "PULL"));
+        xboxButton(driver, "B").whenHeld(new BeltComplement(internalMech, "PUSH"));
         
         //shooter
        xboxButton(operator, "A").whenHeld(new SequentialCommandGroup(
@@ -126,19 +131,21 @@ public class RobotContainer {
             Controls.operator.setRumble(RumbleType.kRightRumble, 1.0);
             Controls.operator.setRumble(RumbleType.kLeftRumble, 1.0);
         }
+        xboxDPad(operator, 90).whenPressed(new IncrementShooter(shooter));
+        xboxDPad(operator, 270).whenPressed(new DecrementShooter(shooter));
 
         //Climber
-        xboxAxis(operator, "RS-Y").whenHeld(new TranslateClimberArms(climber));
-        xboxAxis(operator, "LS-X").whenHeld(new RotateClimberArms(climber));
+        //xboxAxis(operator, "RS-Y").whenHeld(new TranslateClimberArms(climber));
+        //xboxAxis(operator, "LS-X").whenHeld(new RotateClimberArms(climber));
         //driver and operator controls for subsystems
-        Controls.xboxButton(Controls.operator, "Start").whenPressed(new ClimberRoutine(climber));
+        //Controls.xboxButton(Controls.operator, "Start").whenPressed(new ClimberRoutine(climber));
         //Controls.xboxButton(Controls.operator, "X").whenPressed(new StopClimber(climber));
         //TODO: Change this stuff back before I forget
 
     }
 
     public void rachetClimb(){
-        new RatchetAttachit(climber);
+        //new RatchetAttachit(climber);
     }
 
     public Command getAutonomousCommand(){
