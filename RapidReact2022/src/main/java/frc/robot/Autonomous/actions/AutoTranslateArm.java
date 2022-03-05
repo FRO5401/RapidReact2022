@@ -9,11 +9,17 @@ import frc.robot.Subsystems.Climber;
  */
 
 public class AutoTranslateArm extends CommandBase {
-    double speed, distance;
-
-	public AutoTranslateArm(double SpeedInput, double DistanceInput, Climber passedClimber) {
+    private double speed, distance, executionPeriod;
+	private Climber climber;
+	private double startTime;
+    private double currentTime;
+	private boolean doneTranslating;
+	public AutoTranslateArm(double SpeedInput, double DistanceInput, Climber passedClimber, double passedTime) {
         distance = DistanceInput;
         speed = SpeedInput;
+		climber = passedClimber;
+		
+		executionPeriod = passedTime;
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		// requires(drivebase);
@@ -24,19 +30,28 @@ public class AutoTranslateArm extends CommandBase {
 	// Called just before this Command runs the first time
 	@Override
 	public void initialize() {
+		startTime = Timer.getMatchTime();
+		doneTranslating = false;
 		
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	public void execute() {
-		
+		currentTime = Timer.getMatchTime();
+		double timeElapsed = startTime - currentTime;
+		if(timeElapsed < executionPeriod){
+			climber.setMotorSpeeds("TRANS", speed);
+		}
+		else{
+			doneTranslating = true;
+		}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	public boolean isFinished() {
-		return false;
+		return doneTranslating;
 	}
 
 	// Called once after isFinished returns true

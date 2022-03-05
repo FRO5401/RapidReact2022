@@ -11,9 +11,12 @@ import frc.robot.Subsystems.Climber;
  */
 
 public class AutoRotateArm extends CommandBase {
-    double speed, angle;
-
-	public AutoRotateArm(double SpeedInput, double AngleInput, Climber passedClimber) {
+    double speed, angle, executionPeriod;
+	private Climber climber;
+	private double startTime;
+    private double currentTime;
+	private boolean doneRotating;
+	public AutoRotateArm(double SpeedInput, double AngleInput, Climber passedClimber, double executionPeriod) {
 
         speed = SpeedInput;
         angle = AngleInput;
@@ -27,19 +30,27 @@ public class AutoRotateArm extends CommandBase {
 	// Called just before this Command runs the first time
 	@Override
 	public void initialize() {
-		
+		startTime = Timer.getMatchTime();
+		doneRotating = false;
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	public void execute() {
-		
+		currentTime = Timer.getMatchTime();
+		double timeElapsed = startTime - currentTime;
+		if(timeElapsed < executionPeriod){
+			climber.setMotorSpeeds("TRANS", speed);
+		}
+		else{
+			doneRotating = true;
+		}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	public boolean isFinished() {
-		return false;
+		return doneRotating;
 	}
 
 	// Called once after isFinished returns true

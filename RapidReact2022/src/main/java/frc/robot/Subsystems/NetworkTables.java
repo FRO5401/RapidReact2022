@@ -9,7 +9,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class NetworkTables extends SubsystemBase {
   
-  NetworkTable ballTable, targetTable, robotTable;
+  NetworkTable visionTable, targetTable, robotTable;
   NetworkTableInstance inst;
   NetworkTableEntry ballXEntry, ballYEntry, ballDEntry, ballREntry;
   NetworkTableEntry targetXEntry, targetYEntry, targetDEntry;
@@ -22,19 +22,19 @@ public class NetworkTables extends SubsystemBase {
 
   public NetworkTables() {
     inst = NetworkTableInstance.getDefault();
-    ballTable = inst.getTable("Ball");
-    targetTable = inst.getTable("Targets");
-    robotTable = inst.getTable("Robot");
-    ballXEntry = ballTable.getEntry("ballX");
-    ballYEntry = ballTable.getEntry("ballY");
-    targetXEntry = ballTable.getEntry("targetX");
-    targetYEntry = ballTable.getEntry("targetY");
-    robotXEntry = ballTable.getEntry("robotX");
-    robotYEntry = ballTable.getEntry("robotY");
-    ballDEntry = ballTable.getEntry("ballDistance");
-    targetDEntry = ballTable.getEntry("targetDistance");
-    robotDEntry = ballTable.getEntry("robotDistance");
-    ballREntry = ballTable.getEntry("ballRadius");
+    visionTable = inst.getTable("VisionTable");
+    //targetTable = inst.getTable("Targets");
+    //robotTable = inst.getTable("Robot");
+    ballXEntry = visionTable.getEntry("ballcX");
+    ballYEntry = visionTable.getEntry("ballcY");
+    targetXEntry = visionTable.getEntry("targetcX");
+    targetYEntry = visionTable.getEntry("targetcY");
+    robotXEntry = visionTable.getEntry("robotX");
+    robotYEntry = visionTable.getEntry("robotY");
+    ballDEntry = visionTable.getEntry("ballDistance");
+    targetDEntry = visionTable.getEntry("targetDistance");
+    robotDEntry = visionTable.getEntry("robotDistance");
+    ballREntry = visionTable.getEntry("ballRadius");
     ballX = 0.0;
     ballY = 0.0;
     targetX = 0.0;

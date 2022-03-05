@@ -3,7 +3,7 @@ package frc.robot.Commands.climber;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Subsystems.Climber;
 import frc.robot.Utilities.testers.Printer;
-
+//RATCHET IS NO LONGER IN USE DUE TO POOR PLACEMENT OF THE SOLENOIDS
 public class RatchetAttachit extends CommandBase{
      /*** Variables ***/
 

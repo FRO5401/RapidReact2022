@@ -12,6 +12,7 @@ public class ClimberRoutine extends SequentialCommandGroup {
         addCommands(
             //We need to figure out the time we rotate the climber for
             //We need to figure out how long to translate the climber for
+            
         );
     }
 }
