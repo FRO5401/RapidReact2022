@@ -97,7 +97,7 @@ public class Constants {
     public static final double INFEED_MOTOR_SPEED = 0.3;
     public static final int INFEED_GATE = 1;
     public static final int INFEED_SPARK_2 = 5; //right
-    public static final int INFEED_SPARK_1 = 6; //left
+    public static final int INFEED_SPARK_1 = 5; //left
     
 
     //Internal Mechanism

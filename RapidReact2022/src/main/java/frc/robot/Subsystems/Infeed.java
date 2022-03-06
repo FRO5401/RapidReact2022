@@ -27,11 +27,16 @@ public class Infeed extends SubsystemBase {
     public Infeed() {
         infeedGate = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.SubsystemConstants.INFEED_GATE);
         infeedMotor1 = new CANSparkMax(Constants.SubsystemConstants.INFEED_SPARK_1, MotorType.kBrushless);
-        infeedMotor2 = new CANSparkMax(Constants.SubsystemConstants.INFEED_SPARK_2, MotorType.kBrushless);
-        infeedMotor2.follow(infeedMotor1, true);
+        //infeedMotor2 = new CANSparkMax(Constants.SubsystemConstants.INFEED_SPARK_2, MotorType.kBrushless);
+       // infeedMotor2.follow(infeedMotor1, true);
+       infeedMotor1.setInverted(true);
+        infeedMotor1.setSmartCurrentLimit(40, 1);
+        infeedMotor1.burnFlash();
+        //infeedMotor2.setSmartCurrentLimit(40, 1);
 
-        im1Encoder = infeedMotor1.getAlternateEncoder(Type.kQuadrature, 4096);
-        im2Encoder = infeedMotor2.getAlternateEncoder(Type.kQuadrature, 4096);
+        im1Encoder = infeedMotor1.getEncoder();
+       // im2Encoder = infeedMotor2.getEncoder();
+       System.out.println("STATUS");
         
         setInfeedIdleMode(IdleMode.kBrake);
         toggleGate();
@@ -49,6 +54,7 @@ public class Infeed extends SubsystemBase {
     }
 
     public void run(String mode) {
+        System.out.println("STATUS2");
         if(mode.toUpperCase().contains("IN")) {
             infeedMotor1.set(Constants.SubsystemConstants.INFEED_MOTOR_SPEED);
         } else if(mode.toUpperCase().contains("OUT")) {
@@ -69,11 +75,11 @@ public class Infeed extends SubsystemBase {
     public void reportInfeed() {
         //Graph reporting
         infeedLeftSpeedGraph.setDouble(getLeftInfeedSpeed());
-        infeedRightSpeedGraph.setDouble(getRightInfeedSpeed());
+        //infeedRightSpeedGraph.setDouble(getRightInfeedSpeed());
         
         //Testing reporting
         infeedLeftSpeedEntry.setDouble(getLeftInfeedSpeed());
-        infeedRightSpeedEntry.setDouble(getRightInfeedSpeed());
+        //infeedRightSpeedEntry.setDouble(getRightInfeedSpeed());
         gateEntry.setBoolean(getGateState());
 
         //Compeition reporting
@@ -83,23 +89,23 @@ public class Infeed extends SubsystemBase {
     public double getLeftInfeedSpeed(){
         return im1Encoder.getVelocity();
     }
-
+/*
     public double getRightInfeedSpeed(){
         return im2Encoder.getVelocity();
-    }
+    }*/
 
     public void infeedShuffleboard(){
         //Graph config
         infeedLeftSpeedGraph = graphTab.add("Left Infeed Motor Graph",getLeftInfeedSpeed())
             .withWidget(BuiltInWidgets.kGraph).getEntry();
-        infeedRightSpeedGraph = graphTab.add("Right Infeed Motor Graph",getRightInfeedSpeed())
-            .withWidget(BuiltInWidgets.kGraph).getEntry(); 
+        /*infeedRightSpeedGraph = graphTab.add("Right Infeed Motor Graph",getRightInfeedSpeed())
+            .withWidget(BuiltInWidgets.kGraph).getEntry(); */
 
   
         //Testing Tab
         gateEntry = testingTab.add("Infeed Gate", getGateState()).getEntry();
         infeedLeftSpeedEntry = testingTab.add("Left Infeed Motor Speed",getLeftInfeedSpeed()).getEntry();
-        infeedRightSpeedEntry = testingTab.add("Right Infeed Motor Speed",getRightInfeedSpeed()).getEntry(); 
+       /* infeedRightSpeedEntry = testingTab.add("Right Infeed Motor Speed",getRightInfeedSpeed()).getEntry(); */
 
         //Comp Tab
         gateComp = testingTab.add("Infeed Gate State", getGateState())
