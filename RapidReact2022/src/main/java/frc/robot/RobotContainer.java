@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.Autonomous.actions.AutoBallShoot;
 import frc.robot.Autonomous.groups.BackShoot;
 import frc.robot.Autonomous.groups.BackShootVision;
 import frc.robot.Autonomous.groups.BallCenterTest;
@@ -133,6 +134,8 @@ public class RobotContainer {
         }
         xboxDPad(operator, 90).whenPressed(new IncrementShooter(shooter));
         xboxDPad(operator, 270).whenPressed(new DecrementShooter(shooter));
+        //xboxDPad(driver, 0).whenHeld(new AutoBallShoot(0.5, drivebase, networktables, shooter)).whenReleased(new StopShooter(shooter));
+        //xboxDPad(operator, 180).whenHeld(new AutoScalar(shooter, networktables));
 
         //Climber
         //xboxAxis(operator, "RS-Y").whenHeld(new TranslateClimberArms(climber));

@@ -6,6 +6,9 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 
 import com.revrobotics.RelativeEncoder;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -19,6 +22,9 @@ public class Infeed extends SubsystemBase {
     private Solenoid infeedGate;
     boolean deploy = true;
     
+   // private TalonSRX infeedMotor1;
+    //private TalonSRX infeedMotor2;
+
     private CANSparkMax infeedMotor1;
     private CANSparkMax infeedMotor2;
     private RelativeEncoder im1Encoder;
@@ -28,7 +34,11 @@ public class Infeed extends SubsystemBase {
         infeedGate = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.SubsystemConstants.INFEED_GATE);
         infeedMotor1 = new CANSparkMax(Constants.SubsystemConstants.INFEED_SPARK_1, MotorType.kBrushless);
         infeedMotor2 = new CANSparkMax(Constants.SubsystemConstants.INFEED_SPARK_2, MotorType.kBrushless);
+        //infeedMotor1 = new TalonSRX(Constants.SubsystemConstants.INFEED_SPARK_1);
+        //infeedMotor2 = new TalonSRX(Constants.SubsystemConstants.INFEED_SPARK_2); 
         infeedMotor2.follow(infeedMotor1, true);
+       // infeedMotor2.setInverted(true);  
+       /// infeedMotor2.follow(infeedMotor1);  
         infeedMotor1.setSmartCurrentLimit(40, 1);
         infeedMotor2.setSmartCurrentLimit(40, 1);
         infeedMotor1.burnFlash();
@@ -36,7 +46,6 @@ public class Infeed extends SubsystemBase {
 
         im1Encoder = infeedMotor1.getEncoder();
         im2Encoder = infeedMotor2.getEncoder();
-       System.out.println("STATUS");
         
         setInfeedIdleMode(IdleMode.kBrake);
         toggleGate();
@@ -54,7 +63,6 @@ public class Infeed extends SubsystemBase {
     }
 
     public void run(String mode) {
-        System.out.println("STATUS2");
         if(mode.toUpperCase().contains("IN")) {
             infeedMotor1.set(Constants.SubsystemConstants.INFEED_MOTOR_SPEED);
         } else if(mode.toUpperCase().contains("OUT")) {
@@ -87,11 +95,13 @@ public class Infeed extends SubsystemBase {
     }
 
     public double getLeftInfeedSpeed(){
-        return im1Encoder.getVelocity();
+       return im1Encoder.getVelocity();
+       //return infeedMotor1.getSensorCollection().getQuadratureVelocity();
     }
 
     public double getRightInfeedSpeed(){
-        return im2Encoder.getVelocity();
+       return im2Encoder.getVelocity();
+       //return infeedMotor1.getSensorCollection().getQuadratureVelocity();
     }
 
     public void infeedShuffleboard(){

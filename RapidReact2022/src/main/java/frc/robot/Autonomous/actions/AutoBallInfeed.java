@@ -61,6 +61,7 @@ public class AutoBallInfeed extends CommandBase {
 		drivebase.resetGyroAngle();
 		drivebase.DPPShifter("HIGH");
 		drivebase.DPPShifter("LOW");
+		networktables.setMode(1);//Red, 2 is blue
 
 		doneTraveling = false;
 		isCentered = false;
