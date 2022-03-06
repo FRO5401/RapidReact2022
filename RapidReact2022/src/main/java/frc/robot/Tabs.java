@@ -41,6 +41,7 @@ public class Tabs {
     public static NetworkTableEntry ballXShuffleboard, ballYShuffleboard, ballDShuffleboard, ballRShuffleboard;
     public static NetworkTableEntry targetXShuffleboard, targetYShuffleboard, targetDShuffleboard;
     public static NetworkTableEntry robotXShuffleboard, robotYShuffleboard, robotDShuffleboard;
+    public static NetworkTableEntry shooterVModeShuffleboard;
 
     //ROBOT CONTAINER
     public static NetworkTableEntry chooserData;

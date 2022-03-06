@@ -3,12 +3,16 @@ package frc.robot.Subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.motorcontrol.Victor;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 
+import com.revrobotics.RelativeEncoder;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.SparkMaxAlternateEncoder.Type;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
 import static frc.robot.Tabs.*;
@@ -18,17 +22,32 @@ public class Infeed extends SubsystemBase {
     private Solenoid infeedGate;
     boolean deploy = true;
     
-    private VictorSPX infeedMotor1;
-    private VictorSPX infeedMotor2;
+   // private TalonSRX infeedMotor1;
+    //private TalonSRX infeedMotor2;
+
+    private CANSparkMax infeedMotor1;
+    private CANSparkMax infeedMotor2;
+    private RelativeEncoder im1Encoder;
+    private RelativeEncoder im2Encoder;
 
     public Infeed() {
         infeedGate = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.SubsystemConstants.INFEED_GATE);
-        infeedMotor1 = new VictorSPX(Constants.SubsystemConstants.INFEED_SPARK_1);
-        infeedMotor2 = new VictorSPX(Constants.SubsystemConstants.INFEED_SPARK_2);
-        infeedMotor2.setInverted(true);
-        infeedMotor2.follow(infeedMotor1);
+        infeedMotor1 = new CANSparkMax(Constants.SubsystemConstants.INFEED_SPARK_1, MotorType.kBrushless);
+        infeedMotor2 = new CANSparkMax(Constants.SubsystemConstants.INFEED_SPARK_2, MotorType.kBrushless);
+        //infeedMotor1 = new TalonSRX(Constants.SubsystemConstants.INFEED_SPARK_1);
+        //infeedMotor2 = new TalonSRX(Constants.SubsystemConstants.INFEED_SPARK_2); 
+        infeedMotor2.follow(infeedMotor1, true);
+       // infeedMotor2.setInverted(true);  
+       /// infeedMotor2.follow(infeedMotor1);  
+        infeedMotor1.setSmartCurrentLimit(40, 1);
+        infeedMotor2.setSmartCurrentLimit(40, 1);
+        infeedMotor1.burnFlash();
         
-        setInfeedNeutralMode(NeutralMode.Brake);
+
+        im1Encoder = infeedMotor1.getEncoder();
+        im2Encoder = infeedMotor2.getEncoder();
+        
+        setInfeedIdleMode(IdleMode.kBrake);
         toggleGate();
         infeedShuffleboard();
         
@@ -44,21 +63,20 @@ public class Infeed extends SubsystemBase {
     }
 
     public void run(String mode) {
-        System.out.println("STATUS2");
         if(mode.toUpperCase().contains("IN")) {
-            infeedMotor1.set(VictorSPXControlMode.PercentOutput, Constants.SubsystemConstants.INFEED_MOTOR_SPEED);
+            infeedMotor1.set(Constants.SubsystemConstants.INFEED_MOTOR_SPEED);
         } else if(mode.toUpperCase().contains("OUT")) {
-            infeedMotor1.set(VictorSPXControlMode.PercentOutput, -Constants.SubsystemConstants.INFEED_MOTOR_SPEED);
+            infeedMotor1.set(-Constants.SubsystemConstants.INFEED_MOTOR_SPEED);
         } else if (mode.toUpperCase().equals("STOP")) {
-            infeedMotor1.set(VictorSPXControlMode.PercentOutput, 0);
+            infeedMotor1.set(0);
         }
         else { //Call this variable when sending a strings
-            infeedMotor1.set(VictorSPXControlMode.PercentOutput, Double.parseDouble(mode));
+            infeedMotor1.set(Double.parseDouble(mode));
         }
     }
 
-    public void setInfeedNeutralMode(NeutralMode mode){
-        infeedMotor1.setNeutralMode(mode);
+    public void setInfeedIdleMode(IdleMode mode){
+        infeedMotor1.setIdleMode(mode);
     }
 
 
@@ -77,11 +95,13 @@ public class Infeed extends SubsystemBase {
     }
 
     public double getLeftInfeedSpeed(){
-        return infeedMotor1.getSelectedSensorVelocity();
+       return im1Encoder.getVelocity();
+       //return infeedMotor1.getSensorCollection().getQuadratureVelocity();
     }
 
     public double getRightInfeedSpeed(){
-        return infeedMotor2.getSelectedSensorVelocity();
+       return im2Encoder.getVelocity();
+       //return infeedMotor1.getSensorCollection().getQuadratureVelocity();
     }
 
     public void infeedShuffleboard(){
@@ -95,7 +115,7 @@ public class Infeed extends SubsystemBase {
         //Testing Tab
         gateEntry = testingTab.add("Infeed Gate", getGateState()).getEntry();
         infeedLeftSpeedEntry = testingTab.add("Left Infeed Motor Speed",getLeftInfeedSpeed()).getEntry();
-        infeedRightSpeedEntry = testingTab.add("Right Infeed Motor Speed",getRightInfeedSpeed()).getEntry();
+        infeedRightSpeedEntry = testingTab.add("Right Infeed Motor Speed",getRightInfeedSpeed()).getEntry(); 
 
         //Comp Tab
         gateComp = testingTab.add("Infeed Gate State", getGateState())

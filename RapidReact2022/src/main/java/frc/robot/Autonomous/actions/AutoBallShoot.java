@@ -46,6 +46,7 @@ public class AutoBallShoot extends CommandBase {
 		drivebase = passedDrivebase;
 		networktables = passedNetworkTables;
 		shooter = passedShooter;
+		
 	}
 
 	// Called just before this Command runs the first time
@@ -62,6 +63,7 @@ public class AutoBallShoot extends CommandBase {
 		doneTraveling = false;
 		isCentered = false;
 		distanceTraveled = 0;
+		networktables.setMode(3); //3 is shoot
 	}
 
 	// Called repeatedly when this Command is scheduled to run

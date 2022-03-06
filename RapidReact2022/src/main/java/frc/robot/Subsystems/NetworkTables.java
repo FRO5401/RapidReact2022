@@ -16,8 +16,10 @@ public class NetworkTables extends SubsystemBase {
   NetworkTableEntry ballXEntry, ballYEntry, ballDEntry, ballREntry;
   NetworkTableEntry targetXEntry, targetYEntry, targetDEntry;
   NetworkTableEntry robotXEntry, robotYEntry, robotDEntry;
+  NetworkTableEntry shooterVModeEntry;
   private static double ballX, ballY, ballDistance;
   public double ballRadius;
+  public int mode;
   public double targetX, targetY, targetDistance;
   public double robotX, robotY, robotDistance;
 
@@ -37,6 +39,9 @@ public class NetworkTables extends SubsystemBase {
     targetDEntry = visionTable.getEntry("targetDistance");
     robotDEntry = visionTable.getEntry("robotDistance");
     ballREntry = visionTable.getEntry("ballRadius");
+    shooterVModeEntry = visionTable.getEntry("mode");
+
+    
     ballX = 0.0;
     ballY = 0.0;
     targetX = 0.0;
@@ -47,6 +52,7 @@ public class NetworkTables extends SubsystemBase {
     robotDistance = 0.0;
     ballDistance = 0.0;
     ballRadius = 0.0;
+    mode = 3;
 
     inst.startClientTeam(5401); // where TEAM=190, 294, etc, or use inst.
     inst.startDSClient();
@@ -74,6 +80,7 @@ public class NetworkTables extends SubsystemBase {
     robotX = robotXEntry.getDouble((robotX != 0) ? robotX : 0);
     robotY = robotYEntry.getDouble((robotY != 0) ? robotY : 0);
     robotDistance = robotDEntry.getDouble((robotDistance != 0) ? robotDistance : 0);
+    //mode = (int)shooterVModeEntry.getDouble(mode);
     //powerPortX = powerPortXEntry.getDouble(0.0);
     //powerPortY = powerPortYEntry.getDouble(0.0);
     //System.out.println("The Ball coordinates are: " + "X: " + ballX + " Y: " + ballY);
@@ -122,6 +129,14 @@ public class NetworkTables extends SubsystemBase {
     return robotDistance;
   }
 
+  //1 is red, 2 is blue, 3 is shoot
+  public void setMode(int mode) {
+    shooterVModeEntry.setDouble(mode);
+  }
+
+  public int getMode() {
+    return mode;
+  }
   
   public void resetValues(){
     ballX = 0;
@@ -162,6 +177,7 @@ public class NetworkTables extends SubsystemBase {
     robotXShuffleboard.setDouble(getRobotXValue());
     robotYShuffleboard.setDouble(getRobotYValue());
     robotDShuffleboard.setDouble(getRobotDistance());
+    shooterVModeShuffleboard.setNumber(getMode());
   }
 
   public void networkTablesShuffleboard() {
@@ -176,7 +192,7 @@ public class NetworkTables extends SubsystemBase {
     robotXShuffleboard = networkTab.add("Robot CX", getRobotXValue()).getEntry();  
     robotYShuffleboard = networkTab.add("Robot CY", getRobotYValue()).getEntry();  
     robotDShuffleboard = networkTab.add("Robot Distance", getRobotDistance()).getEntry();  
-    
+    shooterVModeShuffleboard = networkTab.add("Mode", getMode()).getEntry();
     
   }
 }
