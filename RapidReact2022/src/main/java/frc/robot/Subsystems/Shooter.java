@@ -13,7 +13,7 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-
+import java.lang.Math;
 import static frc.robot.Tabs.*;
 
 public class Shooter extends SubsystemBase{
@@ -95,16 +95,21 @@ public class Shooter extends SubsystemBase{
             Constants.SubsystemConstants.shootLowSpeed -= 0.05;
         }
     }
+    public double distanceToSpeed(double distance){
+        //double speed = (1.768 *Math.pow(10, -5) * Math.pow(distance, 2)) + -0.001591*distance + 0.7997; //Quadratic Fit
+        double speed = 0.002617*distance + 0.5584; //Linear Fit
+        return speed;
+    }
     
     public void runSmart(String mode) {
         if(mode.toUpperCase().equals("START")){
             if(shooterMode){
-                shooterMotor1.set(feedforwardController.calculate(Constants.SubsystemConstants.shootHighSpeed));
+                shooterMotor1.set(feedforwardController.calculate(15000));
                 //shooterMotor1.set(Constants.SubsystemConstants.SHOOTER_SPEED);
                 //Set shooter speed based off BangBangController and FeedFordwardController (Calibrated with SysID)
             }
             else{
-                shooterMotor1.set(feedforwardController.calculate(Constants.SubsystemConstants.shootLowSpeed));
+                shooterMotor1.set(feedforwardController.calculate(15000));
                 //shooterMotor1.set(Constants.SubsystemConstants.SHOOTER_SPEED);
             }
         } else if (mode.toUpperCase().equals("STOP")) {

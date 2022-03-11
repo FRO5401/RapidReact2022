@@ -97,7 +97,7 @@ public class Constants {
     public static final double INFEED_MOTOR_SPEED = 0.3;
     public static final int INFEED_GATE = 1;
     public static final int INFEED_SPARK_2 = 5; //right
-    public static final int INFEED_SPARK_1 = 14; //left
+    public static final int INFEED_SPARK_1 = 6; //left
     
 
     //Internal Mechanism
@@ -118,8 +118,8 @@ public class Constants {
     public static final double kS = 0.69587;
     public static final double kV = 1.5559; 
     public static final double kA = 0.081132;
-    public static double shootLowSpeed = 0.30;
-    public static double shootHighSpeed = 0.76;
+    public static double shootLowSpeed = 0.60;
+    public static double shootHighSpeed = 0.825;
     public static final double feedFordwardConstant = 0.9;
 
     //Climber
