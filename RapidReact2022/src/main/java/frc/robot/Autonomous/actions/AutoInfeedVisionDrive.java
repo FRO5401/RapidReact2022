@@ -3,13 +3,14 @@ package frc.robot.Autonomous.actions;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Subsystems.DriveBase;
+import frc.robot.Subsystems.Infeed;
 import frc.robot.Subsystems.NetworkTables;
 
 /**
  * This command is also used as a "BaselineOnly" command
  */
 
-public class AutoVisionDrive extends CommandBase {
+public class AutoInfeedVisionDrive extends CommandBase {
 
     //private int ballCount;
 	private double angle;
@@ -19,14 +20,16 @@ public class AutoVisionDrive extends CommandBase {
 	private double distanceTraveled;
 	private DriveBase drivebase;
 	private NetworkTables networktables;
+	private Infeed infeed;
 
-	public AutoVisionDrive(double SpeedInput, DriveBase passedDriveBase, NetworkTables passedNetworkTables) {
+	public AutoInfeedVisionDrive(double SpeedInput, DriveBase passedDriveBase, NetworkTables passedNetworkTables, Infeed passedInfeed) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		// requires(Robot.drivebase);
 
 		drivebase = passedDriveBase;
 		networktables = passedNetworkTables;
+		infeed = passedInfeed;
 		autoDriveSpeed = SpeedInput;
 		doneTraveling = true;
         distanceTraveled = 0;
@@ -53,7 +56,7 @@ public class AutoVisionDrive extends CommandBase {
         //Robot.infeed.runMotors();
 		distanceTraveled = drivebase.getPosition();
 		angle = drivebase.getGyroYaw();
-        desiredDistance = (networktables.getBallDistance());
+        desiredDistance = (networktables.getBallDistance())*59/43;
 
 		if ((distanceTraveled) <= (desiredDistance)) {
 			drivebase.autoDrive(autoDriveSpeed, autoDriveSpeed, angle);
@@ -80,6 +83,7 @@ public class AutoVisionDrive extends CommandBase {
 	@Override
 	public void end(boolean interrupted) {
 		drivebase.drive(0,0);
+		infeed.run("STOP");
 	}
 
   	@Override

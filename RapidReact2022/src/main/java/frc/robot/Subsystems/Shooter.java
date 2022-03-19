@@ -1,8 +1,6 @@
 package frc.robot.Subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -13,11 +11,9 @@ import com.revrobotics.SparkMaxAlternateEncoder.Type;
 import edu.wpi.first.math.controller.BangBangController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Utilities.testers.Printer;
-
+import java.lang.Math;
 import static frc.robot.Tabs.*;
 
 public class Shooter extends SubsystemBase{
@@ -40,8 +36,9 @@ public class Shooter extends SubsystemBase{
         feedforwardController = new SimpleMotorFeedforward(Constants.SubsystemConstants.kS, Constants.SubsystemConstants.kV, Constants.SubsystemConstants.kA);
         shooterMotor2.setInverted(true);
         shooterMotor2.follow(shooterMotor1);
+        shooterMode = true;
         
-        
+
         shooterMotor1.setNeutralMode(NeutralMode.Coast);
         shooterMotor2.setNeutralMode(NeutralMode.Coast);
         ballLoader.setIdleMode(IdleMode.kBrake);
@@ -65,12 +62,12 @@ public class Shooter extends SubsystemBase{
     public void run(String mode) {
         if(mode.toUpperCase().equals("START")){
             if(shooterMode){
-                shooterMotor1.set(0.72);//*bangbangController.calculate(getLeftVelocity(),-Constants.SubsystemConstants.shootHighSpeed)); //+ Constants.SubsystemConstants.feedFordwardConstant * feedforwardController.calculate(Constants.SubsystemConstants.shootHighSpeed));
+                shooterMotor1.set(Constants.SubsystemConstants.shootHighSpeed);//*bangbangController.calculate(getLeftVelocity(),-Constants.SubsystemConstants.shootHighSpeed)); //+ Constants.SubsystemConstants.feedFordwardConstant * feedforwardController.calculate(Constants.SubsystemConstants.shootHighSpeed));
                 //shooterMotor1.set(Constants.SubsystemConstants.SHOOTER_SPEED);
                 //Set shooter speed based off BangBangController and FeedFordwardController (Calibrated with SysID)
             }
             else{
-                shooterMotor1.set(0.72);//*bangbangController.calculate(getLeftVelocity(),-Constants.SubsystemConstants.shootLowSpeed)); //+ Constants.SubsystemConstants.feedFordwardConstant * feedforwardController.calculate(Constants.SubsystemConstants.shootLowSpeed));
+                shooterMotor1.set(Constants.SubsystemConstants.shootLowSpeed);//*bangbangController.calculate(getLeftVelocity(),-Constants.SubsystemConstants.shootLowSpeed)); //+ Constants.SubsystemConstants.feedFordwardConstant * feedforwardController.calculate(Constants.SubsystemConstants.shootLowSpeed));
                 //shooterMotor1.set(Constants.SubsystemConstants.SHOOTER_SPEED);
             }
         } else if (mode.toUpperCase().equals("STOP")) {
@@ -80,9 +77,55 @@ public class Shooter extends SubsystemBase{
             shooterMotor1.set(Double.parseDouble(mode));
         }
     }
+
+    public void incrementShooterSpeed(){
+        if(shooterMode) {
+            Constants.SubsystemConstants.shootHighSpeed += 0.05;
+        }
+        else {
+            Constants.SubsystemConstants.shootLowSpeed += 0.05;
+        }
+    }
     
+    public void decrementShooterSpeed(){
+        if(shooterMode) {
+            Constants.SubsystemConstants.shootHighSpeed -= 0.05;
+        }
+        else {
+            Constants.SubsystemConstants.shootLowSpeed -= 0.05;
+        }
+    }
+    public double distanceToSpeed(double distance){
+        //double speed = (1.768 *Math.pow(10, -5) * Math.pow(distance, 2)) + -0.001591*distance + 0.7997; //Quadratic Fit
+        double speed = 0.002617*distance + 0.5584; //Linear Fit
+        return speed;
+    }
+    
+    public void runSmart(String mode) {
+        if(mode.toUpperCase().equals("START")){
+            if(shooterMode){
+                shooterMotor1.set(feedforwardController.calculate(15000));
+                //shooterMotor1.set(Constants.SubsystemConstants.SHOOTER_SPEED);
+                //Set shooter speed based off BangBangController and FeedFordwardController (Calibrated with SysID)
+            }
+            else{
+                shooterMotor1.set(feedforwardController.calculate(15000));
+                //shooterMotor1.set(Constants.SubsystemConstants.SHOOTER_SPEED);
+            }
+        } else if (mode.toUpperCase().equals("STOP")) {
+            shooterMotor1.set(0);
+        }    
+        else {
+            shooterMotor1.set(Double.parseDouble(mode));
+        }
+    }
+
     public void changeMode(){
         shooterMode = !shooterMode;
+    }
+
+    public boolean getMode(){
+        return shooterMode;
     }
     
     public double getLeftVelocity() {
@@ -115,6 +158,11 @@ public class Shooter extends SubsystemBase{
         shooterLeftSpeedEntry.setDouble(getLeftVelocity());
         shooterRightSpeedEntry.setDouble(getRightVelocity());
         ballLoaderSpeedEntry.setDouble(getLoaderVelocity());
+
+        //Compeitition config
+        shooterModeComp.setBoolean(getMode());
+        shooterHighSpeedComp.setDouble(Constants.SubsystemConstants.shootHighSpeed);
+        shooterLowSpeedComp.setDouble(Constants.SubsystemConstants.shootLowSpeed);
     }
 
     public void shooterShuffleboard(){
@@ -125,9 +173,14 @@ public class Shooter extends SubsystemBase{
             .withWidget(BuiltInWidgets.kGraph).getEntry();
         
         //Testing config
-        shooterLeftSpeedEntry = testingTab.add("Left Shooter Velocity", getLeftVelocity()).getEntry();
-        shooterRightSpeedEntry = testingTab.add("Right Shooter Velocity", getRightVelocity()).getEntry();
+        shooterLeftSpeedEntry = competitionTab.add("Left Shooter Velocity", getLeftVelocity()).getEntry();
+        shooterRightSpeedEntry = competitionTab.add("Right Shooter Velocity", getRightVelocity()).getEntry();
         ballLoaderSpeedEntry = testingTab.add("Ball Loader Velocity", getLoaderVelocity()).getEntry();
+
+        //Compeitiion Config
+        shooterModeComp = competitionTab.add("Shoot High", getMode()).withWidget(BuiltInWidgets.kBooleanBox).getEntry();
+        shooterHighSpeedComp = competitionTab.add("Current High Speed", Constants.SubsystemConstants.shootHighSpeed).getEntry(); 
+        shooterLowSpeedComp = competitionTab.add("Current Low Speed", Constants.SubsystemConstants.shootLowSpeed).getEntry();
     }
 
     @Override

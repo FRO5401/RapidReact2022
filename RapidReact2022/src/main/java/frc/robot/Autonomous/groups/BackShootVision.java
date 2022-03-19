@@ -13,14 +13,16 @@ import frc.robot.Commands.shooter.StartLoad;
 import frc.robot.Commands.shooter.StopLoad;
 import frc.robot.Commands.shooter.StopShooter;
 import frc.robot.Subsystems.DriveBase;
+import frc.robot.Subsystems.Infeed;
 import frc.robot.Subsystems.InternalMech;
+import frc.robot.Subsystems.NetworkTables;
 import frc.robot.Subsystems.Shooter;
 
-public class BackShoot extends SequentialCommandGroup {
+public class BackShootVision extends SequentialCommandGroup {
   /**
    * Add your docs here.
    */
-  public BackShoot(double DistanceInput, double SpeedInput, DriveBase passedDrivebase, Shooter passedShooter, InternalMech passedInternalMech) {
+  public BackShootVision(double DistanceInput, double SpeedInput, DriveBase passedDrivebase, Shooter passedShooter, InternalMech passedInternalMech, Infeed passedInfeed, NetworkTables passedNetworkTables) {
     addCommands(
       new ResetSensors(passedDrivebase),
       new ResetSensors(passedDrivebase),
@@ -31,14 +33,15 @@ public class BackShoot extends SequentialCommandGroup {
         new AutoDrive(DistanceInput, SpeedInput, passedDrivebase),
         new ShootBall(passedShooter)
       ),
-      //new AutoTurn(0.3, passedDrivebase.getGyroAngle(), passedDrivebase),
-      new WaitCommand(2.5),
+      new AutoTurn(0.3, passedDrivebase.getGyroAngle(), passedDrivebase),
+      new WaitCommand(3),
       new StartBelt(passedInternalMech),
       new StartLoad(passedShooter),
       new WaitCommand(3),
       new StopShooter(passedShooter),
       new StopBelt(passedInternalMech),
-      new StopLoad(passedShooter)
+      new StopLoad(passedShooter),
+      new BallCenterTest(0.4, passedDrivebase, passedNetworkTables, passedInfeed)
     );    
   }
 }

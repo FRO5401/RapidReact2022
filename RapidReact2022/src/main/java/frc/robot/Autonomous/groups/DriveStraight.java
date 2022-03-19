@@ -11,19 +11,4 @@ public class DriveStraight extends SequentialCommandGroup {
   public DriveStraight(double DistanceInput, double SpeedInput, DriveBase passedDrivebase) {
     addCommands(new AutoDrive(DistanceInput, SpeedInput, passedDrivebase));
   }
-
-  /*@Override
-  public void end(boolean interrupted) {
-    drivebase.drive(0,0);
-  }
-
-  @Override
-  public boolean isFinished(){
-    return doneCommand;
-  }
-
-  @Override
-    public boolean runsWhenDisabled() {
-        return false;
-    }*/
 }

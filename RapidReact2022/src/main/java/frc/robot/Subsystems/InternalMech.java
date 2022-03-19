@@ -12,7 +12,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.SparkMaxAlternateEncoder.Type;
 
 import static frc.robot.Tabs.*;
 
@@ -26,8 +25,8 @@ public class InternalMech extends SubsystemBase{
         // As of 2/25/22 assembly switched back to the Sparks. 2/26 we use two now.  -David
         mechMotor = new CANSparkMax(Constants.SubsystemConstants.INTERNAL_MECH_MOTOR, MotorType.kBrushless);
         mechMotor2 = new CANSparkMax(Constants.SubsystemConstants.INTERNAL_MECH_MOTOR2, MotorType.kBrushless);
-        mechEncoder2 = mechMotor2.getAlternateEncoder(Type.kQuadrature, 4096);
-        mechEncoder = mechMotor.getAlternateEncoder(Type.kQuadrature, 4096);
+        mechEncoder2 = mechMotor2.getEncoder();
+        mechEncoder = mechMotor.getEncoder();
 
         mechMotor.follow(mechMotor2, true);
         mechMotor.setSmartCurrentLimit(95);

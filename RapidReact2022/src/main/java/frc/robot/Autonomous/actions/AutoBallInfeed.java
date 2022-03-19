@@ -13,13 +13,15 @@ import frc.robot.Subsystems.NetworkTables;
 
 public class AutoBallInfeed extends CommandBase {
 
+	
     private double desiredDistance;
     private double currentAngle;
 	private double autoDriveSpeed;
 	private boolean doneTraveling;
 	private double distanceTraveled;
 	private double radius;
-	private double ballLocation;
+	private double ballX;
+	private double ballY;
 	private DriveBase drivebase;
 	private NetworkTables networktables;
 	private Infeed infeed;
@@ -59,6 +61,7 @@ public class AutoBallInfeed extends CommandBase {
 		drivebase.resetGyroAngle();
 		drivebase.DPPShifter("HIGH");
 		drivebase.DPPShifter("LOW");
+		networktables.setMode(1);//Red, 2 is blue
 
 		doneTraveling = false;
 		isCentered = false;
@@ -68,7 +71,9 @@ public class AutoBallInfeed extends CommandBase {
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	public void execute() {
-		ballLocation = networktables.getBallXValue();
+		ballX = networktables.getBallXValue();
+		ballY = networktables.getBallYValue();
+
 		currentTime = Timer.getMatchTime();
 		double timeElapsed = startTime - currentTime;
         SmartDashboard.putNumber("Time elapsed", timeElapsed);
@@ -77,15 +82,10 @@ public class AutoBallInfeed extends CommandBase {
 		if(isCentered == false){
 			isCentered = networktables.checkCentered();
 			currentAngle = drivebase.getGyroYaw();
-			try {
-				desiredDistance = networktables.getBallDistance()*1000;
-			}
-			catch (NullPointerException e) {
-				desiredDistance = 0;
-			} 
+
 		}
 		
-		if(radius == 0){ //If no ball is recognized, scan area
+		if(ballX == 0 && ballY == 0){ //If no ball is recognized, scan area
 			isCentered = false;
 			if(timeElapsed >= 3){//If no ball has been found after 3 seconds, go back to original angle and stop
 				if(drivebase.getGyroAngle() > (drivebase.getGyroAngle() % 366)){
@@ -104,9 +104,9 @@ public class AutoBallInfeed extends CommandBase {
 				drivebase.drive(0.2, 0.2);
 			}
 		}
-		else if(radius > 0){ //If ball is recognized drive towards it and infeed
+		else{ //If ball is recognized drive towards it and infeed
 		    if(isCentered == true) { //Once recognized ball is straight ahead, drive towards it based off of received distance
-				//infeed.run("START");
+				infeed.run("START");
 
 				if(radius < 200){
 					drivebase.autoDrive(autoDriveSpeed, autoDriveSpeed, drivebase.getGyroAngle());
@@ -117,11 +117,11 @@ public class AutoBallInfeed extends CommandBase {
 				}
             }
     	    else { //Turn until the ball that is recognized is straight ahead
-			    if(((currentAngle+90)*3.56) < ballLocation){
+			    if(((currentAngle+90)*3.56) < ballX){
 				    drivebase.autoTurn(autoDriveSpeed, currentAngle);
 					System.out.println(isCentered);
 			    }
-        	    else if(((currentAngle+90)*3.56) > ballLocation){
+        	    else if(((currentAngle+90)*3.56) > ballX){
 				    drivebase.autoTurn(autoDriveSpeed, currentAngle);
 					System.out.println(isCentered);
 				}

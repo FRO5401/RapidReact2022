@@ -1,7 +1,5 @@
 package frc.robot.Commands.internal_mech;
 
-import java.util.function.IntSupplier;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Subsystems.InternalMech;
 

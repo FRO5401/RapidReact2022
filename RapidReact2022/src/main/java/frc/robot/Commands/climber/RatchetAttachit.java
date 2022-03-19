@@ -1,31 +1,35 @@
-package frc.robot.Commands.internal_mech;
+package frc.robot.Commands.climber;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Subsystems.InternalMech;
-
-public class StartBelt extends CommandBase{
+import frc.robot.Subsystems.Climber;
+import frc.robot.Utilities.testers.Printer;
+//RATCHET IS NO LONGER IN USE DUE TO POOR PLACEMENT OF THE SOLENOIDS
+public class RatchetAttachit extends CommandBase{
      /*** Variables ***/
 
-  InternalMech internalMech;   
-  boolean endCommand = false;
+  boolean resetSensors;
 
-  public StartBelt(InternalMech m_internalMech) {
-    internalMech = m_internalMech;
+  private final Climber climber;
+  boolean endCommand=false;
 
-    addRequirements(internalMech);
+  public RatchetAttachit(Climber m_climber) {
+    climber = m_climber;
+    
+    addRequirements(climber);
   }
 
   // Called just before this Command runs the first time
   @Override
   public void initialize() {
-    
+    Printer.print("Rachet");
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   public void execute() {
-    internalMech.run("PULL");
+    climber.setSafetySolenoid();
     endCommand = true;
+
   }
 
   @Override
@@ -41,6 +45,7 @@ public class StartBelt extends CommandBase{
 
   @Override
     public boolean runsWhenDisabled() {
-      return false;
+      return true;
   }
 }
+

@@ -2,40 +2,46 @@ package frc.robot.Subsystems;
 
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
+import static frc.robot.Tabs.*;
+
 public class NetworkTables extends SubsystemBase {
   
-  NetworkTable ballTable, targetTable, robotTable;
+  NetworkTable visionTable, targetTable, robotTable;
   NetworkTableInstance inst;
   NetworkTableEntry ballXEntry, ballYEntry, ballDEntry, ballREntry;
   NetworkTableEntry targetXEntry, targetYEntry, targetDEntry;
   NetworkTableEntry robotXEntry, robotYEntry, robotDEntry;
+  NetworkTableEntry shooterVModeEntry;
   private static double ballX, ballY, ballDistance;
   public double ballRadius;
+  public int mode;
   public double targetX, targetY, targetDistance;
   public double robotX, robotY, robotDistance;
 
 
   public NetworkTables() {
     inst = NetworkTableInstance.getDefault();
-    ballTable = inst.getTable("Ball");
-    targetTable = inst.getTable("Targets");
-    robotTable = inst.getTable("Robot");
-    ballXEntry = ballTable.getEntry("ballX");
-    ballYEntry = ballTable.getEntry("ballY");
-    targetXEntry = ballTable.getEntry("targetX");
-    targetYEntry = ballTable.getEntry("targetY");
-    robotXEntry = ballTable.getEntry("robotX");
-    robotYEntry = ballTable.getEntry("robotY");
-    ballDEntry = ballTable.getEntry("ballDistance");
-    targetDEntry = ballTable.getEntry("targetDistance");
-    robotDEntry = ballTable.getEntry("robotDistance");
-    ballREntry = ballTable.getEntry("ballRadius");
+    visionTable = inst.getTable("VisionTable");
+    //targetTable = inst.getTable("Targets");
+    //robotTable = inst.getTable("Robot");
+    ballXEntry = visionTable.getEntry("ballcX");
+    ballYEntry = visionTable.getEntry("ballcY");
+    targetXEntry = visionTable.getEntry("targetcX");
+    targetYEntry = visionTable.getEntry("targetcY");
+    robotXEntry = visionTable.getEntry("robotX");
+    robotYEntry = visionTable.getEntry("robotY");
+    ballDEntry = visionTable.getEntry("ballDistance");
+    targetDEntry = visionTable.getEntry("targetDistance");
+    robotDEntry = visionTable.getEntry("robotDistance");
+    ballREntry = visionTable.getEntry("ballRadius");
+    shooterVModeEntry = visionTable.getEntry("mode");
+
+    
     ballX = 0.0;
     ballY = 0.0;
     targetX = 0.0;
@@ -46,14 +52,12 @@ public class NetworkTables extends SubsystemBase {
     robotDistance = 0.0;
     ballDistance = 0.0;
     ballRadius = 0.0;
+    mode = 3;
 
     inst.startClientTeam(5401); // where TEAM=190, 294, etc, or use inst.
     inst.startDSClient();
 
-    Shuffleboard.getTab("SmartDashboard").add("Current Ball X", getBallXValue()).withWidget(BuiltInWidgets.kGraph);
-    Shuffleboard.getTab("SmartDashboard").add("Current Ball Y", getBallYValue()).withWidget(BuiltInWidgets.kGraph);
-    Shuffleboard.getTab("SmartDashboard").add("Current Ball radius", getBallRadius()).withWidget(BuiltInWidgets.kGraph);
-    Shuffleboard.getTab("SmartDashboard").add("Ball Distance", getBallDistance()).withWidget(BuiltInWidgets.kGraph);
+    networkTablesShuffleboard();
   }
 
   @Override
@@ -76,6 +80,7 @@ public class NetworkTables extends SubsystemBase {
     robotX = robotXEntry.getDouble((robotX != 0) ? robotX : 0);
     robotY = robotYEntry.getDouble((robotY != 0) ? robotY : 0);
     robotDistance = robotDEntry.getDouble((robotDistance != 0) ? robotDistance : 0);
+    //mode = (int)shooterVModeEntry.getDouble(mode);
     //powerPortX = powerPortXEntry.getDouble(0.0);
     //powerPortY = powerPortYEntry.getDouble(0.0);
     //System.out.println("The Ball coordinates are: " + "X: " + ballX + " Y: " + ballY);
@@ -124,6 +129,14 @@ public class NetworkTables extends SubsystemBase {
     return robotDistance;
   }
 
+  //1 is red, 2 is blue, 3 is shoot
+  public void setMode(int mode) {
+    shooterVModeEntry.setDouble(mode);
+  }
+
+  public int getMode() {
+    return mode;
+  }
   
   public void resetValues(){
     ballX = 0;
@@ -154,6 +167,32 @@ public class NetworkTables extends SubsystemBase {
 
   public void reportValues()
   {
-   
+    ballXShuffleboard.setDouble(getBallXValue());
+    ballYShuffleboard.setDouble(getBallYValue());
+    ballDShuffleboard.setDouble(getBallDistance());
+    ballRShuffleboard.setDouble(getBallRadius());
+    targetXShuffleboard.setDouble(getTargetXValue());
+    targetYShuffleboard.setDouble(getTargetYValue());
+    targetDShuffleboard.setDouble(getTargetDistance());
+    robotXShuffleboard.setDouble(getRobotXValue());
+    robotYShuffleboard.setDouble(getRobotYValue());
+    robotDShuffleboard.setDouble(getRobotDistance());
+    shooterVModeShuffleboard.setNumber(getMode());
+  }
+
+  public void networkTablesShuffleboard() {
+    //Network config
+    ballXShuffleboard = networkTab.add("Ball CX", getBallXValue()).getEntry();  
+    ballYShuffleboard = networkTab.add("Ball CY", getBallYValue()).getEntry();  
+    ballDShuffleboard = networkTab.add("Ball Distance", getBallDistance()).getEntry();  
+    ballRShuffleboard = networkTab.add("Ball Radius", getBallRadius()).getEntry();  
+    targetXShuffleboard = networkTab.add("Target CX", getTargetXValue()).getEntry();  
+    targetYShuffleboard = networkTab.add("Target CY", getTargetYValue()).getEntry();  
+    targetDShuffleboard = networkTab.add("Target Distance", getTargetDistance()).getEntry(); 
+    robotXShuffleboard = networkTab.add("Robot CX", getRobotXValue()).getEntry();  
+    robotYShuffleboard = networkTab.add("Robot CY", getRobotYValue()).getEntry();  
+    robotDShuffleboard = networkTab.add("Robot Distance", getRobotDistance()).getEntry();  
+    shooterVModeShuffleboard = networkTab.add("Mode", getMode()).getEntry();
+    
   }
 }
