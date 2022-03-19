@@ -13,18 +13,19 @@ import static frc.robot.Controls.*;
  * - GEAR SHIFT HIGH/LOW
  */
 
-public class TranslateClimberArms extends CommandBase {
+public class MoveClimberArms extends CommandBase {
   /*** Variables ***/
     //Input Axes
   double translation;
-  double left;
   boolean checkTranslation;
-  double right; 
   double sensitivity;
+  double rotation;
+  boolean checkRotation;
+  boolean checkOverExtension;
 
   private final Climber climber;
 
-  public TranslateClimberArms(Climber m_climber) {
+  public MoveClimberArms(Climber m_climber) {
     climber = m_climber;
     
     
@@ -45,11 +46,17 @@ public class TranslateClimberArms extends CommandBase {
     checkTranslation = xboxAxis(operator, "RS-Y").get();
     if(checkTranslation)
         climber.setMotorSpeeds("TRANS", translation);
+
+    rotation = xboxAxis(operator, "LS-X").getAxis();
+    checkRotation = xboxAxis(operator, "LS-X").get();
+    if(checkRotation && !climber.checkOverExtension(climber.getLeftRotAngle()))
+      climber.setMotorSpeeds("ROT", rotation);    
   }
 
   @Override
   public void end(boolean interrupted) {
     climber.setMotorSpeeds("TRANS",0);
+    climber.setMotorSpeeds("ROT",0);
   }
 
   // Make this return true when this Command no longer needs to run execute()

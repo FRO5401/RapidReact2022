@@ -80,19 +80,19 @@ public class Shooter extends SubsystemBase{
 
     public void incrementShooterSpeed(){
         if(shooterMode) {
-            Constants.SubsystemConstants.shootHighSpeed += 0.05;
+            Constants.SubsystemConstants.shootHighSpeed += 0.01;
         }
         else {
-            Constants.SubsystemConstants.shootLowSpeed += 0.05;
+            Constants.SubsystemConstants.shootLowSpeed += 0.01;
         }
     }
     
     public void decrementShooterSpeed(){
         if(shooterMode) {
-            Constants.SubsystemConstants.shootHighSpeed -= 0.05;
+            Constants.SubsystemConstants.shootHighSpeed -= 0.01;
         }
         else {
-            Constants.SubsystemConstants.shootLowSpeed -= 0.05;
+            Constants.SubsystemConstants.shootLowSpeed -= 0.01;
         }
     }
     public double distanceToSpeed(double distance){

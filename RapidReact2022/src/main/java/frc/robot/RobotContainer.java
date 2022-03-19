@@ -25,9 +25,8 @@ import frc.robot.Autonomous.groups.DoNothing;
 import frc.robot.Autonomous.groups.DriveSquare;
 import frc.robot.Autonomous.groups.DriveStraight;
 import frc.robot.Commands.climber.RatchetAttachit;
-import frc.robot.Commands.climber.RotateClimberArms;
 import frc.robot.Commands.climber.StopClimber;
-import frc.robot.Commands.climber.TranslateClimberArms;
+import frc.robot.Commands.climber.MoveClimberArms;
 import frc.robot.Commands.drivebase.*;
 import frc.robot.Commands.infeed.*;
 import frc.robot.Commands.internal_mech.*;
@@ -54,6 +53,7 @@ public class RobotContainer {
     private final Climber climber = new Climber(drivebase);
 
     private final MultipleInputGroup drivetrain = new MultipleInputGroup();
+    private final MultipleInputGroup climbing = new MultipleInputGroup();
 
     public RobotContainer() {
         configureInputGroups();
@@ -89,12 +89,15 @@ public class RobotContainer {
         drivetrain.addButton(xboxRightBumper_Driver);
         drivetrain.addButton(xboxLeftBumper_Driver);
         drivetrain.addButton(xboxL3_Driver);
+        climbing.addAxis(xboxRY_Operator);
+        climbing.addAxis(xboxLX_Operator);
     }
 
     private void configureButtonBindings() {
 
         //Sets the default command of drivebase to an array of things needed to drive normally
         drivetrain.whenAnyActive(new XboxMove(drivebase));
+        climbing.whenAnyActive(new MoveClimberArms(climber));
 
         //Drivebase Controls      
         xboxButton(operator, "Back").whenPressed(new ResetSensors(drivebase));
@@ -138,9 +141,6 @@ public class RobotContainer {
         //xboxDPad(driver, 0).whenHeld(new AutoBallShoot(0.5, drivebase, networktables, shooter)).whenReleased(new StopShooter(shooter));
         //xboxDPad(operator, 180).whenHeld(new AutoScalar(shooter, networktables));
 
-        //Climber
-        xboxAxis(operator, "RS-Y").whenHeld(new TranslateClimberArms(climber));
-        xboxAxis(operator, "LS-X").whenHeld(new RotateClimberArms(climber));
         //driver and operator controls for subsystems
         Controls.xboxButton(Controls.operator, "Start").whenPressed(new ClimberRoutine(climber));
         Controls.xboxButton(Controls.operator, "X").whenPressed(new StopClimber(climber));
