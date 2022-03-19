@@ -115,6 +115,10 @@ public class Constants {
 
     //Shooter PID Constants 
      
+    public static final double kP = 0;
+    public static final double kI = 0;
+    public static final double kD = 0;
+    public static final double kF = 0;
     public static final double kS = 0.69587;
     public static final double kV = 1.5559; 
     public static final double kA = 0.081132;

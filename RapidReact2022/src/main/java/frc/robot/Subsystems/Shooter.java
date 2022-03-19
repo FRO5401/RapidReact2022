@@ -1,6 +1,7 @@
 package frc.robot.Subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -96,20 +97,20 @@ public class Shooter extends SubsystemBase{
         }
     }
     public double distanceToSpeed(double distance){
-        //double speed = (1.768 *Math.pow(10, -5) * Math.pow(distance, 2)) + -0.001591*distance + 0.7997; //Quadratic Fit
-        double speed = 0.002617*distance + 0.5584; //Linear Fit
+        //-4.50E5 is A, -0.02349 is B, 1.622E4 is C, 123.3 is a correction factor.
+        double speed = -4.50E5*Math.pow(10,distance*-0.02349)+1.622E4+123.3; //Exponential Fit
         return speed;
     }
     
     public void runSmart(String mode) {
         if(mode.toUpperCase().equals("START")){
             if(shooterMode){
-                shooterMotor1.set(feedforwardController.calculate(15000));
+                shooterMotor1.set(TalonFXControlMode.Velocity, distanceToSpeed(95));
                 //shooterMotor1.set(Constants.SubsystemConstants.SHOOTER_SPEED);
                 //Set shooter speed based off BangBangController and FeedFordwardController (Calibrated with SysID)
             }
             else{
-                shooterMotor1.set(feedforwardController.calculate(15000));
+                shooterMotor1.set(TalonFXControlMode.Velocity, distanceToSpeed(55));
                 //shooterMotor1.set(Constants.SubsystemConstants.SHOOTER_SPEED);
             }
         } else if (mode.toUpperCase().equals("STOP")) {
