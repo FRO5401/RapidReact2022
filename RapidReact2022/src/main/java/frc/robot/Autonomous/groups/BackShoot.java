@@ -31,7 +31,7 @@ public class BackShoot extends SequentialCommandGroup {
         new AutoDrive(DistanceInput, SpeedInput, passedDrivebase),
         new ShootBall(passedShooter)
       ),
-      new AutoTurn(0.3, passedDrivebase.getGyroAngle(), passedDrivebase),
+      //new AutoTurn(0.3, passedDrivebase.getGyroAngle(), passedDrivebase),
       new WaitCommand(2.5),
       new StartBelt(passedInternalMech),
       new StartLoad(passedShooter),

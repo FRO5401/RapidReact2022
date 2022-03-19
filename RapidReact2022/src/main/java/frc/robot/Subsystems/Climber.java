@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import frc.robot.Constants;
+import frc.robot.Utilities.testers.Printer;
+
 import java.lang.Math;
 
 import static frc.robot.Tabs.*;
@@ -79,9 +81,14 @@ public class Climber extends SubsystemBase{
         if(type.toUpperCase().contains("TRANS")){
             transMotor2.set(speed);
             transMotor1.set(speed);
+            Printer.print("Translation motors speed" + speed);
+            System.out.println("Translation motors speed" + speed);
         } else if (type.toUpperCase().contains("ROT")) {
             rotateMotor2.set(speed);
             rotateMotor1.set(speed);
+            Printer.print("Rotation motors speed" + speed);
+            System.out.println("Rotation motors speed" + speed);
+
         }
     }
     
@@ -220,10 +227,11 @@ public class Climber extends SubsystemBase{
 
     public void climberShuffleboard(){
         //Testing
-        transClimberLeftPositionEntry = testingTab.add("Left T-Climber Position",getLeftTransPosition()).getEntry();
-        transClimberRightPositionEntry = testingTab.add("Right T-Climber Position", getRightTransPosition()).getEntry();
-        rotClimberLeftAngleEntry = testingTab.add("Left R-Climber Position", getLeftRotAngle()).getEntry();
-        rotClimberRightAngleEntry = testingTab.add("Right R-Climber Position", getRightRotAngle()).getEntry();
+        transClimberLeftPositionEntry = testingTab.add("Left T-Climber Speed",getMotorSpeeds("TRANSLATION", 1)).getEntry();
+        transClimberRightPositionEntry = testingTab.add("Right T-Climber Speed", getMotorSpeeds("TRANSLATION", 2)).getEntry();
+        rotClimberLeftAngleEntry = testingTab.add("Left R-Climber Speed", getMotorSpeeds("ROTATION", 1)).getEntry();
+        rotClimberRightAngleEntry = testingTab.add("Right R-Climber Speed", getMotorSpeeds("ROTATION", 1)).getEntry();
+
 
         //Graphing
         transClimberLeftPositionGraph = graphTab.add("Left T-Climber Graph",getLeftTransPosition()).withWidget(BuiltInWidgets.kGraph).getEntry();

@@ -89,7 +89,7 @@ public class Constants {
     public static final double kRamseteB = 2;
     public static final double kRamseteZeta = 0.7;
     public static final double kPDriveVel = 1.05;
-    public static final double SCUFFED_CORRECTION_CONSTANT = 59/109.22;
+    public static final double SCUFFED_CORRECTION_CONSTANT = 39/109.22;
   }
 
   public static class SubsystemConstants {
@@ -126,7 +126,7 @@ public class Constants {
     public static final int TRANS_MOTOR_1 = 11;
     public static final int TRANS_MOTOR_2 = 12;
     public static final int ROTATE_MOTOR_1 = 13;
-    public static final int ROTATE_MOTOR_2 = 20;
+    public static final int ROTATE_MOTOR_2 = 14;
     public static final int RATCHET_SOLENOID = 2;
     public static final int DIGITAL_INPUT_1 = 0;
     public static final int DIGITAL_INPUT_2 = 0;
@@ -134,12 +134,14 @@ public class Constants {
      
     //climber angle calculations
     public static int measuredHorizontalPosition = 840;
+    public static int maximumVerticalPosition = 0;
     public static double ticksPerDegree = (4096 / 360); 
     public static double gravityFF = 0.07; //predetermined gravity feedforward constant
     public static double climberArmLength = 0;
     public static double robotFrontOffset = 0;
     public static double robotBackOffset = 0;
     public static int extensionLimit = 16;
+
     
   }
      
