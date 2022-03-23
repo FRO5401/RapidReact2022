@@ -19,6 +19,7 @@ import static frc.robot.Tabs.*;
 
 public class Shooter extends SubsystemBase{
  
+    private double maxVelocity = 16220;
     private WPI_TalonFX shooterMotor1;
     private WPI_TalonFX shooterMotor2;
     private CANSparkMax ballLoader;
@@ -34,10 +35,14 @@ public class Shooter extends SubsystemBase{
         shooterMotor2 = new WPI_TalonFX(Constants.SubsystemConstants.SHOOTER_MOTOR_2);
         ballLoader = new CANSparkMax(Constants.SubsystemConstants.BALL_LOADER, MotorType.kBrushless);
         bangbangController = new BangBangController();
-        feedforwardController = new SimpleMotorFeedforward(Constants.SubsystemConstants.kS, Constants.SubsystemConstants.kV, Constants.SubsystemConstants.kA);
+        //feedforwardController = new SimpleMotorFeedforward(Constants.SubsystemConstants.kS, Constants.SubsystemConstants.kV, Constants.SubsystemConstants.kA);
         shooterMotor2.setInverted(true);
         shooterMotor2.follow(shooterMotor1);
         shooterMode = true;
+        shooterMotor1.config_kP(Constants.SubsystemConstants.slotIdx, Constants.SubsystemConstants.kP);
+        shooterMotor1.config_kI(Constants.SubsystemConstants.slotIdx, Constants.SubsystemConstants.kI);
+        shooterMotor1.config_kD(Constants.SubsystemConstants.slotIdx, Constants.SubsystemConstants.kD);
+        shooterMotor1.config_kF(Constants.SubsystemConstants.slotIdx, 0.063070283);
         
 
         shooterMotor1.setNeutralMode(NeutralMode.Coast);
@@ -105,12 +110,13 @@ public class Shooter extends SubsystemBase{
     public void runSmart(String mode) {
         if(mode.toUpperCase().equals("START")){
             if(shooterMode){
-                shooterMotor1.set(TalonFXControlMode.Velocity, distanceToSpeed(95));
+                shooterMotor1.set(TalonFXControlMode.Velocity, 12165);
+                //System.out.println(0.75*feedforwardController.calculate(distanceToSpeed(95)));
                 //shooterMotor1.set(Constants.SubsystemConstants.SHOOTER_SPEED);
                 //Set shooter speed based off BangBangController and FeedFordwardController (Calibrated with SysID)
             }
             else{
-                shooterMotor1.set(TalonFXControlMode.Velocity, distanceToSpeed(55));
+                shooterMotor1.set(TalonFXControlMode.Velocity, 12165);
                 //shooterMotor1.set(Constants.SubsystemConstants.SHOOTER_SPEED);
             }
         } else if (mode.toUpperCase().equals("STOP")) {
@@ -189,6 +195,7 @@ public class Shooter extends SubsystemBase{
         //System.out.println("feed"+(feedforwardController.calculate(getRightVelocity())));
        // System.out.println("velocity"+getRightVelocity());
         reportShooter();
+        //System.out.println("wingoblingo"+feedforwardController.calculate(0, 500, 1.5));
     }
 
 }

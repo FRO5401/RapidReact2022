@@ -227,10 +227,10 @@ public class Climber extends SubsystemBase{
 
     public void climberShuffleboard(){
         //Testing
-        transClimberLeftPositionEntry = testingTab.add("Left T-Climber Speed",getMotorSpeeds("TRANSLATION", 1)).getEntry();
-        transClimberRightPositionEntry = testingTab.add("Right T-Climber Speed", getMotorSpeeds("TRANSLATION", 2)).getEntry();
-        rotClimberLeftAngleEntry = testingTab.add("Left R-Climber Speed", getMotorSpeeds("ROTATION", 1)).getEntry();
-        rotClimberRightAngleEntry = testingTab.add("Right R-Climber Speed", getMotorSpeeds("ROTATION", 1)).getEntry();
+        transClimberLeftPositionEntry = testingTab.add("Left T-Climber Position",getLeftTransPosition()).getEntry();
+        transClimberRightPositionEntry = testingTab.add("Right T-Climber Position", getRightTransPosition()).getEntry();
+        rotClimberLeftAngleEntry = testingTab.add("Left R-Climber Angle", getLeftRotAngle()).getEntry();
+        rotClimberRightAngleEntry = testingTab.add("Right R-Climber Angle", getRightRotAngle()).getEntry();
 
 
         //Graphing

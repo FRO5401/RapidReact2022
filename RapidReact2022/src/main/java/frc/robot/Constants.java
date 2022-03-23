@@ -115,13 +115,14 @@ public class Constants {
 
     //Shooter PID Constants 
      
-    public static final double kP = 0;
+    public static final double kP = 0.6;
     public static final double kI = 0;
     public static final double kD = 0;
     public static final double kF = 0;
-    public static final double kS = 0.69587;
-    public static final double kV = 1.5559; 
-    public static final double kA = 0.081132;
+    public static final int slotIdx = 0;
+    public static final double kS = 0.66618;
+    public static final double kV = 0.10109; 
+    public static final double kA = 0.0052574;
     public static double shootLowSpeed = 0.60;
     public static double shootHighSpeed = 0.825;
     public static final double feedFordwardConstant = 0.9;
