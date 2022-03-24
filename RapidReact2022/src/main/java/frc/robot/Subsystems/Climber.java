@@ -73,6 +73,7 @@ public class Climber extends SubsystemBase{
         setClimberIdleMode("Climber", IdleMode.kBrake);
 
         climberShuffleboard();
+        resetClimberEncoders();
 
     }
 
@@ -84,8 +85,8 @@ public class Climber extends SubsystemBase{
             Printer.print("Translation motors speed" + speed);
             System.out.println("Translation motors speed" + speed);
         } else if (type.toUpperCase().contains("ROT")) {
-            rotateMotor2.set(speed);
-            rotateMotor1.set(speed);
+            rotateMotor2.set(speed*0.5);
+            rotateMotor1.set(speed*0.5);
             Printer.print("Rotation motors speed" + speed);
             System.out.println("Rotation motors speed" + speed);
 
@@ -110,7 +111,9 @@ public class Climber extends SubsystemBase{
         }
         return returnable;
     }
-    
+    //2550 is 5'6" from the the ground straight up
+    //16800 is 53.8 degrees
+    //3460 is 5'8" arm length
 
     public double posToAngle(int currPos){
         double radians = Math.toRadians((currPos - Constants.SubsystemConstants.measuredHorizontalPosition) / Constants.SubsystemConstants.ticksPerDegree);

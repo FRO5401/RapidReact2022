@@ -36,7 +36,7 @@ public class NetworkTables extends SubsystemBase {
     robotXEntry = visionTable.getEntry("robotX");
     robotYEntry = visionTable.getEntry("robotY");
     ballDEntry = visionTable.getEntry("ballDistance");
-    targetDEntry = visionTable.getEntry("targetDistance");
+    targetDEntry = visionTable.getEntry("distance");
     robotDEntry = visionTable.getEntry("robotDistance");
     ballREntry = visionTable.getEntry("ballRadius");
     shooterVModeEntry = visionTable.getEntry("mode");

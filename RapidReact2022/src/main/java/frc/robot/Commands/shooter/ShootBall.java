@@ -19,7 +19,7 @@ public class ShootBall extends CommandBase {
     @Override
     public void execute(){
         //shooter.runSmart("START");
-        shooter.run("START");
+        shooter.runSmart("START");
         endCommand = true;
     }
     

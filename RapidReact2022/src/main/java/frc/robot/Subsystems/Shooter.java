@@ -42,13 +42,13 @@ public class Shooter extends SubsystemBase{
         shooterMotor1.config_kP(Constants.SubsystemConstants.slotIdx, Constants.SubsystemConstants.kP);
         shooterMotor1.config_kI(Constants.SubsystemConstants.slotIdx, Constants.SubsystemConstants.kI);
         shooterMotor1.config_kD(Constants.SubsystemConstants.slotIdx, Constants.SubsystemConstants.kD);
-        shooterMotor1.config_kF(Constants.SubsystemConstants.slotIdx, 0.063070283);
+        shooterMotor1.config_kF(Constants.SubsystemConstants.slotIdx, 0.063070283/1.32);
         
 
         shooterMotor1.setNeutralMode(NeutralMode.Coast);
         shooterMotor2.setNeutralMode(NeutralMode.Coast);
         ballLoader.setIdleMode(IdleMode.kBrake);
-        loaderEncoder = ballLoader.getAlternateEncoder(Type.kQuadrature, 4096);
+        loaderEncoder = ballLoader.getEncoder();
         shooterShuffleboard();
     }
 
@@ -110,13 +110,13 @@ public class Shooter extends SubsystemBase{
     public void runSmart(String mode) {
         if(mode.toUpperCase().equals("START")){
             if(shooterMode){
-                shooterMotor1.set(TalonFXControlMode.Velocity, 12165);
+                shooterMotor1.set(TalonFXControlMode.Velocity, 15500);
                 //System.out.println(0.75*feedforwardController.calculate(distanceToSpeed(95)));
                 //shooterMotor1.set(Constants.SubsystemConstants.SHOOTER_SPEED);
                 //Set shooter speed based off BangBangController and FeedFordwardController (Calibrated with SysID)
             }
             else{
-                shooterMotor1.set(TalonFXControlMode.Velocity, 12165);
+                shooterMotor1.set(TalonFXControlMode.Velocity, 15500);
                 //shooterMotor1.set(Constants.SubsystemConstants.SHOOTER_SPEED);
             }
         } else if (mode.toUpperCase().equals("STOP")) {
