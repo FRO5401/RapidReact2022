@@ -86,22 +86,22 @@ public class Shooter extends SubsystemBase{
 
     public void incrementShooterSpeed(){
         if(shooterMode) {
-            //Constants.SubsystemConstants.shootHighSpeed += 0.01;
+            Constants.SubsystemConstants.shootHighSpeed += 0.01;
             Constants.SubsystemConstants.shootHighVelocity += 250;
         }
         else {
-            //Constants.SubsystemConstants.shootLowSpeed += 0.01;
+            Constants.SubsystemConstants.shootLowSpeed += 0.01;
             Constants.SubsystemConstants.shootLowVelocity += 250;
         }
     }
     
     public void decrementShooterSpeed(){
         if(shooterMode) {
-            //Constants.SubsystemConstants.shootHighSpeed -= 0.01;
+            Constants.SubsystemConstants.shootHighSpeed -= 0.01;
             Constants.SubsystemConstants.shootHighVelocity -= 250;
         }
         else {
-            //Constants.SubsystemConstants.shootLowSpeed -= 0.01;
+            Constants.SubsystemConstants.shootLowSpeed -= 0.01;
             Constants.SubsystemConstants.shootLowVelocity -= 250;
         }
     }
