@@ -86,19 +86,23 @@ public class Shooter extends SubsystemBase{
 
     public void incrementShooterSpeed(){
         if(shooterMode) {
-            Constants.SubsystemConstants.shootHighSpeed += 0.01;
+            //Constants.SubsystemConstants.shootHighSpeed += 0.01;
+            Constants.SubsystemConstants.shootHighVelocity += 250;
         }
         else {
-            Constants.SubsystemConstants.shootLowSpeed += 0.01;
+            //Constants.SubsystemConstants.shootLowSpeed += 0.01;
+            Constants.SubsystemConstants.shootLowVelocity += 250;
         }
     }
     
     public void decrementShooterSpeed(){
         if(shooterMode) {
-            Constants.SubsystemConstants.shootHighSpeed -= 0.01;
+            //Constants.SubsystemConstants.shootHighSpeed -= 0.01;
+            Constants.SubsystemConstants.shootHighVelocity -= 250;
         }
         else {
-            Constants.SubsystemConstants.shootLowSpeed -= 0.01;
+            //Constants.SubsystemConstants.shootLowSpeed -= 0.01;
+            Constants.SubsystemConstants.shootLowVelocity -= 250;
         }
     }
     public double distanceToSpeed(double distance){
@@ -110,13 +114,13 @@ public class Shooter extends SubsystemBase{
     public void runSmart(String mode) {
         if(mode.toUpperCase().equals("START")){
             if(shooterMode){
-                shooterMotor1.set(TalonFXControlMode.Velocity, 15500);
+                shooterMotor1.set(TalonFXControlMode.Velocity, Constants.SubsystemConstants.shootHighVelocity);
                 //System.out.println(0.75*feedforwardController.calculate(distanceToSpeed(95)));
                 //shooterMotor1.set(Constants.SubsystemConstants.SHOOTER_SPEED);
                 //Set shooter speed based off BangBangController and FeedFordwardController (Calibrated with SysID)
             }
             else{
-                shooterMotor1.set(TalonFXControlMode.Velocity, 15500);
+                shooterMotor1.set(TalonFXControlMode.Velocity, Constants.SubsystemConstants.shootLowVelocity);
                 //shooterMotor1.set(Constants.SubsystemConstants.SHOOTER_SPEED);
             }
         } else if (mode.toUpperCase().equals("STOP")) {
