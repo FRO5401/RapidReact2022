@@ -49,7 +49,7 @@ public class MoveClimberArms extends CommandBase {
 
     rotation = xboxAxis(operator, "LS-X").getAxis();
     checkRotation = xboxAxis(operator, "LS-X").get();
-    if(checkRotation && !climber.checkOverExtension(climber.getLeftRotAngle()))
+    if(checkRotation && !climber.checkOverExtension(climber.getLeftRotAngle(), (int)climber.getLeftTransPosition()))
       climber.setMotorSpeeds("ROT", rotation);    
   }
 

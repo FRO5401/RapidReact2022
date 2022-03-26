@@ -115,14 +115,14 @@ public class Climber extends SubsystemBase{
     //16800 is 53.8 degrees
     //3460 is 5'8" arm length
 
-    public double posToAngle(int currPos){
-        double radians = Math.toRadians((currPos - Constants.SubsystemConstants.measuredHorizontalPosition) / Constants.SubsystemConstants.ticksPerDegree);
+    public double posToAngle(int currTransPos){
+        double radians = Math.toRadians((currTransPos + Constants.SubsystemConstants.climberArmMaxPos) / Constants.SubsystemConstants.ticksPerDegree);
         return radians;
     }
-    public boolean checkOverExtension(double angle){
+    public boolean checkOverExtension(double angle, int currTransPos){
          
         if(angle > 0){
-            int horizontalDistance = (int)((Constants.SubsystemConstants.climberArmLength * Math.cos(90 - Math.abs(angle))) - Constants.SubsystemConstants.robotFrontOffset);
+            int horizontalDistance = (int)((Constants.SubsystemConstants.climberArmLength * Math.sin(Math.abs(angle))) - Constants.SubsystemConstants.robotFrontOffset);
             if(horizontalDistance >= 16){
                 return true;
             }
@@ -131,7 +131,7 @@ public class Climber extends SubsystemBase{
             }
         }
         else if (angle < 0){
-            int horizontalDistance = (int)((Constants.SubsystemConstants.climberArmLength * Math.cos(90 - Math.abs(angle))) - Constants.SubsystemConstants.robotBackOffset);
+            int horizontalDistance = (int)((Constants.SubsystemConstants.climberArmLength * Math.sin(Math.abs(angle))) - Constants.SubsystemConstants.robotBackOffset);
             if(horizontalDistance >= 16){
                 return true;
             }
@@ -140,6 +140,9 @@ public class Climber extends SubsystemBase{
             }
         }
         else{
+            if(currTransPos > Constants.SubsystemConstants.climberArmMaxPos){
+                return true;
+            }
             return false;
         }
     }
