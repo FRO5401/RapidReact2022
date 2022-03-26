@@ -82,13 +82,9 @@ public class Climber extends SubsystemBase{
         if(type.toUpperCase().contains("TRANS")){
             transMotor2.set(speed);
             transMotor1.set(speed);
-            Printer.print("Translation motors speed" + speed);
-            System.out.println("Translation motors speed" + speed);
         } else if (type.toUpperCase().contains("ROT")) {
             rotateMotor2.set(speed*0.5);
             rotateMotor1.set(speed*0.5);
-            Printer.print("Rotation motors speed" + speed);
-            System.out.println("Rotation motors speed" + speed);
 
         }
     }
@@ -121,7 +117,7 @@ public class Climber extends SubsystemBase{
     }
     public boolean checkOverExtension(double angle, int currTransPos){
          
-        if(angle > 0){
+        if(angle > 10){
             int horizontalDistance = (int)((Constants.SubsystemConstants.climberArmLength * Math.sin(Math.abs(angle))) - Constants.SubsystemConstants.robotFrontOffset);
             if(horizontalDistance >= 16){
                 return true;
@@ -130,7 +126,7 @@ public class Climber extends SubsystemBase{
                 return false;
             }
         }
-        else if (angle < 0){
+        else if (angle < -10){
             int horizontalDistance = (int)((Constants.SubsystemConstants.climberArmLength * Math.sin(Math.abs(angle))) - Constants.SubsystemConstants.robotBackOffset);
             if(horizontalDistance >= 16){
                 return true;
@@ -141,6 +137,7 @@ public class Climber extends SubsystemBase{
         }
         else{
             if(currTransPos > Constants.SubsystemConstants.climberArmMaxPos){
+                Printer.print("Bangerang");
                 return true;
             }
             return false;

@@ -1,6 +1,7 @@
 package frc.robot.Commands.drivebase;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Subsystems.Climber;
 import frc.robot.Subsystems.DriveBase;
 import frc.robot.Utilities.testers.Printer;
 
@@ -10,9 +11,11 @@ public class ResetSensors extends CommandBase{
      boolean endCommand = false;
 
   private final DriveBase drivebase;
+  private final Climber climber;
 
-  public ResetSensors(DriveBase m_drivebase) {
+  public ResetSensors(DriveBase m_drivebase, Climber m_climber) {
     drivebase = m_drivebase;
+    climber = m_climber;
     
     addRequirements(drivebase);
   }
@@ -29,6 +32,7 @@ public class ResetSensors extends CommandBase{
   public void execute() {
     
       drivebase.resetEncoders();
+      climber.resetClimberEncoders();
       drivebase.resetGyroAngle();
       System.out.println("RESET SENSORS");
       endCommand = true;

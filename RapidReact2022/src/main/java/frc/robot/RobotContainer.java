@@ -58,8 +58,8 @@ public class RobotContainer {
     public RobotContainer() {
         configureInputGroups();
         configureButtonBindings(); //109.22 was intiial in testing
-        chooser.setDefaultOption("Back Shoot", new BackShoot(-125.22 * Constants.AutoConstants.SCUFFED_CORRECTION_CONSTANT, -0.6, drivebase, shooter, internalMech));
-        chooser.addOption("Back Shoot Vision", new BackShootVision(-125.22 * Constants.AutoConstants.SCUFFED_CORRECTION_CONSTANT, -0.5, drivebase, shooter, internalMech, infeed, networktables));
+        chooser.setDefaultOption("Back Shoot", new BackShoot(-125.22 * Constants.AutoConstants.SCUFFED_CORRECTION_CONSTANT, -0.6, drivebase, shooter, internalMech, climber));
+        chooser.addOption("Back Shoot Vision", new BackShootVision(-125.22 * Constants.AutoConstants.SCUFFED_CORRECTION_CONSTANT, -0.5, drivebase, shooter, internalMech, infeed, networktables, climber));
         chooser.addOption("Do Nothing", new DoNothing(drivebase));
         chooser.addOption("Drive Straight", new DriveStraight(100, 0.5, drivebase));
          //cm to errored inches
@@ -100,7 +100,7 @@ public class RobotContainer {
         climbing.whenAnyActive(new MoveClimberArms(climber));
 
         //Drivebase Controls      
-        xboxButton(operator, "Back").whenPressed(new ResetSensors(drivebase));
+        xboxButton(operator, "Back").whenPressed(new ResetSensors(drivebase, climber));
         xboxButton(driver, "Start").whenPressed(new GearShiftHigh(drivebase));
         xboxButton(driver, "Back").whenPressed(new GearShiftLow(drivebase));
         xboxButton(driver, "Y").whenPressed(new CompressorToggle(drivebase));

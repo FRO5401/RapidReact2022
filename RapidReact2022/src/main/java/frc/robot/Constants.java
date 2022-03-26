@@ -103,7 +103,7 @@ public class Constants {
     //Internal Mechanism
     public static final int INTERNAL_MECH_MOTOR = 7; //Right
     public static final int INTERNAL_MECH_MOTOR2 = 15; //Left
-    public static final double MECH_SPEED = 0.50; //regular 0.95
+    public static final double MECH_SPEED = 0.95; //regular 0.95
 
     //Shooter
     public static final int SHOOTER_MOTOR_1 = 9; //Left
@@ -126,7 +126,7 @@ public class Constants {
     public static double shootLowSpeed = 0.60;
     public static double shootHighSpeed = 0.825;
     public static double shootLowVelocity = 3500;
-    public static double shootHighVelocity = 10000;
+    public static double shootHighVelocity = 9000;
     public static final double feedFordwardConstant = 0.9;
 
     //Climber
@@ -145,7 +145,7 @@ public class Constants {
     public static double ticksPerDegree = 312.2676579925651; 
     public static double gravityFF = 0.07; //predetermined gravity feedforward constant
     public static double climberArmLength = 68;
-    public static int climberArmMaxPos = 16800;
+    public static int climberArmMaxPos = 3460;
     public static double climberArmMaxRotPos = 53.8;
     public static double nativeUnitsRatio = (16800 / 68);
 

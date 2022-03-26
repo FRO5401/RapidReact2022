@@ -172,8 +172,8 @@ public class Shooter extends SubsystemBase{
 
         //Compeitition config
         shooterModeComp.setBoolean(getMode());
-        shooterHighSpeedComp.setDouble(Constants.SubsystemConstants.shootHighSpeed);
-        shooterLowSpeedComp.setDouble(Constants.SubsystemConstants.shootLowSpeed);
+        shooterHighSpeedComp.setDouble(Constants.SubsystemConstants.shootHighVelocity);
+        shooterLowSpeedComp.setDouble(Constants.SubsystemConstants.shootLowVelocity);
     }
 
     public void shooterShuffleboard(){
@@ -190,8 +190,8 @@ public class Shooter extends SubsystemBase{
 
         //Compeitiion Config
         shooterModeComp = competitionTab.add("Shoot High", getMode()).withWidget(BuiltInWidgets.kBooleanBox).getEntry();
-        shooterHighSpeedComp = competitionTab.add("Current High Speed", Constants.SubsystemConstants.shootHighSpeed).getEntry(); 
-        shooterLowSpeedComp = competitionTab.add("Current Low Speed", Constants.SubsystemConstants.shootLowSpeed).getEntry();
+        shooterHighSpeedComp = competitionTab.add("Current High Speed", Constants.SubsystemConstants.shootHighVelocity).getEntry(); 
+        shooterLowSpeedComp = competitionTab.add("Current Low Speed", Constants.SubsystemConstants.shootLowVelocity).getEntry();
     }
 
     @Override

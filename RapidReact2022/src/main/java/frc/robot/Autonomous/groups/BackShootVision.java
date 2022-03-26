@@ -12,6 +12,7 @@ import frc.robot.Commands.shooter.ShootBall;
 import frc.robot.Commands.shooter.StartLoad;
 import frc.robot.Commands.shooter.StopLoad;
 import frc.robot.Commands.shooter.StopShooter;
+import frc.robot.Subsystems.Climber;
 import frc.robot.Subsystems.DriveBase;
 import frc.robot.Subsystems.Infeed;
 import frc.robot.Subsystems.InternalMech;
@@ -22,13 +23,13 @@ public class BackShootVision extends SequentialCommandGroup {
   /**
    * Add your docs here.
    */
-  public BackShootVision(double DistanceInput, double SpeedInput, DriveBase passedDrivebase, Shooter passedShooter, InternalMech passedInternalMech, Infeed passedInfeed, NetworkTables passedNetworkTables) {
+  public BackShootVision(double DistanceInput, double SpeedInput, DriveBase passedDrivebase, Shooter passedShooter, InternalMech passedInternalMech, Infeed passedInfeed, NetworkTables passedNetworkTables, Climber passedClimber) {
     addCommands(
-      new ResetSensors(passedDrivebase),
-      new ResetSensors(passedDrivebase),
-      new ResetSensors(passedDrivebase),
-      new ResetSensors(passedDrivebase),
-      new ResetSensors(passedDrivebase),
+      new ResetSensors(passedDrivebase, passedClimber),
+      new ResetSensors(passedDrivebase, passedClimber),
+      new ResetSensors(passedDrivebase, passedClimber),
+      new ResetSensors(passedDrivebase, passedClimber),
+      new ResetSensors(passedDrivebase, passedClimber),
       new ParallelCommandGroup(
         new AutoDrive(DistanceInput, SpeedInput, passedDrivebase),
         new ShootBall(passedShooter)
