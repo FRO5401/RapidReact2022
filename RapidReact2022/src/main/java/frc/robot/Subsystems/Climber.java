@@ -117,7 +117,7 @@ public class Climber extends SubsystemBase{
     }
     public boolean checkOverExtension(double angle, int currTransPos){
          
-        if(angle > 10){
+        if(angle > 2){
             int horizontalDistance = (int)((Constants.SubsystemConstants.climberArmLength * Math.sin(Math.abs(angle))) - Constants.SubsystemConstants.robotFrontOffset);
             if(horizontalDistance >= 16){
                 return true;
@@ -126,7 +126,7 @@ public class Climber extends SubsystemBase{
                 return false;
             }
         }
-        else if (angle < -10){
+        else if (angle < -2){
             int horizontalDistance = (int)((Constants.SubsystemConstants.climberArmLength * Math.sin(Math.abs(angle))) - Constants.SubsystemConstants.robotBackOffset);
             if(horizontalDistance >= 16){
                 return true;

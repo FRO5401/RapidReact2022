@@ -107,7 +107,9 @@ public class Shooter extends SubsystemBase{
     }
     public double distanceToSpeed(double distance){
         //-4.50E5 is A, -0.02349 is B, 1.622E4 is C, 123.3 is a correction factor.
-        double speed = -4.50E5*Math.pow(10,distance*-0.02349)+1.622E4+123.3; //Exponential Fit
+        //double speed = -4.50E5*Math.pow(10,distance*-0.02349)+1.622E4+123.3; //Exponential Fit
+        double speed = Math.pow(810.5,distance*-0.01310)+7788.2; //Exponential Fit
+
         return speed;
     }
     
