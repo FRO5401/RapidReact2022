@@ -72,6 +72,7 @@ public class DriveBase extends SubsystemBase {
   private NetworkTableEntry angleSB, rotationsSB, turnRateSB;
   private NetworkTableEntry leftSB, rightSB;
   private ShuffleboardTab smartDashboard;
+  private final double roll;
 
   public DriveBase() {
 
@@ -117,7 +118,9 @@ public class DriveBase extends SubsystemBase {
     axisSB = smartDashboard.add("Axis", Controls.xboxAxis(Controls.driver, "LS-X").getAxis()).getEntry();
     rightSB = smartDashboard.add("Right", rightDrive1.getSensorCollection().getQuadraturePosition()).getEntry();
     leftSB = smartDashboard.add("Left", leftDrive1.getSensorCollection().getQuadraturePosition()).getEntry();
-
+    roll = 0;
+    navxGyro.calibrate();
+    System.out.println("dlkajsglkdagjpadsglgkjdsagkjgpasgdhkjgdljkghasdlkjghalksdjghlkjadshglads,hyglkmjdashgkpj;adshkljaghdlkjghlkjahsdlkjghdlskjaglkjadshg;kljadshg"+navxGyro.getBoardYawAxis());
   }
 
   //Report sensors whenever
@@ -248,7 +251,7 @@ public class DriveBase extends SubsystemBase {
   public void setMaxOutput(double maxOutput) { ourDrive.setMaxOutput(maxOutput); }
 
   //Gets/Resets the Gyro Angles
-  public double getGyroAngle() { return navxGyro.getAngle(); }
+  public double getGyroAngle() { return navxGyro.getYaw(); }
   public double getGyroYaw(){ return navxGyro.getYaw(); }
   public double getGyroPitch(){ return navxGyro.getPitch(); }
   public double getGyroRoll(){  return navxGyro.getRoll(); }

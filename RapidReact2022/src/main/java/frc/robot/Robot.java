@@ -39,7 +39,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-    Shuffleboard.update();
+    //Shuffleboard.update();
   }
 
   @Override
@@ -69,8 +69,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    if(!robotContainer.updateDrivetrain())
-      robotContainer.getDriveBase().drive(0, 0);
+   // if(!robotContainer.updateDrivetrain())
+     // robotContainer.getDriveBase().drive(0, 0);
     
   }
   
