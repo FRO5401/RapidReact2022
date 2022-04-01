@@ -24,6 +24,10 @@ public class Constants {
     public static final int DRIVE_MOTOR_LEFT_2 = 4;
 
     public static final int GEAR_SHIFTER = 0;
+
+    public static final double kP = 34.199;
+    public static final double kI = 0;
+    public static final double KD = 1.5784;
   }
 
   public class ControlConstants {
@@ -89,7 +93,7 @@ public class Constants {
     public static final double kRamseteB = 2;
     public static final double kRamseteZeta = 0.7;
     public static final double kPDriveVel = 1.05;
-    public static final double SCUFFED_CORRECTION_CONSTANT = 39/109.22;
+    public static final double SCUFFED_CORRECTION_CONSTANT = 0.26;
   }
 
   public static class SubsystemConstants {
@@ -126,7 +130,7 @@ public class Constants {
     public static double shootLowSpeed = 0.60;
     public static double shootHighSpeed = 0.825;
     public static double shootLowVelocity = 3500;
-    public static double shootHighVelocity = 9000;
+    public static double shootHighVelocity = 11000;
     public static final double feedFordwardConstant = 0.9;
 
     //Climber

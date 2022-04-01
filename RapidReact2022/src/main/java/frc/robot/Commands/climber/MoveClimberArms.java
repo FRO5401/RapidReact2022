@@ -44,8 +44,10 @@ public class MoveClimberArms extends CommandBase {
   public void execute() {
     translation = xboxAxis(operator, "RS-Y").getAxis();
     checkTranslation = xboxAxis(operator, "RS-Y").get();
-    if(checkTranslation && !climber.checkOverExtension(climber.posToAngle((int)climber.getLeftRotAngle()), (int)climber.getLeftTransPosition()))
+    if(checkTranslation  && !climber.checkOverExtension(climber.posToAngle((int)climber.getLeftRotAngle()), (int)climber.getLeftTransPosition()))
         climber.setMotorSpeeds("TRANS", translation);
+    else if(checkTranslation  && translation < -0.25)
+        climber.setMotorSpeeds("TRANS", translation);    
     else
         climber.setMotorSpeeds("TRANS", 0);
 

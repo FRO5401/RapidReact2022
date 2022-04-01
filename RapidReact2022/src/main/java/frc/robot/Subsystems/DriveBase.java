@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.Solenoid;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -21,7 +23,6 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.SPI;
-
 import static frc.robot.Tabs.*;
 
 //TODO: Remember to bring gear shifter back
@@ -44,11 +45,17 @@ public class DriveBase extends SubsystemBase {
   private boolean compressorState = true;
 
   //PID stuff
- // private int loopIndex, slotIndex;
- // private double DRIVEBASE_kF = 0;
- // private double DRIVEBASE_kP = 0;
- // private double DRIVEBASE_kI = 0;
-  //private double DRIVEBASE_kD = 0;
+  //private int loopIndex, slotIndex;
+  private double kFF = 1;
+  private double kP = 34.199/2048;
+  private double kI = 0;//1;
+  private double kD = 0;//1.5784;
+  private final double roll;
+  private SparkMaxPIDController leftDrive1PidController;
+  private SparkMaxPIDController leftDrive2PidController;
+
+  private SparkMaxPIDController rightDrive1PidController;
+  private SparkMaxPIDController rightDrive2PidController;
 
   //private int iaccum = 0;
 
@@ -71,6 +78,12 @@ public class DriveBase extends SubsystemBase {
     leftDrive2 = new CANSparkMax(Constants.DriveConstants.DRIVE_MOTOR_LEFT_2, MotorType.kBrushless);
     rightDrive1 = new CANSparkMax(Constants.DriveConstants.DRIVE_MOTOR_RIGHT_1, MotorType.kBrushless);
     rightDrive2 = new CANSparkMax(Constants.DriveConstants.DRIVE_MOTOR_RIGHT_2, MotorType.kBrushless);
+
+    leftDrive1PidController = leftDrive1.getPIDController();
+    leftDrive2PidController = leftDrive2.getPIDController();
+    rightDrive1PidController = rightDrive1.getPIDController();
+    rightDrive2PidController = rightDrive2.getPIDController();
+
     leftEncoders = new RelativeEncoder[2];
     rightEncoders = new RelativeEncoder[2];
     leftEncoders[0] = leftDrive1.getEncoder();
@@ -81,10 +94,34 @@ public class DriveBase extends SubsystemBase {
     rightDrive2.setSmartCurrentLimit(55, 20);
     leftDrive1.setSmartCurrentLimit(55, 20);
     leftDrive2.setSmartCurrentLimit(55, 20);
+    leftDrive1.setInverted(true);
+    leftDrive2.setInverted(true);
 
+    leftDrive1PidController.setP(kP);
+    leftDrive1PidController.setI(kI);
+    leftDrive1PidController.setD(kD);
+    leftDrive1PidController.setFF(kFF);
+    leftDrive2PidController.setP(kP);
+    leftDrive2PidController.setI(kI);
+    leftDrive2PidController.setD(kD);
+    leftDrive2PidController.setFF(kFF);
+    rightDrive1PidController.setP(kP);
+    rightDrive1PidController.setI(kI);
+    rightDrive1PidController.setD(kD);
+    rightDrive1PidController.setFF(kFF);
+    rightDrive2PidController.setP(kP);
+    rightDrive2PidController.setI(kI);
+    rightDrive2PidController.setD(kD);
+    rightDrive2PidController.setFF(kFF);
     //Organization of those physical parts
     leftDrives = new MotorControllerGroup(leftDrive1, leftDrive2);
     rightDrives = new MotorControllerGroup(rightDrive1, rightDrive2);
+    
+    leftEncoders[0].setPositionConversionFactor(100/21);
+    leftEncoders[1].setPositionConversionFactor(100/21);
+    rightEncoders[0].setPositionConversionFactor(100/21);
+    rightEncoders[1].setPositionConversionFactor(100/21);
+
     ourDrive = new DifferentialDrive(leftDrives, rightDrives);
     gearShifter = new Solenoid(0, PneumaticsModuleType.CTREPCM, Constants.DriveConstants.GEAR_SHIFTER);
 
@@ -99,6 +136,7 @@ public class DriveBase extends SubsystemBase {
     odometry = new DifferentialDriveOdometry(navxGyro.getRotation2d());
     drivebaseShuffleboard();
     shift("LOW");
+    roll = navxGyro.getRoll();
   }
 
   //Report sensors whenever
@@ -154,9 +192,17 @@ public class DriveBase extends SubsystemBase {
     ourDrive.tankDrive(left, right);
   }
 
+  public void driveToPos(double distance) {
+    leftDrive1PidController.setReference(distance, CANSparkMax.ControlType.kPosition);
+    leftDrive2PidController.setReference(distance, CANSparkMax.ControlType.kPosition);
+    rightDrive1PidController.setReference(distance, CANSparkMax.ControlType.kPosition);
+    rightDrive2PidController.setReference(distance, CANSparkMax.ControlType.kPosition);
+    
+  }
+
   //Automatic turning method
   public void autoTurn(double speed, double angle) {
-    double gyroAngle = getGyroAngle();
+    double gyroAngle = getGyroRoll();
     if (gyroAngle > (angle+2))
       drive(-speed, speed);
     else if (gyroAngle < (angle-2))
@@ -174,6 +220,7 @@ public class DriveBase extends SubsystemBase {
 
    //For driving automatically
    public void autoDrive(double left, double right, double angle) {
+     
     if (left > 0 && right > 0){ //driving forwards
       drive(
         angle > 0 ? left : left * Constants.AutoConstants.AUTO_SPEED_ADJUSTMENT * 1.08,
@@ -250,8 +297,11 @@ public class DriveBase extends SubsystemBase {
   public double getGyroAngle() { return navxGyro.getAngle(); }
   public double getGyroYaw(){ return navxGyro.getYaw(); }
   public double getGyroPitch(){ return navxGyro.getPitch(); }
-  public double getGyroRoll(){ return navxGyro.getRoll(); }
-  public void resetGyroAngle() { navxGyro.reset(); }
+  public double getGyroRoll(){ return navxGyro.getRoll()-roll;}
+  public void resetGyroAngle() {
+     navxGyro.reset(); 
+  
+  }
   
   //For path planning
   public void zeroHeading() { navxGyro.reset(); }
