@@ -83,8 +83,8 @@ public class Climber extends SubsystemBase{
             transMotor2.set(speed);
             transMotor1.set(speed);
         } else if (type.toUpperCase().contains("ROT")) {
-            rotateMotor2.set(speed*0.5);
-            rotateMotor1.set(speed*0.5);
+            rotateMotor2.set(speed*0.25);
+            rotateMotor1.set(speed*0.25);
 
         }
     }
@@ -111,14 +111,17 @@ public class Climber extends SubsystemBase{
     //16800 is 53.8 degrees
     //3460 is 5'8" arm length
 
-    public double posToAngle(int currTransPos){
-        double radians = Math.toRadians((currTransPos + Constants.SubsystemConstants.climberArmMaxPos) / Constants.SubsystemConstants.ticksPerDegree);
+    public double posToAngle(double currTransPos){
+        double radians = Math.toRadians(currTransPos);
         return radians;
     }
-    public boolean checkOverExtension(double angle, int currTransPos){
-         
-        if(angle > 2){
-            int horizontalDistance = (int)((Constants.SubsystemConstants.climberArmLength * Math.sin(Math.abs(angle))) - Constants.SubsystemConstants.robotFrontOffset);
+    public boolean checkOverRotExtension(double angle, int currTransPos){
+        System.out.println(angle);
+        if(angle > Math.toRadians(2)){
+            double tempPosition = (getLeftTransPosition() < 0) ? 0 : getLeftTransPosition();
+            double horizontalDistance = ((tempPosition * Math.sin(Math.abs(angle))) - Constants.SubsystemConstants.robotFrontOffset);
+            System.out.println(angle);
+            System.out.println(horizontalDistance);
             if(horizontalDistance >= 16){
                 return true;
             }
@@ -126,8 +129,11 @@ public class Climber extends SubsystemBase{
                 return false;
             }
         }
-        else if (angle < -2){
-            int horizontalDistance = (int)((Constants.SubsystemConstants.climberArmLength * Math.sin(Math.abs(angle))) - Constants.SubsystemConstants.robotBackOffset);
+        else if(angle > Math.toRadians(2)){
+            double tempPosition = (getLeftTransPosition() < 0) ? 0 : getLeftTransPosition();
+            double horizontalDistance = ((tempPosition * Math.sin(Math.abs(angle))) + Constants.SubsystemConstants.robotBackOffset);
+            System.out.println(angle);
+            System.out.println(horizontalDistance);
             if(horizontalDistance >= 16){
                 return true;
             }
@@ -136,12 +142,19 @@ public class Climber extends SubsystemBase{
             }
         }
         else{
-            if(currTransPos > Constants.SubsystemConstants.climberArmMaxPos){
+            return false;
+        }
+
+
+    }
+    public boolean checkOverTransExtension(double angle, int currTransPos){
+            if(currTransPos >= Constants.SubsystemConstants.climberArmMaxPos){
                 Printer.print("Bangerang");
                 return true;
             }
-            return false;
-        }
+            else{
+                return false;
+            }
     }
     /** 
     public boolean getLimit1(){
@@ -187,11 +200,11 @@ public class Climber extends SubsystemBase{
     }
 
     public double getLeftRotAngle(){
-        return rMEncoder1.getPosition();
+        return rMEncoder1.getPosition()*0.00344182114;
     }
 
     public double getRightRotAngle(){
-        return rMEncoder2.getPosition();
+        return rMEncoder2.getPosition()*0.00344182114;
     }
     
     public double getLeftTransPosition(){

@@ -24,6 +24,8 @@ import frc.robot.Autonomous.groups.ClimberRoutine;
 import frc.robot.Autonomous.groups.DoNothing;
 import frc.robot.Autonomous.groups.DriveSquare;
 import frc.robot.Autonomous.groups.DriveStraight;
+import frc.robot.Autonomous.groups.TwoBallOffCenter;
+import frc.robot.Autonomous.groups.TwoBallStraight;
 import frc.robot.Commands.climber.RatchetAttachit;
 import frc.robot.Commands.climber.StopClimber;
 import frc.robot.Commands.climber.MoveClimberArms;
@@ -58,15 +60,18 @@ public class RobotContainer {
     public RobotContainer() {
         configureInputGroups();
         configureButtonBindings(); //109.22 was intiial in testing
-        chooser.setDefaultOption("Back Shoot", new BackShoot(-125.22 * Constants.AutoConstants.SCUFFED_CORRECTION_CONSTANT, -0.6, drivebase, shooter, internalMech, climber));
+        chooser.setDefaultOption("Back Shoot", new BackShoot(-125.22 * Constants.AutoConstants.SCUFFED_CORRECTION_CONSTANT, -0.5, drivebase, shooter, internalMech, climber));
         chooser.addOption("Back Shoot Vision", new BackShootVision(-125.22 * Constants.AutoConstants.SCUFFED_CORRECTION_CONSTANT, -0.5, drivebase, shooter, internalMech, infeed, networktables, climber));
         chooser.addOption("Do Nothing", new DoNothing(drivebase));
         chooser.addOption("Drive Straight", new DriveStraight(100, 0.5, drivebase));
+        
          //cm to errored inches
         chooser.addOption("Drive Square", new DriveSquare(100 * Constants.AutoConstants.SCUFFED_CORRECTION_CONSTANT, 0.5, drivebase)); //cm to errored inches
         chooser.addOption("Ball Center Test", new BallCenterTest(0.3, drivebase, networktables, infeed));
         chooser.addOption("Ball Shoot Test", new BallShooterTest(0.3, drivebase, networktables, shooter, internalMech));
         chooser.addOption("Climber Routine", new ClimberRoutine(climber));
+        chooser.addOption("Two Ball Straight", new TwoBallStraight(-125.22 * Constants.AutoConstants.SCUFFED_CORRECTION_CONSTANT, -0.5, drivebase, shooter, internalMech, climber, infeed));
+        chooser.addOption("Two Ball Off Center", new TwoBallOffCenter(-125.22 * Constants.AutoConstants.SCUFFED_CORRECTION_CONSTANT, -0.5, drivebase, shooter, internalMech, climber, infeed));        
         //chooser.addOption("Trajectory Test", new SetTrajectoryPath(drivebase, "paths/DriveStraight.wpilib.json")); //REPLACE LATER
         SmartDashboard.putData("Auto choices", chooser);
         drivebase.resetEncoders();

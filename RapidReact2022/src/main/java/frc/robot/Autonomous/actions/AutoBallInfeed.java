@@ -80,7 +80,7 @@ public class AutoBallInfeed extends CommandBase {
 		radius = networktables.getBallRadius();
 
 		if(isCentered == false){
-			isCentered = networktables.checkCentered();
+			isCentered = networktables.checkCentered("BALL");
 			currentAngle = drivebase.getGyroYaw();
 
 		}

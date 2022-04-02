@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.Controls;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -50,7 +51,6 @@ public class DriveBase extends SubsystemBase {
   private double kP = 34.199/2048;
   private double kI = 0;//1;
   private double kD = 0;//1.5784;
-  private final double roll;
   private SparkMaxPIDController leftDrive1PidController;
   private SparkMaxPIDController leftDrive2PidController;
 
@@ -136,7 +136,7 @@ public class DriveBase extends SubsystemBase {
     odometry = new DifferentialDriveOdometry(navxGyro.getRotation2d());
     drivebaseShuffleboard();
     shift("LOW");
-    roll = navxGyro.getRoll();
+    navxGyro.calibrate();
   }
 
   //Report sensors whenever
@@ -202,7 +202,7 @@ public class DriveBase extends SubsystemBase {
 
   //Automatic turning method
   public void autoTurn(double speed, double angle) {
-    double gyroAngle = getGyroRoll();
+    double gyroAngle = getGyroYaw();
     if (gyroAngle > (angle+2))
       drive(-speed, speed);
     else if (gyroAngle < (angle-2))
@@ -297,10 +297,9 @@ public class DriveBase extends SubsystemBase {
   public double getGyroAngle() { return navxGyro.getAngle(); }
   public double getGyroYaw(){ return navxGyro.getYaw(); }
   public double getGyroPitch(){ return navxGyro.getPitch(); }
-  public double getGyroRoll(){ return navxGyro.getRoll()-roll;}
+  public double getGyroRoll(){ return navxGyro.getRoll();}
   public void resetGyroAngle() {
      navxGyro.reset(); 
-  
   }
   
   //For path planning
@@ -333,6 +332,8 @@ public class DriveBase extends SubsystemBase {
   
   //Report the values by updating shuffleboard
   public void reportSensors() {
+    //System.out.println(navxGyro.getBoardYawAxis());
+
     //Graph config
     speedGraph.setDouble(getAverageMotorVelocity());
     leftSpeedGraph.setDouble(getLeftVelocity());

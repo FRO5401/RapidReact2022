@@ -151,16 +151,27 @@ public class NetworkTables extends SubsystemBase {
     ballRadius = 0;
   }
 
-  public boolean checkCentered(){
-
-    if(getBallXValue() >= 300 && getBallXValue() <= 340){
-      return true;
-    }
-    
-    else if(((getBallXValue() < 300) & (getBallXValue() >= 0)) || ((getBallXValue() > 340) & (getBallXValue() <= 640))){
+  public boolean checkCentered(String type){
+    if(type.equalsIgnoreCase("BALL")){
+      if(getBallXValue() >= 300 && getBallXValue() <= 340){
+        return true;
+      }
+      
+      else if(((getBallXValue() < 300) & (getBallXValue() >= 0)) || ((getBallXValue() > 340) & (getBallXValue() <= 640))){
+        return false;
+      }
+      return false;
+  }
+    else{
+      if(getTargetXValue() >= 300 && getTargetXValue() <= 340){
+        return true;
+      }
+      
+      else if(((getTargetXValue() < 300) & (getTargetXValue() >= 0)) || ((getTargetXValue() > 340) & (getTargetXValue() <= 640))){
+        return false;
+      }
       return false;
     }
-    return false;
   }
 
 

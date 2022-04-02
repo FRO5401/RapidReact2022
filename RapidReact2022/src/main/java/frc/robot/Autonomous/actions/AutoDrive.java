@@ -36,7 +36,7 @@ public class AutoDrive extends CommandBase {
 	// Called repeatedly when this Command is scheduled to run
     @Override
     public void execute() {
-        angle = drivebase.getGyroRoll();
+        angle = drivebase.getGyroYaw();
         distanceTraveled = drivebase.getPosition();
         if ((distanceTraveled <= desiredDistance) && desiredDistance > 0) {
             drivebase.autoDrive(autoDriveSpeed, autoDriveSpeed, angle);

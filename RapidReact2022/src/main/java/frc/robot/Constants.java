@@ -112,8 +112,8 @@ public class Constants {
     //Shooter
     public static final int SHOOTER_MOTOR_1 = 9; //Left
     public static final int SHOOTER_MOTOR_2 = 10; //Right
-    public static final double SHOOTER_SPEED = 0.95; //0.75 for blue from the line radially*** 
-    public static final double LOADER_SPEED = 0.55;
+    public static final double SHOOTER_SPEED = 0.95; //0.95 REGULAR 0.75 for blue from the line radially*** 
+    public static final double LOADER_SPEED = 0.40; // 0.55 REGULAR DECREASE BY 0.05
 	  public static final int BALL_LOADER = 8;
     public static final double SHOOTER_WAIT_TIME = 1.75;
 
@@ -130,7 +130,7 @@ public class Constants {
     public static double shootLowSpeed = 0.60;
     public static double shootHighSpeed = 0.825;
     public static double shootLowVelocity = 3500;
-    public static double shootHighVelocity = 11000;
+    public static double shootHighVelocity = 10250; //+-250
     public static final double feedFordwardConstant = 0.9;
 
     //Climber
@@ -143,18 +143,20 @@ public class Constants {
     public static final int DIGITAL_INPUT_2 = 0;
     public static int ClimberStage = 0;
      
+    //29.5in 60in
     //climber angle calculations
     public static int measuredHorizontalPosition = 2550;
     public static int maximumVerticalPosition = 0;
     public static double ticksPerDegree = 312.2676579925651; 
     public static double gravityFF = 0.07; //predetermined gravity feedforward constant
-    public static double climberArmLength = 68;
-    public static int climberArmMaxPos = 3460;
+    public static double climberArmLength = 60;
+    public static double minClimberArmLength = 29.5;
+    public static int climberArmMaxPos = 3560;
     public static double climberArmMaxRotPos = 53.8;
     public static double nativeUnitsRatio = (16800 / 68);
 
-    public static double robotFrontOffset = 1;
-    public static double robotBackOffset = 25;
+    public static double robotFrontOffset = 25;
+    public static double robotBackOffset = 1;
     public static int extensionLimit = 16;
 
     
