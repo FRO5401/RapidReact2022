@@ -116,12 +116,9 @@ public class Climber extends SubsystemBase{
         return radians;
     }
     public boolean checkOverRotExtension(double angle, int currTransPos){
-        System.out.println(angle);
         if(angle > Math.toRadians(2)){
-            double tempPosition = (getLeftTransPosition() < 0) ? 0 : getLeftTransPosition();
+            double tempPosition = (getLeftTransPosition() < 0) ? 0 : getLeftTransPosition() * Constants.SubsystemConstants.climberConversion;
             double horizontalDistance = ((tempPosition * Math.sin(Math.abs(angle))) - Constants.SubsystemConstants.robotFrontOffset);
-            System.out.println(angle);
-            System.out.println(horizontalDistance);
             if(horizontalDistance >= 16){
                 return true;
             }
@@ -130,10 +127,8 @@ public class Climber extends SubsystemBase{
             }
         }
         else if(angle > Math.toRadians(2)){
-            double tempPosition = (getLeftTransPosition() < 0) ? 0 : getLeftTransPosition();
+            double tempPosition = (getLeftTransPosition() < 0) ? 0 : getLeftTransPosition()* Constants.SubsystemConstants.climberConversion;
             double horizontalDistance = ((tempPosition * Math.sin(Math.abs(angle))) + Constants.SubsystemConstants.robotBackOffset);
-            System.out.println(angle);
-            System.out.println(horizontalDistance);
             if(horizontalDistance >= 16){
                 return true;
             }

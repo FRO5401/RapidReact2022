@@ -73,7 +73,7 @@ public class Infeed extends SubsystemBase {
         else { //Call this variable when sending a strings
             infeedMotor1.set(Double.parseDouble(mode));
         }
-        System.out.println("testInfeed");
+        //System.out.println("testInfeed");
     }
 
     public void setInfeedIdleMode(IdleMode mode){

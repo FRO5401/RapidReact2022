@@ -9,7 +9,7 @@ import frc.robot.Autonomous.actions.AutoTurn;
 import frc.robot.Commands.drivebase.ResetSensors;
 import frc.robot.Commands.internal_mech.StartBelt;
 import frc.robot.Commands.internal_mech.StopBelt;
-import frc.robot.Commands.shooter.ShootBall;
+import frc.robot.Commands.shooter.StartShooter;
 import frc.robot.Commands.shooter.StartLoad;
 import frc.robot.Commands.shooter.StopLoad;
 import frc.robot.Commands.shooter.StopShooter;

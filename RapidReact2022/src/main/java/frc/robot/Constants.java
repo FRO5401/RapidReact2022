@@ -113,7 +113,7 @@ public class Constants {
     public static final int SHOOTER_MOTOR_1 = 9; //Left
     public static final int SHOOTER_MOTOR_2 = 10; //Right
     public static final double SHOOTER_SPEED = 0.95; //0.95 REGULAR 0.75 for blue from the line radially*** 
-    public static final double LOADER_SPEED = 0.40; // 0.55 REGULAR DECREASE BY 0.05
+    public static final double LOADER_SPEED = 0.30; // 0.55 REGULAR DECREASE BY 0.05
 	  public static final int BALL_LOADER = 8;
     public static final double SHOOTER_WAIT_TIME = 1.75;
 
@@ -151,7 +151,8 @@ public class Constants {
     public static double gravityFF = 0.07; //predetermined gravity feedforward constant
     public static double climberArmLength = 60;
     public static double minClimberArmLength = 29.5;
-    public static int climberArmMaxPos = 3560;
+    public static int climberArmMaxPos = 3600;
+    public static double climberConversion = climberArmLength/climberArmMaxPos;
     public static double climberArmMaxRotPos = 53.8;
     public static double nativeUnitsRatio = (16800 / 68);
 

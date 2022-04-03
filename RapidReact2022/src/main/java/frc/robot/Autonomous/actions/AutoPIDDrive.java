@@ -39,7 +39,6 @@ public class AutoPIDDrive extends CommandBase {
     @Override
     public void execute() {
         
-        System.out.println("bangerang");
         drivebase.driveToPos(10);
         
     }

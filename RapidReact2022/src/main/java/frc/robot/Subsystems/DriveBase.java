@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.Controls;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Timer;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
@@ -67,6 +68,9 @@ public class DriveBase extends SubsystemBase {
   private RelativeEncoder rightEncoders[];
   public Compressor compressor;
   private PowerDistribution pdp;
+
+  private double overCurrentTime;
+  private boolean overCurrentFlag;
 
   public DriveBase() {
 
@@ -144,6 +148,7 @@ public class DriveBase extends SubsystemBase {
   public void periodic() {
   // odometry.update(navxGyro.getRotation2d(), leftEncoders[0].getPosition(), rightEncoders[0].getPosition());
     reportSensors();
+    
  
   }
 
@@ -192,6 +197,27 @@ public class DriveBase extends SubsystemBase {
     ourDrive.tankDrive(left, right);
   }
 
+  public void overCurrentLimit() {
+    if (getPDPCurrent() > 180 && Timer.getFPGATimestamp() - overCurrentTime > .1) {
+      overCurrentFlag = true;
+      overCurrentTime = Timer.getFPGATimestamp();
+      double newlimit = getPDPCurrent()-120;
+      newlimit /= 4;
+      newlimit = 55 - newlimit;
+      rightDrive1.setSmartCurrentLimit((int)newlimit, 20);
+      rightDrive2.setSmartCurrentLimit((int)newlimit, 20);
+      leftDrive1.setSmartCurrentLimit((int)newlimit, 20);
+      leftDrive2.setSmartCurrentLimit((int)newlimit, 20);;
+    }
+    else if (Timer.getFPGATimestamp() - overCurrentTime > 1 && overCurrentFlag){
+      overCurrentFlag = false;
+      rightDrive1.setSmartCurrentLimit(55, 20);
+      rightDrive2.setSmartCurrentLimit(55, 20);
+      leftDrive1.setSmartCurrentLimit(55, 20);
+      leftDrive2.setSmartCurrentLimit(55, 20);
+    }
+  }
+
   public void driveToPos(double distance) {
     leftDrive1PidController.setReference(distance, CANSparkMax.ControlType.kPosition);
     leftDrive2PidController.setReference(distance, CANSparkMax.ControlType.kPosition);
@@ -214,7 +240,7 @@ public class DriveBase extends SubsystemBase {
   //Experimental turning method
   public void autoVisionTurn(double speed) {
     drive(speed, -speed);
-    System.out.println(speed);
+    //System.out.println(speed);
   }
   
 

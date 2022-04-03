@@ -11,7 +11,7 @@ import frc.robot.Commands.infeed.InfeedStop;
 import frc.robot.Commands.internal_mech.StartBelt;
 import frc.robot.Commands.internal_mech.StopBelt;
 import frc.robot.Commands.shooter.IncrementShooter;
-import frc.robot.Commands.shooter.ShootBall;
+import frc.robot.Commands.shooter.StartShooter;
 import frc.robot.Commands.shooter.StartLoad;
 import frc.robot.Commands.shooter.StopLoad;
 import frc.robot.Commands.shooter.StopShooter;
@@ -34,7 +34,7 @@ public class TwoBallOffCenter extends SequentialCommandGroup {
       new ResetSensors(passedDrivebase, passedClimber),
       new ParallelCommandGroup(
         new AutoDrive(DistanceInput, SpeedInput, passedDrivebase),
-        new ShootBall(passedShooter)
+        new StartShooter(passedShooter)
       ),
       //new AutoTurn(0.3, passedDrivebase.getGyroAngle(), passedDrivebase),
       new WaitCommand(2.5),

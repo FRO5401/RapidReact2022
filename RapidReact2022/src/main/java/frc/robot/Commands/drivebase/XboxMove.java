@@ -53,7 +53,7 @@ public class XboxMove extends CommandBase {
   @Override
   public void initialize() {
    
-    Printer.print("XboxMove");
+    //Printer.print("XboxMove");
   }
 
   // Called repeatedly when this Command is scheduled to run
