@@ -82,17 +82,19 @@ public class Infeed extends SubsystemBase {
 
 
     public void reportInfeed() {
-        //Graph reporting
-        infeedLeftSpeedGraph.setDouble(getLeftInfeedSpeed());
-        infeedRightSpeedGraph.setDouble(getRightInfeedSpeed());
-        
-        //Testing reporting
-        infeedLeftSpeedEntry.setDouble(getLeftInfeedSpeed());
-        infeedRightSpeedEntry.setDouble(getRightInfeedSpeed());
-        gateEntry.setBoolean(getGateState());
-
-        //Compeition reporting
-        gateComp.setBoolean(getGateState());
+        if(!Constants.SubsystemConstants.shuffleboardCompMode[2]){
+            //Graph reporting
+            infeedLeftSpeedGraph.setDouble(getLeftInfeedSpeed());
+            infeedRightSpeedGraph.setDouble(getRightInfeedSpeed());
+            
+            //Testing reporting
+            infeedLeftSpeedEntry.setDouble(getLeftInfeedSpeed());
+            infeedRightSpeedEntry.setDouble(getRightInfeedSpeed());
+            gateEntry.setBoolean(getGateState());
+            
+            //Compeition reporting
+            gateComp.setBoolean(getGateState());
+        }
     }
 
     public double getLeftInfeedSpeed(){
@@ -107,7 +109,8 @@ public class Infeed extends SubsystemBase {
 
     public void infeedShuffleboard(){
         //Graph config
-        infeedLeftSpeedGraph = graphTab.add("Left Infeed Motor Graph",getLeftInfeedSpeed())
+        if(!Constants.SubsystemConstants.shuffleboardCompMode[2]){
+            infeedLeftSpeedGraph = graphTab.add("Left Infeed Motor Graph",getLeftInfeedSpeed())
             .withWidget(BuiltInWidgets.kGraph).getEntry();
         infeedRightSpeedGraph = graphTab.add("Right Infeed Motor Graph",getRightInfeedSpeed())
             .withWidget(BuiltInWidgets.kGraph).getEntry(); 
@@ -121,6 +124,8 @@ public class Infeed extends SubsystemBase {
         //Comp Tab
         gateComp = testingTab.add("Infeed Gate State", getGateState())
             .withWidget(BuiltInWidgets.kBooleanBox).getEntry();
+
+        }
     }
 
     @Override

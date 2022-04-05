@@ -361,67 +361,83 @@ public class DriveBase extends SubsystemBase {
     //System.out.println(navxGyro.getBoardYawAxis());
 
     //Graph config
-    speedGraph.setDouble(getAverageMotorVelocity());
-    leftSpeedGraph.setDouble(getLeftVelocity());
-    rightSpeedGraph.setDouble(getRightVelocity());
-    leftPositionGraph.setDouble(getLeftEncodersDistance(0));
-    rightPositionGraph.setDouble(getRightEncodersDistance(0));
-    //turnRateGraph.setDouble(getTurnRate());
-
-    //Testing config
-    speedEntry.setDouble(getAverageMotorVelocity());
-    leftSpeedEntry.setDouble(getLeftVelocity());
-    rightSpeedEntry.setDouble(getRightVelocity());
-    leftPositionEntry.setDouble(getLeftEncodersDistance(0));
-    rightPositionEntry.setDouble(getRightEncodersDistance(0));
-    rotationsEntry.setDouble(getGyroAngle()/360);
-    angleEntry.setDouble(getGyroAngle());
-    yawEntry.setDouble(getGyroYaw());
-    pitchEntry.setDouble(getGyroPitch());
-    rollEntry.setDouble(getGyroRoll());
-    turnRateEntry.setDouble(getTurnRate());
-    shifterEntry.setBoolean(getGear());
-    axisTester.setDouble(Controls.xboxAxis(Controls.driver, "RT").getAxis());
+    
     //System.out.println(Controls.xboxAxis(Controls.driver, "RT").getAxis());
 
     //Competition config
-    shifterComp.setBoolean(getGear());
+    if(Constants.SubsystemConstants.shuffleboardCompMode[1]){
+      
+        shifterComp.setBoolean(getGear());
+    }
+    else{
+        speedGraph.setDouble(getAverageMotorVelocity());
+      leftSpeedGraph.setDouble(getLeftVelocity());
+      rightSpeedGraph.setDouble(getRightVelocity());
+      leftPositionGraph.setDouble(getLeftEncodersDistance(0));
+      rightPositionGraph.setDouble(getRightEncodersDistance(0));
+      //turnRateGraph.setDouble(getTurnRate());
+
+      //Testing config
+      speedEntry.setDouble(getAverageMotorVelocity());
+      leftSpeedEntry.setDouble(getLeftVelocity());
+      rightSpeedEntry.setDouble(getRightVelocity());
+      leftPositionEntry.setDouble(getLeftEncodersDistance(0));
+      rightPositionEntry.setDouble(getRightEncodersDistance(0));
+      rotationsEntry.setDouble(getGyroAngle()/360);
+      angleEntry.setDouble(getGyroAngle());
+      yawEntry.setDouble(getGyroYaw());
+      pitchEntry.setDouble(getGyroPitch());
+      rollEntry.setDouble(getGyroRoll());
+      turnRateEntry.setDouble(getTurnRate());
+      shifterEntry.setBoolean(getGear());
+      axisTester.setDouble(Controls.xboxAxis(Controls.driver, "RT").getAxis());
+    }
   
   }
 
   //Shuffleboard config
   public void drivebaseShuffleboard(){
     //Graph config
-    speedGraph = graphTab.add("Robot Speed",getAverageMotorVelocity())
-      .withWidget(BuiltInWidgets.kGraph).getEntry();
-    leftSpeedGraph = graphTab.add("Left Motor Speed",getLeftVelocity())
+
+    if(!Constants.SubsystemConstants.shuffleboardCompMode[1]){
+        speedGraph = graphTab.add("Robot Speed",getAverageMotorVelocity())
         .withWidget(BuiltInWidgets.kGraph).getEntry();
-    rightSpeedGraph = graphTab.add("Right Motor Speed",getRightVelocity())
-        .withWidget(BuiltInWidgets.kGraph).getEntry(); 
-    leftPositionGraph = graphTab.add("Left Motor Position",getLeftEncodersDistance(0))
-        .withWidget(BuiltInWidgets.kGraph).getEntry();     
-    rightPositionGraph = graphTab.add("Right Motor Position",getRightEncodersDistance(0))
-        .withWidget(BuiltInWidgets.kGraph).getEntry();   
-    /*turnRateGraph = graphTab.add("Gyro Turn Rate", getTurnRate())
-        .withWidget(BuiltInWidgets.kGraph).getEntry();    */
-    
-    //Testing Tab
-    speedEntry = testingTab.add("Robot Speed",getAverageMotorVelocity()).getEntry();
-    leftSpeedEntry = testingTab.add("Left Motor Speed",getLeftVelocity()).getEntry();
-    rightSpeedEntry = testingTab.add("Right Motor Speed",getRightVelocity()).getEntry(); 
-    leftPositionEntry = testingTab.add("Left Motor Position",getLeftEncodersDistance(0)).getEntry();     
-    rightPositionEntry = testingTab.add("Right Motor Position",getRightEncodersDistance(0)).getEntry();  
-    rotationsEntry = testingTab.add("Gyro Rotations", getGyroAngle()/360).getEntry();
-    angleEntry = testingTab.add("Gyro Angle", getGyroAngle()).getEntry();
-    yawEntry = testingTab.add("Gyro Yaw", getGyroYaw()).getEntry();
-    pitchEntry = testingTab.add("Gyro Pitch", getGyroPitch()).getEntry();
-    rollEntry = testingTab.add("Gyro Roll", getGyroRoll()).getEntry();
-    turnRateEntry = testingTab.add("Gyro Turn Rate", getTurnRate()).getEntry();
-    shifterEntry = testingTab.add("Solenoid Gear", getGear()).getEntry();
-    axisTester = graphTab.add("Axis", Controls.xboxAxis(Controls.driver, "RT").getAxis()).withWidget(BuiltInWidgets.kGraph).getEntry();
-    
+      leftSpeedGraph = graphTab.add("Left Motor Speed",getLeftVelocity())
+          .withWidget(BuiltInWidgets.kGraph).getEntry();
+      rightSpeedGraph = graphTab.add("Right Motor Speed",getRightVelocity())
+          .withWidget(BuiltInWidgets.kGraph).getEntry(); 
+      leftPositionGraph = graphTab.add("Left Motor Position",getLeftEncodersDistance(0))
+          .withWidget(BuiltInWidgets.kGraph).getEntry();     
+      rightPositionGraph = graphTab.add("Right Motor Position",getRightEncodersDistance(0))
+          .withWidget(BuiltInWidgets.kGraph).getEntry();   
+      /*turnRateGraph = graphTab.add("Gyro Turn Rate", getTurnRate())
+          .withWidget(BuiltInWidgets.kGraph).getEntry();    */
+      
+      //Testing Tab
+      
+      speedEntry = testingTab.add("Robot Speed",getAverageMotorVelocity()).getEntry();
+      leftSpeedEntry = testingTab.add("Left Motor Speed",getLeftVelocity()).getEntry();
+      rightSpeedEntry = testingTab.add("Right Motor Speed",getRightVelocity()).getEntry(); 
+      leftPositionEntry = testingTab.add("Left Motor Position",getLeftEncodersDistance(0)).getEntry();     
+      rightPositionEntry = testingTab.add("Right Motor Position",getRightEncodersDistance(0)).getEntry();  
+      rotationsEntry = testingTab.add("Gyro Rotations", getGyroAngle()/360).getEntry();
+      angleEntry = testingTab.add("Gyro Angle", getGyroAngle()).getEntry();
+      yawEntry = testingTab.add("Gyro Yaw", getGyroYaw()).getEntry();
+      pitchEntry = testingTab.add("Gyro Pitch", getGyroPitch()).getEntry();
+      rollEntry = testingTab.add("Gyro Roll", getGyroRoll()).getEntry();
+      turnRateEntry = testingTab.add("Gyro Turn Rate", getTurnRate()).getEntry();
+      shifterEntry = testingTab.add("Solenoid Gear", getGear()).getEntry();
+      
+      axisTester = graphTab.add("Axis", Controls.xboxAxis(Controls.driver, "RT").getAxis()).withWidget(BuiltInWidgets.kGraph).getEntry();
+      
+      shifterComp = competitionTab.add("High Gear", getGear()).withWidget(BuiltInWidgets.kBooleanBox).getEntry();
 
     //Competition Tab
-    shifterComp = competitionTab.add("High Gear", getGear()).withWidget(BuiltInWidgets.kBooleanBox).getEntry();
+
+    }
+    else{
+      shifterComp = competitionTab.add("High Gear", getGear()).withWidget(BuiltInWidgets.kBooleanBox).getEntry();
+
+    }
   }
 }

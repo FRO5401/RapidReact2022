@@ -98,6 +98,9 @@ public class Constants {
 
   public static class SubsystemConstants {
     //Infeed
+    public static boolean[] shuffleboardCompMode = {true, true, true, true, true, true};
+    //public static boolean[] shuffleboardCompMode = {false, false, false, false, false, false};
+
     public static final double INFEED_MOTOR_SPEED = 0.3;
     public static final int INFEED_GATE = 1;
     public static final int INFEED_SPARK_2 = 5; //right
@@ -155,7 +158,7 @@ public class Constants {
     public static double climberConversion = climberArmLength/climberArmMaxPos;
     public static double climberArmMaxRotPos = 53.8;
     public static double nativeUnitsRatio = (16800 / 68);
-
+    public static int physicalMaxArmExtension = 6000;
     public static double robotFrontOffset = 25;
     public static double robotBackOffset = 1;
     public static int extensionLimit = 16;

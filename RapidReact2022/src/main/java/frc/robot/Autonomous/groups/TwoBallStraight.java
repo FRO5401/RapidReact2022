@@ -40,9 +40,9 @@ public class TwoBallStraight extends SequentialCommandGroup {
         new InfeedIn(passedInfeed)
       ),
       //new AutoTurn(0.3, passedDrivebase.getGyroAngle(), passedDrivebase),
-      new WaitCommand(0.5),
+      new WaitCommand(0.5), //technically unnecessary
       new StartBelt(passedInternalMech),
-      new WaitCommand(0.5),
+      new WaitCommand(0.5), 
       new ParallelCommandGroup(
         new StopBelt(passedInternalMech),
         new AutoTurn(0.7, 180, passedDrivebase),

@@ -13,17 +13,89 @@ public class ClimberRoutine extends SequentialCommandGroup {
         addCommands(
             //We need to figure out the time we rotate the climber for
             //We need to figure out how long to translate the climber for
-            /*
+            /** 
+            
+            //Start climb to Mid
+            new AutoTranslateArm(), +dir
+            new AutoTranslateArm(), -dir
+            
+            //Static Grab Mid
+            new AutoRotateArm(), +dir
             new ParallelCommandGroup(
-                new AutoRotateArm(), //Offset angle initially
-                new AutoTranslateArm()
+                new AutoTranslateArm(), -dir
+                new AutoRotateArm(), slower speed this time to try to grip on -dir
             ),
             new WaitCommand(),
+            
+            //Trans Unhook Mid
             new ParallelCommandGroup(
-                new AutoRotateArm(), //Reverse offset to vertical but elevated
-                new AutoTranslateArm()
+                new AutoRotateArm(), +dir
+                new AutoTranslateArm() to unhook +dir
             ),
-            new AutoTranslateArm() //Pullup
+
+            //Trans Clearing High
+            new AutoTranslateArm(), -dir
+            
+            //Rotating to High
+            new AutoRotateArm(), +dir
+            could be in a parallel group with clearing, safer not to be 
+            
+            //Trans Reach High
+            new AutoTranslateArm(), +dir
+
+            //Trans Grab High
+            new ParallelCommandGroup(
+                new AutoTranslateArm(), -dir //Not all the way
+                new AutoRotateArm(), slower speed this time to try to grip on -dir
+            ),
+
+            //Static Unhook Mid
+            new AutoRotateArm(), +dir
+
+            //Static Clear High (if needed)
+            new AutoTranslateArm(), +dir
+
+            //Static Reach and Grab High
+            new ParallelCommandGroup(
+                new AutoTranslateArm(), -dir //Reach behind High
+                new AutoRotateArm(), slower speed this time to try to grip on -dir //Grab High
+            ),
+
+            //Trans Unhook High
+            new ParallelCommandGroup(
+                new AutoRotateArm(), +dir
+                new AutoTranslateArm() to unhook +dir
+            ),
+
+            //Trans Clearing Trav
+            new AutoTranslateArm(), -dir
+            
+            //Rotating to Trav
+            new AutoRotateArm(), +dir
+            could be in a parallel group with clearing, safer not to be 
+            
+            //Trans Reach Trav
+            new AutoTranslateArm(), +dir
+
+            //Trans Grab Trav
+            new ParallelCommandGroup(
+                new AutoTranslateArm(), -dir //Not all the way
+                new AutoRotateArm(), slower speed this time to try to grip on -dir
+            ),
+
+            //Static Unhook High
+            new AutoRotateArm(), +dir
+
+            //Static Clear Trav (if needed)
+            new AutoTranslateArm(), +dir
+
+            //Static Reach and Grab Trav
+            new ParallelCommandGroup(
+                new AutoTranslateArm(), -dir //Reach behind High
+                new AutoRotateArm(), slower speed this time to try to grip on -dir //Grab High
+            ),
+
+            from here just keep adding parallel command groups of rotating and translating the arms.
             */
         );
     }

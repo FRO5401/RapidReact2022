@@ -238,16 +238,20 @@ public class Climber extends SubsystemBase{
 
     public void climberShuffleboard(){
         //Testing
-        transClimberLeftPositionEntry = testingTab.add("Left T-Climber Position",getLeftTransPosition()).getEntry();
-        transClimberRightPositionEntry = testingTab.add("Right T-Climber Position", getRightTransPosition()).getEntry();
-        rotClimberLeftAngleEntry = testingTab.add("Left R-Climber Angle", getLeftRotAngle()).getEntry();
-        rotClimberRightAngleEntry = testingTab.add("Right R-Climber Angle", getRightRotAngle()).getEntry();
+        
+        if(!Constants.SubsystemConstants.shuffleboardCompMode[0]){
+            transClimberLeftPositionEntry = testingTab.add("Left T-Climber Position",getLeftTransPosition()).getEntry();
+            transClimberRightPositionEntry = testingTab.add("Right T-Climber Position", getRightTransPosition()).getEntry();
+            rotClimberLeftAngleEntry = testingTab.add("Left R-Climber Angle", getLeftRotAngle()).getEntry();
+            rotClimberRightAngleEntry = testingTab.add("Right R-Climber Angle", getRightRotAngle()).getEntry();
 
 
         //Graphing
-        transClimberLeftPositionGraph = graphTab.add("Left T-Climber Graph",getLeftTransPosition()).withWidget(BuiltInWidgets.kGraph).getEntry();
-        transClimberRightPositionGraph = graphTab.add("Right T-Climber Graph", getRightTransPosition()).withWidget(BuiltInWidgets.kGraph).getEntry();
-        rotClimberLeftAngleGraph = graphTab.add("Left R-Climber Graph", getLeftRotAngle()).withWidget(BuiltInWidgets.kGraph).getEntry();
-        rotClimberRightAngleGraph = graphTab.add("Right R-Climber Graph", getRightRotAngle()).withWidget(BuiltInWidgets.kGraph).getEntry();
+            transClimberLeftPositionGraph = graphTab.add("Left T-Climber Graph",getLeftTransPosition()).withWidget(BuiltInWidgets.kGraph).getEntry();
+            transClimberRightPositionGraph = graphTab.add("Right T-Climber Graph", getRightTransPosition()).withWidget(BuiltInWidgets.kGraph).getEntry();
+            rotClimberLeftAngleGraph = graphTab.add("Left R-Climber Graph", getLeftRotAngle()).withWidget(BuiltInWidgets.kGraph).getEntry();
+            rotClimberRightAngleGraph = graphTab.add("Right R-Climber Graph", getRightRotAngle()).withWidget(BuiltInWidgets.kGraph).getEntry();
+        }
+        
     }
 }

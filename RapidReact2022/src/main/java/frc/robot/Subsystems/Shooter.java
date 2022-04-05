@@ -132,6 +132,19 @@ public class Shooter extends SubsystemBase{
             shooterMotor1.set(Double.parseDouble(mode));
         }
     }
+    public void runAuto(String mode, double velocity) {
+        if(mode.toUpperCase().equals("START")){
+                shooterMotor1.set(TalonFXControlMode.Velocity, velocity);
+                //System.out.println(0.75*feedforwardController.calculate(distanceToSpeed(95)));
+                //shooterMotor1.set(Constants.SubsystemConstants.SHOOTER_SPEED);
+                //Set shooter speed based off BangBangController and FeedFordwardController (Calibrated with SysID)
+                //shooterMotor1.set(Constants.SubsystemConstants.SHOOTER_SPEED);
+            }
+        
+        else {
+            shooterMotor1.set(0);
+        }    
+    }
 
     public void changeMode(){
         shooterMode = !shooterMode;
@@ -164,36 +177,52 @@ public class Shooter extends SubsystemBase{
 
     public void reportShooter(){
         //Graph config
-        shooterLeftSpeedGraph.setDouble(getRightVelocity());
-        shooterRightSpeedGraph.setDouble(getLeftVelocity());
+        
+        if(!Constants.SubsystemConstants.shuffleboardCompMode[5]){
+            shooterLeftSpeedGraph.setDouble(getRightVelocity());
+            shooterRightSpeedGraph.setDouble(getLeftVelocity());
         
         //Testing config
-        shooterLeftSpeedEntry.setDouble(getLeftVelocity());
-        shooterRightSpeedEntry.setDouble(getRightVelocity());
-        ballLoaderSpeedEntry.setDouble(getLoaderVelocity());
-
-        //Compeitition config
-        shooterModeComp.setBoolean(getMode());
-        shooterHighSpeedComp.setDouble(Constants.SubsystemConstants.shootHighVelocity);
-        shooterLowSpeedComp.setDouble(Constants.SubsystemConstants.shootLowVelocity);
+            shooterLeftSpeedEntry.setDouble(getLeftVelocity());
+            shooterRightSpeedEntry.setDouble(getRightVelocity());
+            ballLoaderSpeedEntry.setDouble(getLoaderVelocity());
+        }
+        else{
+             //Compeitition config
+            shooterModeComp.setBoolean(getMode());
+            shooterHighSpeedComp.setDouble(Constants.SubsystemConstants.shootHighVelocity);
+            shooterLowSpeedComp.setDouble(Constants.SubsystemConstants.shootLowVelocity);
     }
+        }
+
+       
 
     public void shooterShuffleboard(){
-        //Graph config
-        shooterLeftSpeedGraph = graphTab.add("Left Shooter Velocity", getLeftVelocity())
-            .withWidget(BuiltInWidgets.kGraph).getEntry();
-        shooterRightSpeedGraph = graphTab.add("Right Shooter Velocity", getRightVelocity())
-            .withWidget(BuiltInWidgets.kGraph).getEntry();
-        
-        //Testing config
-        shooterLeftSpeedEntry = competitionTab.add("Left Shooter Velocity", getLeftVelocity()).getEntry();
-        shooterRightSpeedEntry = competitionTab.add("Right Shooter Velocity", getRightVelocity()).getEntry();
-        ballLoaderSpeedEntry = testingTab.add("Ball Loader Velocity", getLoaderVelocity()).getEntry();
+ 
+        if(!Constants.SubsystemConstants.shuffleboardCompMode[5]){
+                   //Graph config
+            shooterLeftSpeedGraph = graphTab.add("Left Shooter Velocity", getLeftVelocity())
+                .withWidget(BuiltInWidgets.kGraph).getEntry();
+            shooterRightSpeedGraph = graphTab.add("Right Shooter Velocity", getRightVelocity())
+                .withWidget(BuiltInWidgets.kGraph).getEntry();
+            
+            //Testing config
+            shooterLeftSpeedEntry = competitionTab.add("Left Shooter Velocity", getLeftVelocity()).getEntry();
+            shooterRightSpeedEntry = competitionTab.add("Right Shooter Velocity", getRightVelocity()).getEntry();
+            ballLoaderSpeedEntry = testingTab.add("Ball Loader Velocity", getLoaderVelocity()).getEntry();
 
-        //Compeitiion Config
-        shooterModeComp = competitionTab.add("Shoot High", getMode()).withWidget(BuiltInWidgets.kBooleanBox).getEntry();
-        shooterHighSpeedComp = competitionTab.add("Current High Speed", Constants.SubsystemConstants.shootHighVelocity).getEntry(); 
-        shooterLowSpeedComp = competitionTab.add("Current Low Speed", Constants.SubsystemConstants.shootLowVelocity).getEntry();
+            //Compeitiion Config
+            shooterModeComp = competitionTab.add("Shoot High", getMode()).withWidget(BuiltInWidgets.kBooleanBox).getEntry();
+            shooterHighSpeedComp = competitionTab.add("Current High Speed", Constants.SubsystemConstants.shootHighVelocity).getEntry(); 
+            shooterLowSpeedComp = competitionTab.add("Current Low Speed", Constants.SubsystemConstants.shootLowVelocity).getEntry();
+        }
+        else{
+            shooterModeComp = competitionTab.add("Shoot High", getMode()).withWidget(BuiltInWidgets.kBooleanBox).getEntry();
+            shooterHighSpeedComp = competitionTab.add("Current High Speed", Constants.SubsystemConstants.shootHighVelocity).getEntry(); 
+            shooterLowSpeedComp = competitionTab.add("Current Low Speed", Constants.SubsystemConstants.shootLowVelocity).getEntry();
+            shooterLeftSpeedEntry = competitionTab.add("Left Shooter Velocity", getLeftVelocity()).getEntry();
+            shooterRightSpeedEntry = competitionTab.add("Right Shooter Velocity", getRightVelocity()).getEntry();
+        }
     }
 
     @Override

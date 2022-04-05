@@ -64,26 +64,30 @@ public class InternalMech extends SubsystemBase{
     //Reports Internal Mech Motor to Smart Dashboard
 
     public void reportSensors(){
-        internalMechAverageGraph.setDouble(getAverageIMVelocity());
-        internalMechAverageEntry.setDouble(getAverageIMVelocity());
-        leftIMSpeedGraph.setDouble(getLeftIMVelocity());
-        rightIMSpeedGraph.setDouble(getRightIMVelocity());
-        leftIMSpeedEntry.setDouble(getLeftIMVelocity());
-        rightIMSpeedEntry.setDouble(getRightIMVelocity());
-    }
+        if(!Constants.SubsystemConstants.shuffleboardCompMode[3])
+
+            internalMechAverageGraph.setDouble(getAverageIMVelocity());
+            internalMechAverageEntry.setDouble(getAverageIMVelocity());
+            leftIMSpeedGraph.setDouble(getLeftIMVelocity());
+            rightIMSpeedGraph.setDouble(getRightIMVelocity());
+            leftIMSpeedEntry.setDouble(getLeftIMVelocity());
+            rightIMSpeedEntry.setDouble(getRightIMVelocity());
+        }
 
     //Internal Mech Shuffleboard
     public void internalMechShuffleboard(){
         //All Tabs
-        internalMechAverageGraph = graphTab.add("Average Internal Mech Speed", getAverageIMVelocity()).withWidget(BuiltInWidgets.kGraph).getEntry(); 
-        internalMechAverageEntry = testingTab.add("Average Internal Mech Speed", getAverageIMVelocity()).getEntry(); 
-        leftIMSpeedGraph = graphTab.add("IM Left Motor Speed",getLeftIMVelocity())
-            .withWidget(BuiltInWidgets.kGraph).getEntry();
-        rightIMSpeedGraph = graphTab.add("IM Right Motor Speed",getRightIMVelocity())
-        .withWidget(BuiltInWidgets.kGraph).getEntry(); 
-        leftIMSpeedEntry = testingTab.add("Left Internal Mech Speed", getLeftIMVelocity()).getEntry(); 
-        rightIMSpeedEntry = testingTab.add("Right Internal Mech Speed", getRightIMVelocity()).getEntry(); 
-
+        
+        if(!Constants.SubsystemConstants.shuffleboardCompMode[3]){
+            internalMechAverageGraph = graphTab.add("Average Internal Mech Speed", getAverageIMVelocity()).withWidget(BuiltInWidgets.kGraph).getEntry(); 
+            internalMechAverageEntry = testingTab.add("Average Internal Mech Speed", getAverageIMVelocity()).getEntry(); 
+            leftIMSpeedGraph = graphTab.add("IM Left Motor Speed",getLeftIMVelocity())
+                .withWidget(BuiltInWidgets.kGraph).getEntry();
+            rightIMSpeedGraph = graphTab.add("IM Right Motor Speed",getRightIMVelocity())
+                .withWidget(BuiltInWidgets.kGraph).getEntry(); 
+            leftIMSpeedEntry = testingTab.add("Left Internal Mech Speed", getLeftIMVelocity()).getEntry(); 
+            rightIMSpeedEntry = testingTab.add("Right Internal Mech Speed", getRightIMVelocity()).getEntry(); 
+        }
 
     }
 
