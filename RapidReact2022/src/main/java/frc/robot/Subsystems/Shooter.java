@@ -192,6 +192,8 @@ public class Shooter extends SubsystemBase{
             shooterModeComp.setBoolean(getMode());
             shooterHighSpeedComp.setDouble(Constants.SubsystemConstants.shootHighVelocity);
             shooterLowSpeedComp.setDouble(Constants.SubsystemConstants.shootLowVelocity);
+            shooterLeftSpeedEntry.setDouble(getLeftVelocity());
+            shooterRightSpeedEntry.setDouble(getRightVelocity());
     }
         }
 

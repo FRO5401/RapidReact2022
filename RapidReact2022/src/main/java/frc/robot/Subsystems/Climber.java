@@ -31,6 +31,8 @@ public class Climber extends SubsystemBase{
     private RelativeEncoder tMEncoder2;
     private RelativeEncoder rMEncoder1;
     private RelativeEncoder rMEncoder2;
+    private double overCurrentTime;
+    private boolean overCurrentFlag;
     //private DigitalInput limit1;
     //private DigitalInput limit2; 
     private double angle;
@@ -224,17 +226,41 @@ public class Climber extends SubsystemBase{
         //SmartDashboard.putBoolean("Airpressure Status Bad", getRatchetAirPressure());
         //SmartDashboard.putBoolean("Limit 1 status", getLimit1());
         //SmartDashboard.putBoolean("Limit 2 status", getLimit2());
+        if(!Constants.SubsystemConstants.shuffleboardCompMode[0]) {
+            transClimberLeftPositionEntry.setDouble(getLeftTransPosition());
+            transClimberRightPositionEntry.setDouble(getRightTransPosition());
+            transClimberLeftPositionGraph.setDouble(getLeftTransPosition());
+            transClimberRightPositionGraph.setDouble(getRightTransPosition());
 
-        transClimberLeftPositionEntry.setDouble(getLeftTransPosition());
-        transClimberRightPositionEntry.setDouble(getRightTransPosition());
-        transClimberLeftPositionGraph.setDouble(getLeftTransPosition());
-        transClimberRightPositionGraph.setDouble(getRightTransPosition());
+            rotClimberLeftAngleEntry.setDouble(getLeftRotAngle());
+            rotClimberRightAngleEntry.setDouble(getRightRotAngle());
+            rotClimberLeftAngleGraph.setDouble(getLeftRotAngle());
+            rotClimberRightAngleGraph.setDouble(getRightRotAngle());
+        }
 
-        rotClimberLeftAngleEntry.setDouble(getLeftRotAngle());
-        rotClimberRightAngleEntry.setDouble(getRightRotAngle());
-        rotClimberLeftAngleGraph.setDouble(getLeftRotAngle());
-        rotClimberRightAngleGraph.setDouble(getRightRotAngle());
     }
+
+    //overCurrentLimit is copied and pasted from driveBase and swicthed the motors and made some fields for this program
+    public void overCurrentLimit() {
+        if (driveBase.getPDPCurrent() > 180 && Timer.getFPGATimestamp() - overCurrentTime > .1) {
+          overCurrentFlag = true;
+          overCurrentTime = Timer.getFPGATimestamp();
+          double newlimit = driveBase.getPDPCurrent()-120;
+          newlimit /= 4;
+          newlimit = 55 - newlimit;
+          transMotor1.setSmartCurrentLimit((int)newlimit, 20);
+          transMotor2.setSmartCurrentLimit((int)newlimit, 20);
+          rotateMotor1.setSmartCurrentLimit((int)newlimit, 20);
+          rotateMotor2.setSmartCurrentLimit((int)newlimit, 20);;
+        }
+        else if (Timer.getFPGATimestamp() - overCurrentTime > 1 && overCurrentFlag){
+          overCurrentFlag = false;
+          transMotor1.setSmartCurrentLimit(55, 20);
+          transMotor2.setSmartCurrentLimit(55, 20);
+          rotateMotor1.setSmartCurrentLimit(55, 20);
+          rotateMotor2.setSmartCurrentLimit(55, 20);
+        }
+      }
 
     public void climberShuffleboard(){
         //Testing

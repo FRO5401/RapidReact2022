@@ -70,7 +70,7 @@ public class RobotContainer {
         chooser.addOption("Ball Center Test", new BallCenterTest(0.3, drivebase, networktables, infeed));
         chooser.addOption("Ball Shoot Test", new BallShooterTest(0.3, drivebase, networktables, shooter, internalMech));
         chooser.addOption("Climber Routine", new ClimberRoutine(climber));
-        chooser.addOption("Two Ball Straight", new TwoBallStraight(-115.22 * Constants.AutoConstants.SCUFFED_CORRECTION_CONSTANT, -0.5, drivebase, shooter, internalMech, climber, infeed));
+        chooser.addOption("Two Ball Straight", new TwoBallStraight(105.22 * Constants.AutoConstants.SCUFFED_CORRECTION_CONSTANT, 0.5, drivebase, shooter, internalMech, climber, infeed));
         chooser.addOption("Two Ball Off Center", new TwoBallOffCenter(-115.22 * Constants.AutoConstants.SCUFFED_CORRECTION_CONSTANT, -0.5, drivebase, shooter, internalMech, climber, infeed));        
         //chooser.addOption("Trajectory Test", new SetTrajectoryPath(drivebase, "paths/DriveStraight.wpilib.json")); //REPLACE LATER
         SmartDashboard.putData("Auto choices", chooser);

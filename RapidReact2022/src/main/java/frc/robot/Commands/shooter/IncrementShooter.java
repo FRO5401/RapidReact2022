@@ -19,6 +19,7 @@ public class IncrementShooter extends CommandBase {
     @Override
     public void execute(){
         shooter.incrementShooterSpeed();
+        System.out.println("YOOO");
         endCommand = true;
     }
     

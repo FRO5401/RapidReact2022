@@ -228,10 +228,10 @@ public class DriveBase extends SubsystemBase {
 
   //Automatic turning method
   public void autoTurn(double speed, double angle) {
-    double gyroAngle = getGyroYaw();
-    if (gyroAngle > (angle+2))
+    double gyroAngle = getGyroAngle();
+    if (gyroAngle > (angle))
       drive(-speed, speed);
-    else if (gyroAngle < (angle-2))
+    else if (gyroAngle < (angle))
       drive(speed, -speed);
     else 
       drive(0, 0);

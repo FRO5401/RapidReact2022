@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Subsystems.Climber;
+import java.util.Date;
 
 
 /**
@@ -11,15 +12,18 @@ import frc.robot.Subsystems.Climber;
  */
 
 public class AutoRotateArm extends CommandBase {
-    double speed, angle, executionPeriod;
+    private double speed; 
+	private long executionPeriod;
 	private Climber climber;
-	private double startTime;
-    private double currentTime;
+	private Date startTime;
 	private boolean doneRotating;
-	public AutoRotateArm(double SpeedInput, double AngleInput, Climber passedClimber, double executionPeriod) {
+	public AutoRotateArm(double SpeedInput, Climber passedClimber, double passedTime) {
 
         speed = SpeedInput;
-        angle = AngleInput;
+		climber = passedClimber;
+
+		executionPeriod = (long)(passedTime*1000);
+
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		// requires(drivebase);
@@ -30,21 +34,17 @@ public class AutoRotateArm extends CommandBase {
 	// Called just before this Command runs the first time
 	@Override
 	public void initialize() {
-		startTime = Timer.getMatchTime();
+		startTime = new Date();
 		doneRotating = false;
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	public void execute() {
-		currentTime = Timer.getMatchTime();
-		double timeElapsed = startTime - currentTime;
-		if(timeElapsed < executionPeriod){
-			climber.setMotorSpeeds("TRANS", speed);
-		}
-		else{
-			doneRotating = true;
-		}
+		Date currentTime = new Date();
+		long timeElapsed = currentTime.getTime() - startTime.getTime();
+		if(timeElapsed < executionPeriod) climber.setMotorSpeeds("ROT", speed);
+		else doneRotating = true;
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -56,7 +56,7 @@ public class AutoRotateArm extends CommandBase {
 	// Called once after isFinished returns true
 	@Override
 	public void end(boolean interrupted) {
-		
+		climber.setMotorSpeeds("ROT", 0);
 	}
 
 	@Override

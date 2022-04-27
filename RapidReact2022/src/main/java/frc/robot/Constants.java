@@ -98,8 +98,8 @@ public class Constants {
 
   public static class SubsystemConstants {
     //Infeed
-    public static boolean[] shuffleboardCompMode = {true, true, true, true, true, true};
-    //public static boolean[] shuffleboardCompMode = {false, false, false, false, false, false};
+    public static boolean[] shuffleboardCompMode = {true, false, true, true, true, true};
+    //public static boolean[] shuffleboardCompMode = {false, false, false, false, false, true};
 
     public static final double INFEED_MOTOR_SPEED = 0.3;
     public static final int INFEED_GATE = 1;
@@ -116,7 +116,7 @@ public class Constants {
     public static final int SHOOTER_MOTOR_1 = 9; //Left
     public static final int SHOOTER_MOTOR_2 = 10; //Right
     public static final double SHOOTER_SPEED = 0.95; //0.95 REGULAR 0.75 for blue from the line radially*** 
-    public static final double LOADER_SPEED = 0.30; // 0.55 REGULAR DECREASE BY 0.05
+    public static final double LOADER_SPEED = 0.50; // 0.55 REGULAR DECREASE BY 0.05
 	  public static final int BALL_LOADER = 8;
     public static final double SHOOTER_WAIT_TIME = 1.75;
 
@@ -133,7 +133,7 @@ public class Constants {
     public static double shootLowSpeed = 0.60;
     public static double shootHighSpeed = 0.825;
     public static double shootLowVelocity = 3500;
-    public static double shootHighVelocity = 10250; //+-250
+    public static double shootHighVelocity = 9250; //+-250 //was 10250
     public static final double feedFordwardConstant = 0.9;
 
     //Climber

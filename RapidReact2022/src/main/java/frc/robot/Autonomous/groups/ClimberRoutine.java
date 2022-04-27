@@ -13,14 +13,14 @@ public class ClimberRoutine extends SequentialCommandGroup {
         addCommands(
             //We need to figure out the time we rotate the climber for
             //We need to figure out how long to translate the climber for
-            /** 
+            
             
             //Start climb to Mid
-            new AutoTranslateArm(), +dir
-            new AutoTranslateArm(), -dir
-            
-            //Static Grab Mid
-            new AutoRotateArm(), +dir
+            new AutoTranslateArm(1,passedClimber,4.20), //+dir
+            new AutoTranslateArm(-1,passedClimber,4.20), //-dir 
+            new AutoRotateArm(1,passedClimber,2), //+dir
+            new AutoRotateArm(-1,passedClimber,2)//, //-dir ONLY HERE FOR TESTING
+            /*
             new ParallelCommandGroup(
                 new AutoTranslateArm(), -dir
                 new AutoRotateArm(), slower speed this time to try to grip on -dir
