@@ -153,6 +153,20 @@ public class Climber extends SubsystemBase{
                 return false;
             }
     }
+
+    public void climberOverCurrentLimit() {
+        double climberVoltLimit = 100;
+        if ((transMotor1.getBusVoltage() + transMotor1.getBusVoltage()) > climberVoltLimit){//#region && Timer.getFPGATimestamp() - overCurrentTime > .1) {
+          overCurrentFlag = true;
+          overCurrentTime = Timer.getFPGATimestamp();
+          transMotor1.set(0);
+          transMotor2.set(0);
+        
+        }
+        else if(Timer.getFPGATimestamp() - overCurrentTime > 1 && overCurrentFlag) {
+          overCurrentFlag = false;
+        }
+      }
     /** 
     public boolean getLimit1(){
         return limit1.get();
