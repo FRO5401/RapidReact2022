@@ -68,7 +68,7 @@ public class RobotContainer {
          //cm to errored inches
         chooser.addOption("Drive Square", new DriveSquare(100 * Constants.AutoConstants.SCUFFED_CORRECTION_CONSTANT, 0.5, drivebase)); //cm to errored inches
         chooser.addOption("Ball Center Test", new BallCenterTest(0.3, drivebase, networktables, infeed));
-        chooser.addOption("Ball Shoot Test", new BallShooterTest(0.3, drivebase, networktables, shooter, internalMech));
+        chooser.addOption("Ball Shoot Test", new BallShooterTest(0.4, drivebase, networktables, shooter, internalMech));
         chooser.addOption("Climber Routine", new ClimberRoutine(climber));
         chooser.addOption("Two Ball Straight", new TwoBallStraight(105.22 * Constants.AutoConstants.SCUFFED_CORRECTION_CONSTANT, 0.5, drivebase, shooter, internalMech, climber, infeed));
         chooser.addOption("Two Ball Off Center", new TwoBallOffCenter(-115.22 * Constants.AutoConstants.SCUFFED_CORRECTION_CONSTANT, -0.5, drivebase, shooter, internalMech, climber, infeed));        
@@ -143,6 +143,8 @@ public class RobotContainer {
         }
         xboxDPad(operator, 90).whenPressed(new IncrementShooter(shooter));
         xboxDPad(operator, 270).whenPressed(new DecrementShooter(shooter));
+        xboxDPad(operator, 0).whenPressed(new IncrementShooterCheck(shooter));
+        xboxDPad(operator, 180).whenPressed(new DecrementShooterCheck(shooter));
         //xboxDPad(driver, 0).whenHeld(new AutoBallShoot(0.5, drivebase, networktables, shooter)).whenReleased(new StopShooter(shooter));
         //xboxDPad(operator, 180).whenHeld(new AutoScalar(shooter, networktables));
 

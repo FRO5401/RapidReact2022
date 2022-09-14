@@ -105,6 +105,18 @@ public class Shooter extends SubsystemBase{
             Constants.SubsystemConstants.shootLowVelocity -= 250;
         }
     }
+    
+    public void incrementShooterSpeedCheck(){
+        Constants.SubsystemConstants.LOADER_SPEED += 0.05;
+
+    }
+
+    public void decrementShooterSpeedCheck(){
+        Constants.SubsystemConstants.LOADER_SPEED -= 0.05;
+
+    }
+
+
     public double distanceToSpeed(double distance){
         //-4.50E5 is A, -0.02349 is B, 1.622E4 is C, 123.3 is a correction factor.
         //double speed = -4.50E5*Math.pow(10,distance*-0.02349)+1.622E4+123.3; //Exponential Fit
@@ -192,6 +204,7 @@ public class Shooter extends SubsystemBase{
             shooterModeComp.setBoolean(getMode());
             shooterHighSpeedComp.setDouble(Constants.SubsystemConstants.shootHighVelocity);
             shooterLowSpeedComp.setDouble(Constants.SubsystemConstants.shootLowVelocity);
+            ballLoaderSpeedEntry.setDouble(Constants.SubsystemConstants.LOADER_SPEED);
             shooterLeftSpeedEntry.setDouble(getLeftVelocity());
             shooterRightSpeedEntry.setDouble(getRightVelocity());
     }
@@ -224,6 +237,8 @@ public class Shooter extends SubsystemBase{
             shooterLowSpeedComp = competitionTab.add("Current Low Speed", Constants.SubsystemConstants.shootLowVelocity).getEntry();
             shooterLeftSpeedEntry = competitionTab.add("Left Shooter Velocity", getLeftVelocity()).getEntry();
             shooterRightSpeedEntry = competitionTab.add("Right Shooter Velocity", getRightVelocity()).getEntry();
+            ballLoaderSpeedEntry = competitionTab.add("Ball Loader Speed", Constants.SubsystemConstants.LOADER_SPEED).getEntry();
+
         }
     }
 

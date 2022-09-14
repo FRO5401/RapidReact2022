@@ -22,6 +22,7 @@ import frc.robot.Subsystems.Climber;
 import frc.robot.Subsystems.DriveBase;
 import frc.robot.Subsystems.Infeed;
 import frc.robot.Subsystems.InternalMech;
+import frc.robot.Subsystems.NetworkTables;
 import frc.robot.Subsystems.Shooter;
 import frc.robot.Constants;
 
@@ -30,6 +31,13 @@ public class TwoBallStraight extends SequentialCommandGroup {
   /**
    * Add your docs here.
    */
+  private DriveBase drivebase;
+	private NetworkTables networktables;
+	private Shooter shooter;
+  private Infeed infeed;
+  private Climber climber;
+  private InternalMech internalMech;
+
   public TwoBallStraight(double DistanceInput, double SpeedInput, DriveBase passedDrivebase, Shooter passedShooter, InternalMech passedInternalMech, Climber passedClimber, Infeed passedInfeed) {
     addCommands(
       new ResetSensors(passedDrivebase, passedClimber),

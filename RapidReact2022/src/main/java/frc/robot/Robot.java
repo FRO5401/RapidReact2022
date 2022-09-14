@@ -78,6 +78,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledInit() {
+    if(autoSelected != null) {
+      autoSelected.cancel();
+    } 
     //robotContainer.rachetClimb();
   }
 

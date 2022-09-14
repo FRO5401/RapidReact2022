@@ -14,14 +14,28 @@ import frc.robot.Commands.shooter.StopLoad;
 import frc.robot.Commands.shooter.StopShooter;
 import frc.robot.Subsystems.Climber;
 import frc.robot.Subsystems.DriveBase;
+import frc.robot.Subsystems.Infeed;
 import frc.robot.Subsystems.InternalMech;
+import frc.robot.Subsystems.NetworkTables;
 import frc.robot.Subsystems.Shooter;
 
 public class BackShoot extends SequentialCommandGroup {
   /**
    * Add your docs here.
    */
+  private DriveBase drivebase;
+	private NetworkTables networktables;
+	private Shooter shooter;
+  private Infeed infeed;
+  private Climber climber;
+  private InternalMech internalMech;
+
   public BackShoot(double DistanceInput, double SpeedInput, DriveBase passedDrivebase, Shooter passedShooter, InternalMech passedInternalMech, Climber passedClimber) {
+    drivebase = passedDrivebase;
+    internalMech = passedInternalMech;
+    climber = passedClimber;
+    shooter = passedShooter;
+
     addCommands(
       new ResetSensors(passedDrivebase, passedClimber),
       new ResetSensors(passedDrivebase, passedClimber),
@@ -40,6 +54,17 @@ public class BackShoot extends SequentialCommandGroup {
       new StopShooter(passedShooter),
       new StopBelt(passedInternalMech),
       new StopLoad(passedShooter)
-    );    
+    );
+    
+    
+    
+  }
+
+  @Override 
+  public void end(boolean interrupted) {
+    System.out.println("RUNS");
+    shooter.run("STOP");
+    internalMech.run("STOP");
+    shooter.load("STOP");
   }
 }

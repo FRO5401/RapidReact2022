@@ -73,20 +73,21 @@ public class AutoBallShoot extends CommandBase {
 		currentTime = Timer.getMatchTime();
 		double timeElapsed = startTime - currentTime;
         SmartDashboard.putNumber("Time elapsed", timeElapsed);
-
+		/** 
 		if(isCentered == false){
 			isCentered = networktables.checkCentered("TARGET");
 			currentAngle = drivebase.getGyroYaw();
 			try {
-				desiredDistance = networktables.getBallDistance()*1000;
+				desiredDistance = networktables.getBallDistance();
 			}
 			catch (NullPointerException e) {
 				desiredDistance = 0;
 			} 
 		}
-		
-		
-		else if(targetLocation > 0){ //If ball is recognized drive towards it and infeed
+		*/
+		isCentered = networktables.checkCentered("TARGET");
+
+		if(targetLocation > 0){ //If ball is recognized drive towards it and infeed
 		    if(isCentered == true) { //Once recognized ball is straight ahead, drive towards it based off of received distance
 				//infeed.startMotors();
 				/** 
@@ -99,20 +100,24 @@ public class AutoBallShoot extends CommandBase {
 					doneTraveling = true;
 				}
 				*/
-				
-            }
+				doneTraveling = true;
+	            }
     	    else { //Turn until the ball that is recognized is straight ahead
-			    if(((currentAngle+180)*640/360)-1 < targetLocation){
-				    drivebase.autoTurn(autoDriveSpeed, currentAngle);
+			 
+			    if(true){
+				    drivebase.autoVisionTurn(-autoDriveSpeed);
 					System.out.println(isCentered);
 			    }
-        	    else if(((currentAngle+180)*640/360)+1 > targetLocation){
+        	    /**else if(((currentAngle+180)*640/360)+1 > targetLocation){
 				    drivebase.autoTurn(autoDriveSpeed, currentAngle);
 					System.out.println(isCentered);
 				}
+				*/
 				else {
 					drivebase.drive(0, 0);
 				}
+			
+
             }
         }
 	}

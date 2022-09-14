@@ -4,14 +4,22 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Autonomous.actions.AutoBallInfeed;
 import frc.robot.Autonomous.actions.AutoInfeedVisionDrive;
+import frc.robot.Subsystems.Climber;
 import frc.robot.Subsystems.DriveBase;
 import frc.robot.Subsystems.Infeed;
+import frc.robot.Subsystems.InternalMech;
 import frc.robot.Subsystems.NetworkTables;
+import frc.robot.Subsystems.Shooter;
 
 public class BallCenterTest extends SequentialCommandGroup {
 
   boolean doneCommand;
-  DriveBase drivebase;
+  private DriveBase drivebase;
+	private NetworkTables networktables;
+	private Shooter shooter;
+  private Infeed infeed;
+  private Climber climber;
+  private InternalMech internalMech;
   /**
    * Add your docs here.
    */

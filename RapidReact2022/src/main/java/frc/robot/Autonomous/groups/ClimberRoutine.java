@@ -4,11 +4,24 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Subsystems.Climber;
+import frc.robot.Subsystems.DriveBase;
+import frc.robot.Subsystems.Infeed;
+import frc.robot.Subsystems.InternalMech;
+import frc.robot.Subsystems.NetworkTables;
+import frc.robot.Subsystems.Shooter;
 import frc.robot.Autonomous.actions.*;
 import frc.robot.Commands.climber.*;
 
 //TODO: Climber stages for override need to be done later
 public class ClimberRoutine extends SequentialCommandGroup {
+   
+    private DriveBase drivebase;
+	private NetworkTables networktables;
+	private Shooter shooter;
+    private Infeed infeed;
+    private Climber climber;
+    private InternalMech internalMech; 
+
     public ClimberRoutine(Climber passedClimber) {
         addCommands(
             //We need to figure out the time we rotate the climber for

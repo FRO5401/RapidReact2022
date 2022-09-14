@@ -164,11 +164,14 @@ public class NetworkTables extends SubsystemBase {
       return false;
   }
     else{
-      if(getTargetXValue() >= 300 && getTargetXValue() <= 340){
+      if(getTargetXValue() >= 280 && getTargetXValue() <= 320){
+        System.out.print("CENTERED");
         return true;
       }
       
-      else if(((getTargetXValue() < 300) & (getTargetXValue() >= 0)) || ((getTargetXValue() > 340) & (getTargetXValue() <= 640))){
+      else if(((getTargetXValue() < 280) & (getTargetXValue() > 320)) || ((getTargetXValue() > 340) & (getTargetXValue() <= 640))){
+        System.out.print("NOT CENTERED");
+
         return false;
       }
       return false;

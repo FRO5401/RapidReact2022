@@ -24,6 +24,13 @@ public class BackShootVision extends SequentialCommandGroup {
   /**
    * Add your docs here.
    */
+  private DriveBase drivebase;
+	private NetworkTables networktables;
+	private Shooter shooter;
+  private Infeed infeed;
+  private Climber climber;
+  private InternalMech internalMech;
+
   public BackShootVision(double DistanceInput, double SpeedInput, DriveBase passedDrivebase, Shooter passedShooter, InternalMech passedInternalMech, Infeed passedInfeed, NetworkTables passedNetworkTables, Climber passedClimber) {
     addCommands(
       new ResetSensors(passedDrivebase, passedClimber),
