@@ -98,7 +98,7 @@ public class Constants {
 
   public static class SubsystemConstants {
     //Infeed
-    public static boolean[] shuffleboardCompMode = {true, false, true, true, true, true};
+    public static boolean[] shuffleboardCompMode = {true, true, true, true, true, true};
     //public static boolean[] shuffleboardCompMode = {false, false, false, false, false, true};
 
     public static final double INFEED_MOTOR_SPEED = 0.3;
