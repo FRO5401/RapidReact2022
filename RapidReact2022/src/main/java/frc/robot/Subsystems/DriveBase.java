@@ -26,6 +26,9 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.SPI;
 import static frc.robot.Tabs.*;
+import frc.robot.Utilities.testers.PowerManagement;
+import java.util.ArrayList;
+import java.util.Collection;
 
 //TODO: Remember to bring gear shifter back
 public class DriveBase extends SubsystemBase {
@@ -68,9 +71,12 @@ public class DriveBase extends SubsystemBase {
   private RelativeEncoder rightEncoders[];
   public Compressor compressor;
   private PowerDistribution pdp;
-
+  private PowerManagement powerManagement;
+  Collection<CANSparkMax> drivebaseMotors;
+  
   private double overCurrentTime;
   private boolean overCurrentFlag;
+
 
   public DriveBase() {
 
@@ -82,6 +88,13 @@ public class DriveBase extends SubsystemBase {
     leftDrive2 = new CANSparkMax(Constants.DriveConstants.DRIVE_MOTOR_LEFT_2, MotorType.kBrushless);
     rightDrive1 = new CANSparkMax(Constants.DriveConstants.DRIVE_MOTOR_RIGHT_1, MotorType.kBrushless);
     rightDrive2 = new CANSparkMax(Constants.DriveConstants.DRIVE_MOTOR_RIGHT_2, MotorType.kBrushless);
+    powerManagement = new PowerManagement();
+    
+    drivebaseMotors = new ArrayList<CANSparkMax>();
+    drivebaseMotors.add(leftDrive1);
+    drivebaseMotors.add(rightDrive1);
+    drivebaseMotors.add(leftDrive2);
+    drivebaseMotors.add(rightDrive2);
 
     leftDrive1PidController = leftDrive1.getPIDController();
     leftDrive2PidController = leftDrive2.getPIDController();
@@ -148,8 +161,7 @@ public class DriveBase extends SubsystemBase {
   public void periodic() {
   // odometry.update(navxGyro.getRotation2d(), leftEncoders[0].getPosition(), rightEncoders[0].getPosition());
     reportSensors();
-    
- 
+    powerManagement.staticOverCurrentLimit(drivebaseMotors, 120, 55);
   }
 
   //Compressor control
@@ -196,7 +208,7 @@ public class DriveBase extends SubsystemBase {
   public void drive(double left, double right) {
     ourDrive.tankDrive(left, right);
   }
-
+  /** 
   public void overCurrentLimit() {
     if (getPDPCurrent() > 180 && Timer.getFPGATimestamp() - overCurrentTime > .1) {
       overCurrentFlag = true;
@@ -204,6 +216,7 @@ public class DriveBase extends SubsystemBase {
       double newlimit = getPDPCurrent()-120;
       newlimit /= 4;
       newlimit = 55 - newlimit;
+      
       rightDrive1.setSmartCurrentLimit((int)newlimit, 20);
       rightDrive2.setSmartCurrentLimit((int)newlimit, 20);
       leftDrive1.setSmartCurrentLimit((int)newlimit, 20);
@@ -217,6 +230,8 @@ public class DriveBase extends SubsystemBase {
       leftDrive2.setSmartCurrentLimit(55, 20);
     }
   }
+  */
+  
 
   public void driveToPos(double distance) {
     leftDrive1PidController.setReference(distance, CANSparkMax.ControlType.kPosition);

@@ -57,7 +57,9 @@ public class RobotContainer {
     private final MultipleInputGroup drivetrain = new MultipleInputGroup();
     private final MultipleInputGroup climbing = new MultipleInputGroup();
 
+    
     public RobotContainer() {
+        
         configureInputGroups();
         configureButtonBindings(); //109.22 was intiial in testing
         chooser.setDefaultOption("Back Shoot", new BackShoot(-115.22 * Constants.AutoConstants.SCUFFED_CORRECTION_CONSTANT, -0.5, drivebase, shooter, internalMech, climber));
